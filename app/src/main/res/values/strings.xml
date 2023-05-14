@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">LawJoin</string>
+    <string name="chat_header_title">Sandra Dorsett</string>
+    <string name="tv_law_word_main">법률 용어 해석</string>
+    <string name="chat_edt_hint">Write here</string>
+    <string name="btn_law_word_back">단어 목차로</string>
+    <string name="str_law_word_previous">이전</string>
+    <string name="str_law_word_next">다음</string>
+    <string name="str_lawyer_list_main">시흥시 변호사 찾기</string>
+    <string name="str_edt_lawyer_search">검색</string>
+    <string name="str_law_word_title">법률 용어 찾기</string>
 </resources>
