@@ -8,6 +8,7 @@ class Lawyer(
     val profile_url: String,
     val office: LawyerOffice,
     val career: List<String>,
+    val counselReviews: List<CounselReview>,
     val counselCases: List<CounselCase>,
     val introduce: String,
     val categories: List<String>,
