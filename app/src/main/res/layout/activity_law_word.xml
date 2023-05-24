@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@id/ib_law_word_back">
 
         <TextView
-            android:id="@+id/tv_law_word"
+            android:id="@+id/tv_counsel_case_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="42sp"

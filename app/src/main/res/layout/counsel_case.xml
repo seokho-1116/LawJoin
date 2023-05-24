@@ -17,7 +17,7 @@
         android:id="@+id/iv_counsel_case_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_law_word_search"
+        android:src="@drawable/ic_counsel_case_arrow_right"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="12dp"
