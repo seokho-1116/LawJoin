@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/some_id"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/some_id"
+    android:clipToOutline="true">
+
+    <!-- loading_image -->
+    <View
+        android:id="@+id/odjggf0_rem"
+        android:layout_width="222dp"
+        android:layout_height="161dp"
+        android:layout_marginTop="200dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/loading_image"
+        app:layout_constraintBottom_toTopOf="@+id/join"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 법JOIN -->
+    <TextView
+        android:id="@+id/join"
+        android:layout_width="65dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="9sp"
+        android:text="@string/loadong_lawjoin"
+        android:textAppearance="@style/join"
+        tools:layout_editor_absoluteX="173dp"
+        tools:layout_editor_absoluteY="386dp"
+        tools:ignore="MissingConstraints" />
+
+    <View
+        android:id="@+id/d_1"
+        android:layout_width="110dp"
+        android:layout_height="77dp"
+        android:background="@drawable/siheung_image"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
