@@ -9,4 +9,10 @@
     <string name="str_lawyer_list_main">시흥시 변호사 찾기</string>
     <string name="str_edt_lawyer_search">검색</string>
     <string name="str_law_word_title">법률 용어 찾기</string>
+    <string name="msg_career">경력</string>
+    <string name="msg_certificate">자격증</string>
+    <string name="msg_category">전문 분야</string>
+    <string name="msg_lawyer_info">변호사 정보</string>
+    <string name="msg_counsel_case">상담 사례</string>
+    <string name="msg_counsel_review">상담 후기</string>
 </resources>
