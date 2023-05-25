@@ -4,9 +4,34 @@
     <string name="tv_law_word_main">법률 용어 해석</string>
     <string name="chat_edt_hint">Write here</string>
     <string name="btn_law_word_back">단어 목차로</string>
-    <string name="str_law_word_previous">이전</string>
+    <string name="itstr_law_word_previous">이전</string>
     <string name="str_law_word_next">다음</string>
     <string name="str_lawyer_list_main">시흥시 변호사 찾기</string>
     <string name="str_edt_lawyer_search">검색</string>
     <string name="str_law_word_title">법률 용어 찾기</string>
+
+    <string name="counsel_board_title">상담 게시판</string>
+    <string name="free_board_title">자유 게시판</string>
+    <string name="free_board_search">검색</string>
+    <string name="free_board_write">글쓰기</string>
+
+    <string name="write_title">제목</string>
+    <string name="write_main_content">내용</string>
+    <string name="write_write">글쓰기</string>
+    <string name="write_anynomous">익명으로 쓰기</string>
+    <string name="write_read_only_lawyer">변호사만 보기</string>
+
+    <string name="loadong_lawjoin">법Join</string>
+
+    <string name="start_page1_text1">무료로 법률 상담을 예약하세요</string>
+    <string name="start_page1_text2">시흥시에서 제공하는 무료 법률 상담 및 조언을 받을 수 있습니다. 편리하게 시간을 예약하세요. .</string>
+    <string name="start_page2_text1">다양한 법률 정보를 찾아보세요</string>
+    <string name="start_page2_text2">앱에서 제공해주는 다양한 법률 정보를 확인하세요. 특정 법률 정보를 북마크 할 수 있습니다. </string>
+    <string name="start_page3_text1">상담 정보를 공유하세요</string>
+    <string name="start_page3_text2">다른 사용자들과 게시판을 통해서 정보를 공유할 수 있습니다. 상담받은 후기를 생생하게 전해주세요.</string>
+    <string name="start_page_skip">넘김</string>
+    <string name="start_page_next">다음</string>
+
+    <string name="post_title">게시글</string>
+    <string name="notice_title">공지사항</string>
 </resources>
