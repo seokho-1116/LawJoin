@@ -1,10 +1,10 @@
 package com.example.lawjoin.data.model
 
-import java.time.Instant
+import java.time.LocalDateTime
 
 class Reservation(
-    val fromDate: Instant,
-    val toDate: Instant,
+    val fromDate: LocalDateTime,
+    val toDate: LocalDateTime,
     val userId: Int,
     val lawyerId: Int,
 ) {
