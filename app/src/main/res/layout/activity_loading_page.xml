@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/some_id"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/some_id"
-    android:clipToOutline="true">
+    android:layout_height="match_parent">
 
     <!-- loading_image -->
     <View
@@ -15,7 +13,7 @@
         android:layout_height="161dp"
         android:layout_marginTop="200dp"
         android:layout_alignParentTop="true"
-        android:background="@drawable/loading_image"
+        android:background="@drawable/ic_loading_image"
         app:layout_constraintBottom_toTopOf="@+id/join"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +37,7 @@
         android:id="@+id/d_1"
         android:layout_width="110dp"
         android:layout_height="77dp"
-        android:background="@drawable/siheung_image"
+        android:background="@drawable/ic_siheung_image"
         android:gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
