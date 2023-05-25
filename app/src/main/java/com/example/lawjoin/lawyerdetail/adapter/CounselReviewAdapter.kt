@@ -27,7 +27,7 @@ class CounselReviewAdapter(private val counselReviews: List<CounselReview>):
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): CounselReviewViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.counsel_case, viewGroup, false)
+            .inflate(R.layout.counsel_case_item, viewGroup, false)
 
         return CounselReviewViewHolder(view)
     }

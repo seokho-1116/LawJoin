@@ -1,8 +1,8 @@
 package com.example.lawjoin.data.model
 
-import android.icu.util.DateInterval
+import java.io.Serializable
 
-class Lawyer(
+class Lawyer (
     val id: Int,
     val name: String,
     val profile_url: String,
@@ -16,5 +16,5 @@ class Lawyer(
     val basicCounselTime: Int,
     val reviewCount: Int,
     val likeCount: Int
-) {
+) : Serializable {
 }
