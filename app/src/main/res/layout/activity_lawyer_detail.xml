@@ -31,7 +31,7 @@
 
     <LinearLayout
         android:id="@+id/ly_lawyer_like_share"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/iv_lawyer_profile_image"
@@ -41,7 +41,9 @@
             android:id="@+id/btn_lawyer_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
             android:layout_marginStart="20dp"
+            android:text="좋아요"
             android:background="@drawable/bg_lawyer_detail_like"
             android:drawableStart="@drawable/ic_lawyer_detail_heart"
             android:paddingStart="10dp"
@@ -53,13 +55,53 @@
             android:id="@+id/btn_lawyer_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
             android:layout_marginStart="20dp"
+            android:text="공유하기"
             android:background="@drawable/bg_lawyer_detail_like"
             android:drawableStart="@drawable/ic_lawyer_detail_share"
             android:paddingTop="5dp"
             android:paddingStart="10dp"
             android:paddingBottom="5dp"
             android:paddingEnd="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ly_start_chat_reservation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        app:layout_constraintLeft_toRightOf="@id/ly_lawyer_like_share"
+        app:layout_constraintTop_toBottomOf="@id/iv_lawyer_profile_image"
+        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/btn_chat_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="채팅하기"
+            android:textColor="@color/white"
+            app:layout_constraintLeft_toRightOf="@id/ly_lawyer_like_share"
+            android:background="@drawable/bg_confirm_reservation"
+            android:layout_marginStart="20dp"
+            android:paddingTop="5dp"
+            android:paddingStart="10dp"
+            android:paddingBottom="5dp"
+            android:paddingEnd="10dp"/>
+
+        <Button
+            android:id="@+id/btn_reserve_counsel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_confirm_reservation"
+            android:text="상담 예약"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"/>
     </LinearLayout>
 
     <com.google.android.material.tabs.TabLayout
@@ -69,7 +111,7 @@
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorColor="#2673D1"
         android:background="@drawable/bg_lawyer_detail_tab"
-        app:layout_constraintTop_toBottomOf="@id/ly_lawyer_like_share"
+        app:layout_constraintTop_toBottomOf="@id/ly_start_chat_reservation"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
     </com.google.android.material.tabs.TabLayout>
