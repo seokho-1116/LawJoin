@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/some_id"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
+    <!--
     android:background="@drawable/some_id"
     android:clipToOutline="true">
 
-    <!-- loading_image -->
     <View
         android:id="@+id/odjggf0_rem"
         android:layout_width="222dp"
@@ -21,7 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 법JOIN -->
     <TextView
         android:id="@+id/join"
         android:layout_width="65dp"
@@ -44,5 +43,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
+        -->
 </androidx.constraintlayout.widget.ConstraintLayout>

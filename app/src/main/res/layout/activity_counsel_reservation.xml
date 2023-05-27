@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -27,7 +29,6 @@
             android:id="@+id/tv_reservation_lawyer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="이순신 변호사"
             android:textStyle="bold"
             android:layout_marginTop="30dp"
             android:layout_marginStart="40dp"
@@ -44,215 +45,153 @@
             android:id="@+id/tv_reservation_lawyer_office"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_reservation_office"
             android:drawablePadding="10dp"
-            android:text="경기도 시흥시"
             android:textColor="#6798E1"
             android:layout_marginStart="40dp"
             android:layout_marginBottom="50dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:drawableLeftCompat="@drawable/ic_reservation_office" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/tv_reservation_date_msg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="날짜"
-        android:layout_marginStart="30dp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/ly_reservation_info"
-        app:layout_constraintLeft_toLeftOf="parent"/>
-
-    <Button
-        android:id="@+id/btn_another_reservation_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="다른 날짜"
-        android:textColor="#2673D1"
-        android:layout_marginEnd="30dp"
-        android:background="@null"
-        android:minWidth="0dp"
-        android:minHeight="0dp"
-        app:layout_constraintBaseline_toBaselineOf="@id/tv_reservation_date_msg"
-        app:layout_constraintTop_toBottomOf="@+id/ly_reservation_info"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-    <RadioGroup
-        android:id="@+id/rg_reservation_date"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ly_reservation_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        app:layout_constraintTop_toBottomOf="@id/tv_reservation_date_msg"
+        android:background="@drawable/bg_reservation_date"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
+        android:minHeight="40dp"
+        android:animateLayoutChanges="true"
+        app:layout_constraintTop_toBottomOf="@id/ly_reservation_info"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal">
-        <RadioButton
-            android:id="@+id/btn_date1"
-            android:textAlignment="center"
-            android:textColor="@drawable/selector_radio_text"
-            android:background="@drawable/selector_radio_button"
-            android:button="@null"
-            android:layout_marginEnd="10dp"
-            android:layout_width="0dp"
+        app:layout_constraintRight_toRightOf="parent">
+        <TextView
+            android:id="@+id/tv_reservation_date_msg"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-        <RadioButton
-            android:id="@+id/btn_date2"
-            android:textAlignment="center"
-            android:textColor="@drawable/selector_radio_text"
-            android:background="@drawable/selector_radio_button"
-            android:button="@null"
-            android:layout_marginEnd="10dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-        <RadioButton
-            android:id="@+id/btn_date3"
-            android:textAlignment="center"
-            android:textColor="@drawable/selector_radio_text"
-            android:background="@drawable/selector_radio_button"
-            android:button="@null"
-            android:layout_marginEnd="10dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-        <RadioButton
-            android:id="@+id/btn_date4"
-            android:textAlignment="center"
-            android:textColor="@drawable/selector_radio_text"
-            android:background="@drawable/selector_radio_button"
-            android:button="@null"
-            android:layout_marginEnd="10dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-        <RadioButton
-            android:id="@+id/btn_date5"
-            android:textAlignment="center"
-            android:textColor="@drawable/selector_radio_text"
-            android:background="@drawable/selector_radio_button"
-            android:button="@null"
-            android:layout_marginEnd="10dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-        <RadioButton
-            android:id="@+id/btn_date6"
-            android:textAlignment="center"
-            android:textColor="@drawable/selector_radio_text"
-            android:background="@drawable/selector_radio_button"
-            android:button="@null"
-            android:layout_marginEnd="10dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-        <RadioButton
-            android:id="@+id/btn_date7"
-            android:textAlignment="center"
-            android:textColor="@drawable/selector_radio_text"
-            android:background="@drawable/selector_radio_button"
-            android:button="@null"
-            android:layout_marginEnd="10dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-    </RadioGroup>
+            android:text="@string/msg_reservation_date"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="30dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/tv_reservation_time_msg"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="시간"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="30dp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/rg_reservation_date"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        <TextView
+            android:id="@+id/tv_reservation_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="80dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/tv_reservation_date_msg"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    <LinearLayout
-        android:id="@+id/ly_reservation_time"
-        android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/btn_date_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:background="@null"
+            android:src="@drawable/ic_category_down"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ly_reservation_start_time"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_reservation_date"
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+        android:minHeight="40dp"
+        app:layout_constraintTop_toBottomOf="@id/ly_reservation_date"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_reservation_time_msg"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/btn_start_time"
+        app:layout_constraintRight_toRightOf="parent">
+        <TextView
+            android:id="@+id/tv_reservation_start_time_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="30dp"
-            android:drawableEnd="@drawable/ic_category_down"
-            android:background="@drawable/bg_lawyer_list_search"
-            android:paddingTop="5dp"
-            android:paddingStart="10dp"
-            android:paddingBottom="5dp"
-            android:paddingEnd="10dp"
-            android:textSize="14sp"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:text="시간"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="30dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-        <Button
-            android:id="@+id/btn_end_time"
-            android:layout_weight="1"
+        <TextView
+            android:id="@+id/tv_reservation_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:drawableEnd="@drawable/ic_category_down"
-            android:background="@drawable/bg_lawyer_list_search"
-            android:paddingTop="5dp"
-            android:paddingStart="10dp"
-            android:paddingBottom="5dp"
-            android:paddingEnd="10dp"
-            android:textSize="14sp"
-            style="?android:attr/buttonBarButtonStyle" />
-    </LinearLayout>
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="80dp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/tv_reservation_start_time_msg"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    <!---눌렀을 때 시간 정할 수 있게 하고 선택하면 화면에 나오게 만드는거-->
+        <ImageButton
+            android:id="@+id/btn_start_time_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:background="@null"
+            android:src="@drawable/ic_category_down"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/tv_counsel_detail_msg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="상담 내용"
-        android:layout_marginBottom="15dp"
-        android:layout_marginStart="30dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/edt_reservation_detail"
-        app:layout_constraintLeft_toLeftOf="parent"/>
-
-    <EditText
-        android:id="@+id/edt_reservation_detail"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ly_detail_confirm"
         android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:background="@drawable/bg_reservation_context"
-        android:hint="상담 주제와 내용을 간략히 적어주세요."
-        android:layout_marginBottom="50dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        app:layout_constraintBottom_toTopOf="@id/btn_confirm_reservation"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:layout_marginTop="50dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:inputType="text"/>
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:id="@+id/tv_counsel_detail_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/msg_reservation_detail"
+            android:layout_marginBottom="15dp"
+            android:layout_marginStart="30dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/edt_reservation_detail"
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
-    <Button
-        android:id="@+id/btn_confirm_reservation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_confirm_reservation"
-        android:layout_marginBottom="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:text="예약하기"
-        android:textColor="@color/white"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        <EditText
+            android:id="@+id/edt_reservation_detail"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:background="@drawable/bg_reservation_context"
+            android:hint="@string/hint_reservation_derail"
+            android:layout_marginBottom="50dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_confirm_reservation"
+            android:inputType="text"/>
 
+        <Button
+            android:id="@+id/btn_confirm_reservation"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/bg_confirm_reservation"
+            android:gravity="center"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:text="@string/msg_reservation_confirm"
+            android:textColor="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

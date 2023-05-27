@@ -46,7 +46,7 @@
             android:layout_height="19dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="법조인 Chat"
+            android:text="@string/src_main_title"
             app:layout_constraintBottom_toTopOf="@+id/divide_line1"
             app:layout_constraintRight_toRightOf="@id/iv_chat_profile"
             app:layout_constraintLeft_toLeftOf="@+id/iv_chat_back"
@@ -147,25 +147,25 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:text = "채팅"
+                android:text = "@string/msg_chat"
                 android:layout_marginBottom="5dp"
                 android:layout_marginStart="40dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
-                android:text = "변호사"
+                android:text = "@string/msg_lawyer"
                 android:layout_marginBottom="5dp"
                 android:layout_marginStart="70dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:text = "법률 용어"
+                android:text = "@string/msg_law_word"
                 android:layout_marginBottom="5dp"
                 android:layout_marginStart="60dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:text="게시판"
+                android:text="@string/msg_post"
                 android:layout_marginBottom="5dp"
                 android:layout_marginStart="50dp"
                 android:layout_width="wrap_content"

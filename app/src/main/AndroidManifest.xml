@@ -23,5 +23,8 @@
         <activity
             android:name=".lawyerdetail.LawyerDetailActivity"
             android:exported="true"/>
+        <activity
+            android:name=".counselreservation.CounselReservationActivity"
+            android:exported="true"/>
     </application>
 </manifest>

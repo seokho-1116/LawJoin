@@ -29,7 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginStart="40dp"
-        android:text="한문철 변호사"
         app:layout_constraintLeft_toRightOf="@id/iv_lawyer_image"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +38,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginStart="40dp"
-        android:text="사법 연수원 출신"
         app:layout_constraintLeft_toRightOf="@id/iv_lawyer_image"
         app:layout_constraintTop_toBottomOf="@id/tv_lawyer_name" />
 
@@ -49,7 +47,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginStart="40dp"
-        android:text="후기 100+"
         app:layout_constraintLeft_toRightOf="@id/iv_lawyer_image"
         app:layout_constraintTop_toBottomOf="@id/tv_lawyer_summary" />
 
@@ -58,7 +55,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
-        android:text="이혼 소송 담당"
         app:layout_constraintTop_toBottomOf="@id/tv_lawyer_summary"
         app:layout_constraintRight_toRightOf="parent"/>
     <View

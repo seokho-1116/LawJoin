@@ -1,6 +1,6 @@
 package com.example.lawjoin.data.model
 
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 class User(
     val id: Int,
@@ -8,6 +8,6 @@ class User(
     val email: String,
     val phone: String,
     val likeLawyer: List<Lawyer>,
-    val enterTime: LocalDateTime
+    val enterTime: ZonedDateTime
 ) {
 }

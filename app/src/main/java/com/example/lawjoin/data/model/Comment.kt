@@ -1,11 +1,11 @@
 package com.example.lawjoin.data.model
 
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 class Comment (
     val id: Int,
     val detail: String,
     val owner: String,
-    val createTime: LocalDateTime,
-    val modifyTime: LocalDateTime
+    val createTime: ZonedDateTime,
+    val modifyTime: ZonedDateTime
 )

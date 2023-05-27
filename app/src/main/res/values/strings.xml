@@ -15,4 +15,21 @@
     <string name="msg_lawyer_info">변호사 정보</string>
     <string name="msg_counsel_case">상담 사례</string>
     <string name="msg_counsel_review">상담 후기</string>
+    <string name="msg_law_counsel_reservation">법률 상담 예약</string>
+    <string name="msg_reservation_detail">상담 내용</string>
+    <string name="hint_reservation_derail">상담 주제와 내용을 간략히 적어주세요.</string>
+    <string name="msg_reservation_confirm">예약하기</string>
+    <string name="msg_reservation_date">날짜</string>
+    <string name="msg_like">좋아요</string>
+    <string name="msg_share">공유하기</string>
+    <string name="msg_start_chat">채팅하기</string>
+    <string name="msg_start_reservation">상담 예약</string>
+    <string name="src_main_title">법조인 Chat</string>
+    <string name="msg_chat">채팅</string>
+    <string name="msg_lawyer">변호사</string>
+    <string name="msg_law_word">법률 용어</string>
+    <string name="msg_post">게시판</string>
+    <string name="msg_write_with_anonymous">익명으로 쓰기</string>
+    <string name="msg_only_see_lawyer">변호사만 보기</string>
+    <string name="msg_write_post">글쓰기</string>
 </resources>
