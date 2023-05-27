@@ -8,17 +8,18 @@
 
     <TextView
         android:id="@+id/tv_comment_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btn_comment_like"/>
 
     <TextView
         android:id="@+id/tv_comment_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_comment_title"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btn_comment_like"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <Button
@@ -26,10 +27,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/tv_comment_title"
-        android:layout_marginStart="50dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
         android:background="@drawable/bg_lawyer_detail_like"
         android:drawableStart="@drawable/ic_lawyer_detail_heart"
+        android:text="@string/msg_like"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
         android:paddingStart="10dp"
         android:paddingTop="5dp"
         android:paddingEnd="10dp"

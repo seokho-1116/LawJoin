@@ -1,7 +1,6 @@
 package com.example.lawjoin.data.repository
 
 import com.example.lawjoin.data.model.Post
-import com.example.lawjoin.data.model.Reservation
 import com.google.firebase.firestore.FirebaseFirestore
 
 class PostRepository {
