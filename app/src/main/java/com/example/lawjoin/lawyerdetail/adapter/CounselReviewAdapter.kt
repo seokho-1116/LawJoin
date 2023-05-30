@@ -37,7 +37,7 @@ class CounselReviewAdapter(private val counselReviews: List<CounselReview>):
     override fun onBindViewHolder(holder: CounselReviewViewHolder, position: Int) {
         holder.titleTextView.text = counselReviews[position].title
         holder.detailTextView.text = counselReviews[position].detail
-        holder.writerNameTextView.text = counselReviews[position].writerName
+        holder.writerNameTextView.text = counselReviews[position].writerId
         holder.createdTimeTextView.text = counselReviews[position].createdTime.toString()
     }
 }
