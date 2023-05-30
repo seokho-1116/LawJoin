@@ -4,8 +4,8 @@ import java.time.ZonedDateTime
 
 class CounselReservation(
     val startTime: ZonedDateTime,
-    val userId: Int,
-    val lawyerId: Int,
+    val userId: String?,
+    val lawyerId: String?,
     val summary: String
 ) {
 }

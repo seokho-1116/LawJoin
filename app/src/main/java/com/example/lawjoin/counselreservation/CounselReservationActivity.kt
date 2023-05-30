@@ -11,6 +11,9 @@ import com.example.lawjoin.data.model.CounselReservation
 import com.example.lawjoin.data.model.Lawyer
 import com.example.lawjoin.databinding.ActivityCounselReservationBinding
 import com.example.lawjoin.common.ViewModelFactory
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import com.wdullaer.materialdatetimepicker.time.Timepoint
@@ -23,16 +26,11 @@ import java.time.ZonedDateTime
 import java.util.Calendar
 import java.util.TimeZone
 
-
-inline fun <reified T : Serializable> Intent.serializable(key: String): T? = when {
-    Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializableExtra(key, T::class.java)
-    else -> @Suppress("DEPRECATION") getSerializableExtra(key) as? T
-}
-
 @RequiresApi(Build.VERSION_CODES.O)
 class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener,
     DatePickerDialog.OnDateSetListener {
     private lateinit var binding : ActivityCounselReservationBinding
+    private lateinit var auth: FirebaseAuth
     private lateinit var timePickerDialog: TimePickerDialog
     private lateinit var datePickerDialog: DatePickerDialog
     private lateinit var counselReservationViewModel: CounselReservationViewModel
@@ -43,10 +41,12 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
 
         binding = ActivityCounselReservationBinding.inflate(layoutInflater)
 
+        auth = Firebase.auth
+
         counselReservationViewModel = ViewModelProvider(this, ViewModelFactory())[CounselReservationViewModel::class.java]
 
         val intent = intent
-        val lawyer: Lawyer = intent.serializable("lawyer") ?: Lawyer()
+        val lawyer: Lawyer = intent.serializable("lawyer")!!
 
         binding.tvReservationLawyerName.text = lawyer.name
         binding.tvReservationLawyerCategory.text = lawyer.categories.joinToString(",")
@@ -86,8 +86,8 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
             counselReservationViewModel.updateUnavailableTimeOfLawyer(lawyer)
             val counselReservation = CounselReservation(
                 datePickerToZonedDateTime(),
-                1,
-                lawyer.id,
+                auth.currentUser?.uid,
+                lawyer.uid,
                 binding.edtReservationDetail.text.toString()
             )
             counselReservationViewModel.save(counselReservation)
@@ -100,9 +100,11 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
         timePickerDialog.setTimeInterval(1, 30)
         val unavailableTime = mutableListOf<Timepoint>()
         lawyer.unavailableTime.filter {
-            isSelectedDay(it)
+            val date = it.withZoneSameInstant(TimeZone.getDefault().toZoneId())
+            isSelectedDay(date)
         } .mapTo(unavailableTime) {
-            Timepoint(it.hour, it.minute, it.second)
+            val date = it.withZoneSameInstant(TimeZone.getDefault().toZoneId())
+            Timepoint(date.hour, date.minute, date.second)
         }
 
         timePickerDialog.setDisabledTimes(unavailableTime.toTypedArray())
@@ -115,9 +117,11 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
             Toast.makeText(this, "날짜가 선택되지 않았습니다.", Toast.LENGTH_SHORT).show()
         }
 
-        return datePickerDialog.selectedDay.year == zonedDateTime.year
-                && datePickerDialog.selectedDay.month + 1 == zonedDateTime.monthValue
-                && datePickerDialog.selectedDay.day == zonedDateTime.dayOfMonth
+        val date = zonedDateTime.withZoneSameInstant(TimeZone.getDefault().toZoneId())
+
+        return datePickerDialog.selectedDay.year == date.year
+                && datePickerDialog.selectedDay.month + 1 == date.monthValue
+                && datePickerDialog.selectedDay.day == date.dayOfMonth
     }
 
     private fun showDatePicker() {
@@ -136,8 +140,12 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
     private fun datePickerToZonedDateTime(): ZonedDateTime {
         val selectedDay = datePickerDialog.selectedDay
         val selectedTime = timePickerDialog.selectedTime
-        return ZonedDateTime.of(LocalDateTime.of(LocalDate.of(selectedDay.year, selectedDay.month, selectedDay.day),
-            LocalTime.of(selectedTime.hour, selectedTime.minute)), ZoneId.of("Asia/Seoul"))
-            .withZoneSameInstant(ZoneId.of("UTC"))
+        return LocalDateTime.of(LocalDate.of(selectedDay.year, selectedDay.month, selectedDay.day),
+            LocalTime.of(selectedTime.hour, selectedTime.minute, selectedTime.second)).atZone(ZoneId.of("UTC"))
+    }
+
+    private inline fun <reified T : Serializable> Intent.serializable(key: String): T? = when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializableExtra(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getSerializableExtra(key) as? T
     }
 }

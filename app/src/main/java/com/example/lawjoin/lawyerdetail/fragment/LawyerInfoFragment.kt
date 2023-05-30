@@ -1,11 +1,13 @@
 package com.example.lawjoin.lawyerdetail.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.lawjoin.R
@@ -13,6 +15,7 @@ import com.example.lawjoin.common.ViewModelFactory
 import com.example.lawjoin.data.model.Lawyer
 import com.example.lawjoin.lawyerdetail.LawyerDetailViewModel
 
+@RequiresApi(Build.VERSION_CODES.O)
 class LawyerInfoFragment(): Fragment() {
     private lateinit var lawyerDetailViewModel : LawyerDetailViewModel
     override fun onCreateView(

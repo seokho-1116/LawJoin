@@ -6,7 +6,7 @@ class CounselReview(
     val title: String,
     val detail: String,
     val createdTime: ZonedDateTime,
-    val writerName: String,
-    val lawyerName: String
+    val writerId: String?,
+    val lawyerId: String?
 ) {
 }
