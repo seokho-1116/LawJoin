@@ -6,7 +6,7 @@ class Post(
     val id: Int,
     val title: String,
     val detail: String,
-    val owner: String,
+    val ownerId: String,
     val createTime: ZonedDateTime,
     val modifyTime: ZonedDateTime,
     val isAnonymous: Boolean,
