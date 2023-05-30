@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- Bar / Header -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ly_chat_bar_header"
         android:layout_width="match_parent"
@@ -15,24 +14,6 @@
         android:background="@drawable/bg_chat_bar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/iv_chat_notification"
-            android:layout_width="17dp"
-            android:layout_height="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/ic_chat_notification"
-            app:layout_constraintLeft_toLeftOf="@id/iv_chat_back"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <TextView
-            android:id="@+id/tv_chat_notification_count"
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:layout_marginStart="2dp"
-            app:layout_constraintLeft_toLeftOf="@id/iv_chat_notification"
-            app:layout_constraintTop_toTopOf="@id/iv_chat_notification" />
 
         <ImageView
             android:id="@+id/iv_chat_profile"
@@ -61,10 +42,11 @@
         <TextView
             android:id="@+id/tv_chat_receiver"
             android:layout_width="wrap_content"
-            android:layout_height="19dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:text="@string/chat_header_title"
+            android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/divide_line1"
             app:layout_constraintRight_toRightOf="@id/iv_chat_profile"
             app:layout_constraintLeft_toLeftOf="@+id/iv_chat_back"
@@ -80,7 +62,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/tv_date"
+        android:id="@+id/tv_receiver_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|center_vertical"
@@ -97,7 +79,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@+id/ly_bar_under"
-        app:layout_constraintTop_toBottomOf="@id/tv_date" />
+        app:layout_constraintTop_toBottomOf="@id/tv_receiver_date" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ly_bar_under"

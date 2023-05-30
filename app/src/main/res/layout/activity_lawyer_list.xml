@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/str_lawyer_list_main"
+        android:textStyle="bold"
         android:textColor="#424242"
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
