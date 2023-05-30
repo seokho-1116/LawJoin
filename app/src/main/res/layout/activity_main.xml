@@ -119,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/ic_main_message"/>
+                android:background="@drawable/selector_main_btn"/>
             <ImageButton
                 android:id="@+id/ib_main_lawyer"
                 android:layout_width="wrap_content"
