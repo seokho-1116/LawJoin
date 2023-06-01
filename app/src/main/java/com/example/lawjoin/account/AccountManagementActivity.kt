@@ -1,17 +1,16 @@
-package com.example.lawjoin
+package com.example.lawjoin.account
 
 import android.content.Context
 import android.content.Intent
-import android.content.LocusId
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lawjoin.adapter.MenuAdapter
+import com.example.lawjoin.MainActivity
+import com.example.lawjoin.R
 import com.example.lawjoin.data.objects.MenuObjects
-import com.google.firebase.ktx.Firebase
 
 class AccountManagementActivity : AppCompatActivity() {
     var context : Context = this
