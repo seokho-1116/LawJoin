@@ -56,7 +56,7 @@ class LawyerListAdapter(private val lawyerObjects: ArrayList<LawyerObjects>, var
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.lawyer_thumbnail, viewGroup, false)
+            .inflate(R.layout.lawyer_thumbnail_item, viewGroup, false)
 
         return ViewHolder(view)
     }

@@ -8,6 +8,7 @@ import com.example.lawjoin.data.model.Lawyer
 import com.example.lawjoin.data.model.LawyerOffice
 import com.example.lawjoin.data.model.Message
 import com.example.lawjoin.data.repository.ChatRoomRepository
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -49,6 +50,15 @@ class ExampleInstrumentedTest {
         // Clean up the database after the test
         //reference.removeValue()
     }
+
+
+    @Test
+    fun savePostTest() {
+        val uid = Firebase.auth.currentUser!!.uid
+        /*database.reference.child("reservations").child("reservation")
+            .child("uid").push().setValue()*/
+    }
+
 
     @Test
     fun chatRoomTest() {
@@ -138,8 +148,7 @@ class ExampleInstrumentedTest {
         database.reference.child("lawyers").child("lawyer")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    list.add(snapshot.child(lawyer.uid).getValue(Lawyer::class.java)!!)
-                    latch.countDown()
+                    snapshot.children
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -150,8 +159,11 @@ class ExampleInstrumentedTest {
                     latch.countDown() // Make sure to release the latch in case of cancellation or error
                 }
             })
+        if (!latch.await(5, TimeUnit.SECONDS)) {}
+    }
+}
         // Wait for the latch countdown with a timeout
-        if (!latch.await(5, TimeUnit.SECONDS)) {
+
 
             /*val latch = CountDownLatch(1)
         database.reference.child("lawyers").child("lawyer").child("1")
@@ -171,7 +183,7 @@ class ExampleInstrumentedTest {
 
         if (!latch.await(5, TimeUnit.SECONDS)) {
             fail("Timeout waiting for onDataChange callback")
-        }*/
+        }
         }
     }
 
@@ -251,4 +263,4 @@ class ExampleInstrumentedTest {
         // Proceed with further assertions or actions after the callback has completed
         print(value)
     }
-}
+}*/

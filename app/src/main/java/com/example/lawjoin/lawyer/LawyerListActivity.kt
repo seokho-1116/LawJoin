@@ -24,7 +24,7 @@ class LawyerListActivity : AppCompatActivity() {
 
         val rvCategoryList = findViewById<RecyclerView> (R.id.rv_category_list)
         val rvLawyerList = findViewById<RecyclerView>(R.id.rv_lawyer_list)
-        edt_lawyer_search = findViewById<SearchView>(R.id.edt_lawyer_search)
+        edt_lawyer_search = findViewById<SearchView>(R.id.edt_chat_search)
 
         edt_lawyer_search.setOnQueryTextListener(searchViewTextListener)
 
