@@ -1,4 +1,4 @@
-package com.example.lawjoin.adapter
+package com.example.lawjoin.lawyer
 
 import android.view.LayoutInflater
 import android.view.View
@@ -37,13 +37,13 @@ class CategoryAdapter(private val categorySet: ArrayList<CategoryObjects>, val c
         this.excelSearchList = lawyerObjects
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): CategoryAdapter.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.lawyer_category_item, viewGroup, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(viewHolder: CategoryAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.bind(categorySet[position])
     }
     override fun getItemCount() = categorySet.size

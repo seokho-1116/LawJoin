@@ -1,12 +1,11 @@
-package com.example.lawjoin
+package com.example.lawjoin.post
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.example.lawjoin.R
 
 class WritePostActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

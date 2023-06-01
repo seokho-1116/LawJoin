@@ -1,4 +1,4 @@
-package com.example.lawjoin.adapter
+package com.example.lawjoin.lawyer
 
 
 import android.content.Context
@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.lawjoin.LawyerProfileDetailActivity
 import com.example.lawjoin.R
 import com.example.lawjoin.data.objects.LawyerObjects
 import java.io.Serializable
@@ -55,7 +54,7 @@ class LawyerListAdapter(private val lawyerObjects: ArrayList<LawyerObjects>, var
         this.excelSearchList = lawyerObjects
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): LawyerListAdapter.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.lawyer_thumbnail, viewGroup, false)
 

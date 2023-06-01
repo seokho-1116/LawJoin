@@ -1,4 +1,4 @@
-package com.example.lawjoin
+package com.example.lawjoin.lawyer
 
 import android.os.Bundle
 import android.widget.ImageView
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.lawjoin.data.objects.LawyerObjects
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.example.lawjoin.R
 
 
 class LawyerProfileDetailActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.example.lawjoin.adapter
+package com.example.lawjoin.account
 
 import android.content.Context
 import android.content.Intent
@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lawjoin.LawyerProfileDetailActivity
+import com.example.lawjoin.lawyer.LawyerProfileDetailActivity
 import com.example.lawjoin.R
-import com.example.lawjoin.data.model.Lawyer
 import com.example.lawjoin.data.objects.MenuObjects
 
 class MenuAdapter(private val menuSet: ArrayList<MenuObjects>, var context:Context)
@@ -55,7 +54,7 @@ class MenuAdapter(private val menuSet: ArrayList<MenuObjects>, var context:Conte
         }
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): MenuAdapter.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.account_management_item, viewGroup, false)
 
