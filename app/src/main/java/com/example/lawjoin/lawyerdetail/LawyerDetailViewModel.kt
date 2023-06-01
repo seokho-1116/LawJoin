@@ -10,7 +10,7 @@ import com.example.lawjoin.data.repository.LawyerRepository
 
 @RequiresApi(Build.VERSION_CODES.O)
 class LawyerDetailViewModel() : ViewModel() {
-    private val lawyerRepository = LawyerRepository()
+    private val lawyerRepository = LawyerRepository.getInstance()
     private val _lawyer = MutableLiveData<Lawyer>()
     val lawyer: LiveData<Lawyer> = _lawyer
 

@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.lawjoin.MainActivity
 import com.example.lawjoin.R
 import com.example.lawjoin.data.model.ChatRoom
+import com.example.lawjoin.data.model.LawyerDto
 import com.example.lawjoin.data.model.Message
 import com.example.lawjoin.data.model.User
 import com.example.lawjoin.data.repository.ChatRoomRepository
@@ -18,7 +20,6 @@ import com.example.lawjoin.databinding.ActivityChatBinding
 import com.example.lawjoin.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import java.io.Serializable
 import java.time.ZoneId
@@ -29,49 +30,46 @@ import java.util.TimeZone
 class ChatRoomActivity : AppCompatActivity() {
     private val chatRoomRepository = ChatRoomRepository.getInstance()
     private lateinit var myUid: String
-    private lateinit var database: FirebaseDatabase
-
-    lateinit var binding: ActivityChatBinding
-    lateinit var auth: FirebaseAuth
-    lateinit var chatRoom: ChatRoom
-    private lateinit var receiver: User
-    lateinit var chatRoomKey: String
+    private lateinit var binding: ActivityChatBinding
+    private lateinit var auth: FirebaseAuth
+    private lateinit var chatRoom: ChatRoom
+    private lateinit var receiver: LawyerDto
+    private lateinit var chatRoomKey: String
+    private lateinit var chatAdapter: RecyclerChatAdapter
     lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initializeProperty()
-        initializeListener()
+        initializeProperties()
+        initializeListeners()
         setupChatRoom()
     }
 
-    private fun initializeProperty() {
+    private fun initializeProperties() {
         auth = Firebase.auth
-        myUid = auth.currentUser?.uid.toString()
+        myUid = auth.currentUser?.uid.orEmpty()
         val intent = intent
-        chatRoom = intent.serializable("ChatRoom")!!
-        chatRoomKey = intent.serializable("ChatRoomKey")!!
-        receiver = intent.serializable("Opponent")!!
+        chatRoom = intent.serializable("chat_room") ?: return
+        chatRoomKey = intent.serializable<String>("chat_room_key").orEmpty()
+        receiver = intent.serializable("receiver") ?: return
         recyclerView = binding.rvChatContent
+        chatAdapter = RecyclerChatAdapter(this, chatRoomKey)
     }
 
-    private fun initializeListener() {
-        binding.ivChatBack.setOnClickListener() {
-            startActivity(Intent(this@ChatRoomActivity, ActivityMainBinding::class.java))
+    private fun initializeListeners() {
+        binding.ivChatBack.setOnClickListener {
+            startActivity(Intent(this@ChatRoomActivity, MainActivity::class.java))
         }
-        binding.ibChatSend.setOnClickListener() {
+        binding.ibChatSend.setOnClickListener {
             putMessage()
         }
     }
 
     private fun setupChatRoom() {
         setupProfile()
-        if (chatRoomKey.isBlank())
-            setupChatRoomKey()
-        else
-            setupRecycler()
+        setupRecycler()
     }
 
     private fun setupProfile() {
@@ -81,27 +79,25 @@ class ChatRoomActivity : AppCompatActivity() {
             .placeholder(R.drawable.ic_chat_user_default_profile)
             .error(R.drawable.ic_chat_user_default_profile)
             .transition(DrawableTransitionOptions.withCrossFade())
-            .into(binding.ivChatProfile)
+            .into(binding.btnChatProfile)
 
         binding.tvReceiverDate.text = ZonedDateTime.now(TimeZone.getDefault().toZoneId())
             .toLocalDate().toString()
         binding.tvChatReceiver.text = receiver.name
     }
 
-    private fun setupChatRoomKey() {
-        chatRoomRepository.findUserChatRoomsByKey(myUid) {
-            val chatRoom = it.children.first { chatRoom ->
-                chatRoom.child("users").children.any { reference ->
-                    reference.value as String == receiver.uid
-                }
-            }
-
-            this.chatRoomKey = chatRoom.key.toString()
-        }
-    }
-
     private fun putMessage() {
-        val message = Message(myUid, ZonedDateTime.now(ZoneId.of("UTC")), binding.edtChatInput.toString())
+        if (receiver.uid == "GPT") {
+            //sendToGPT()
+        } else if (receiver.uid == "BOT") {
+            //sendToBot()
+        }
+
+        val message = Message(
+            myUid,
+            ZonedDateTime.now(ZoneId.of("UTC")).toString(),
+            binding.edtChatInput.text.toString()
+        )
         chatRoomRepository.saveChatRoomMessage(chatRoomKey, message) {
             binding.edtChatInput.text.clear()
         }
@@ -109,7 +105,7 @@ class ChatRoomActivity : AppCompatActivity() {
 
     private fun setupRecycler() {
         binding.rvChatContent.layoutManager = LinearLayoutManager(this)
-        binding.rvChatContent.adapter = RecyclerChatAdapter(this, chatRoomKey)
+        binding.rvChatContent.adapter = chatAdapter
     }
 
     private inline fun <reified T : Serializable> Intent.serializable(key: String): T? = when {

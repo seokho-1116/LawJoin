@@ -9,13 +9,14 @@ import androidx.annotation.Dimension
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginEnd
 import androidx.lifecycle.ViewModelProvider
 import com.example.lawjoin.R
 import com.example.lawjoin.chat.ChatRoomActivity
 import com.example.lawjoin.common.ViewModelFactory
 import com.example.lawjoin.data.model.ChatRoom
 import com.example.lawjoin.data.model.Lawyer
-import com.example.lawjoin.data.model.Person
+import com.example.lawjoin.data.model.LawyerDto
 import com.example.lawjoin.data.repository.ChatRoomRepository
 import com.example.lawjoin.databinding.ActivityLawyerDetailBinding
 import com.example.lawjoin.lawyerdetail.adapter.ViewPagerAdapter
@@ -42,7 +43,7 @@ open class LawyerDetailActivity : AppCompatActivity() {
         setupProperties()
 
         //TODO: uid 받아오기
-        val position = "uid"
+        val position = "BOT"
         val adapter = ViewPagerAdapter(this)
         lawyerDetailViewModel.getLawyer(position)
         lawyerDetailViewModel.lawyer.observe(this) { lawyer ->
@@ -53,7 +54,7 @@ open class LawyerDetailActivity : AppCompatActivity() {
             for (category in lawyer.categories) {
                 val tv = TextView(this)
                 tv.text = category
-                tv.setTextSize(Dimension.SP, 8.0F)
+                tv.setTextSize(Dimension.SP, 14.0F)
                 tv.setBackgroundResource(R.drawable.bg_lawyer_list_category)
                 binding.lyLawyerCategory.addView(tv)
             }
@@ -85,15 +86,8 @@ open class LawyerDetailActivity : AppCompatActivity() {
     }
 
     private fun setupLikeButton() {
-        val button = binding.btnLawyerLike
-        val initialDrawable: Drawable? = button.compoundDrawablesRelative[0]
-        val pressedDrawable: Drawable? = ContextCompat.getDrawable(this, R.drawable.ic_red_heart)
-        var isButtonPressed = false
-        button.setOnClickListener {
-            isButtonPressed = !isButtonPressed
-
-            val drawable = if (isButtonPressed) pressedDrawable else initialDrawable
-            button.setCompoundDrawablesRelativeWithIntrinsicBounds(drawable, null, null, null)
+        binding.btnLawyerLike.setOnClickListener {
+            it.isSelected = !it.isSelected
         }
     }
 
@@ -112,13 +106,13 @@ open class LawyerDetailActivity : AppCompatActivity() {
         }
         binding.btnReserveCounsel.setOnClickListener {
             //TODO: start reservation
-            intent.putExtra("lawyer", lawyer)
+            intent.putExtra("lawyer", LawyerDto(lawyer.uid, lawyer.name, lawyer.email))
             startActivity(intent)
         }
     }
 
     private fun addChatRoom(lawyer: Lawyer) {
-        val chatRoom = ChatRoom(listOf(currentUser.uid,lawyer.uid!!), mutableListOf())
+        val chatRoom = ChatRoom(mapOf(), listOf(currentUser.uid,lawyer.uid!!))
 
         chatRoomRepository.findUserChatRoomsByKey(currentUser.uid) { it ->
 
@@ -129,21 +123,21 @@ open class LawyerDetailActivity : AppCompatActivity() {
             }
 
             if (isChatRoomExist) {
-                goToChatRoom(chatRoom, lawyer)
+                goToChatRoom(chatRoom, LawyerDto(lawyer.uid, lawyer.name, lawyer.email))
             } else {
                 chatRoomRepository.saveChatRoomUnder(currentUser.uid) { reference ->
                     reference.push().setValue(chatRoom).addOnSuccessListener {
-                        goToChatRoom(chatRoom, lawyer)
+                        goToChatRoom(chatRoom, LawyerDto(lawyer.uid, lawyer.name, lawyer.email))
                     }
                 }
             }
         }
     }
 
-    private fun goToChatRoom(chatRoom: ChatRoom, opponentUid: Person) {
+    private fun goToChatRoom(chatRoom: ChatRoom, lawyer: LawyerDto) {
         val intent = Intent(applicationContext, ChatRoomActivity::class.java)
         intent.putExtra("ChatRoom", chatRoom)
-        intent.putExtra("receiver", opponentUid)
+        intent.putExtra("receiver", lawyer)
         intent.putExtra("ChatRoomKey", "")
         startActivity(intent)
     }

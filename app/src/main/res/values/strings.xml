@@ -33,4 +33,5 @@
     <string name="msg_only_see_lawyer">변호사만 보기</string>
     <string name="msg_write_post">글쓰기</string>
     <string name="msg_reservation_time">시간</string>
+    <string name="msg_write_comment">댓글 쓰기</string>
 </resources>

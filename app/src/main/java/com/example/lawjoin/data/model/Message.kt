@@ -5,7 +5,7 @@ import java.time.ZonedDateTime
 
 data class Message(
     var senderUid: String = "",
-    var sendDate: ZonedDateTime,
+    var sendDate: String = "",
     var content: String = "",
     var confirmed:Boolean=false
 ) : Serializable {

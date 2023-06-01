@@ -16,14 +16,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/iv_chat_profile"
+        <ImageButton
+            android:id="@+id/btn_chat_profile"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="4dp"
-            android:background="@drawable/ic_chat_profile_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -43,12 +42,15 @@
         <TextView
             android:id="@+id/tv_chat_receiver"
             android:layout_width="wrap_content"
-            android:layout_height="19dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:text="@string/src_main_title"
+            android:textStyle="bold"
+            android:textColor="#424242"
+            android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/divide_line1"
-            app:layout_constraintRight_toRightOf="@id/iv_chat_profile"
+            app:layout_constraintRight_toRightOf="@id/btn_chat_profile"
             app:layout_constraintLeft_toLeftOf="@+id/iv_chat_back"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -119,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/selector_main_btn"/>
+                android:background="@drawable/selector_main_chat"/>
             <ImageButton
                 android:id="@+id/ib_main_lawyer"
                 android:layout_width="wrap_content"

@@ -23,12 +23,14 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.TimeZone
 
 @RequiresApi(Build.VERSION_CODES.O)
 class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener,
     DatePickerDialog.OnDateSetListener {
+    private val formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME
     private lateinit var binding : ActivityCounselReservationBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var timePickerDialog: TimePickerDialog
@@ -83,14 +85,14 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
          * TODO: 현재 사용자 정보 가져오기, 예약 끝나고 내 정보로 이동해주기
          */
         binding.btnConfirmReservation.setOnClickListener {
-            counselReservationViewModel.updateUnavailableTimeOfLawyer(lawyer)
+            counselReservationViewModel.updateUnavailableTimeOfLawyer(lawyer.uid, datePickerToZonedDateTime().toString())
             val counselReservation = CounselReservation(
-                datePickerToZonedDateTime(),
+                datePickerToZonedDateTime().toString(),
                 auth.currentUser?.uid,
                 lawyer.uid,
                 binding.edtReservationDetail.text.toString()
             )
-            counselReservationViewModel.save(counselReservation)
+            counselReservationViewModel.saveCounselReservation(counselReservation)
         }
 
         setContentView(binding.root)
@@ -100,10 +102,12 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
         timePickerDialog.setTimeInterval(1, 30)
         val unavailableTime = mutableListOf<Timepoint>()
         lawyer.unavailableTime.filter {
-            val date = it.withZoneSameInstant(TimeZone.getDefault().toZoneId())
+            val date = ZonedDateTime.parse(it, formatter)
+                .withZoneSameInstant(TimeZone.getDefault().toZoneId())
             isSelectedDay(date)
         } .mapTo(unavailableTime) {
-            val date = it.withZoneSameInstant(TimeZone.getDefault().toZoneId())
+            val date = ZonedDateTime.parse(it, formatter)
+                .withZoneSameInstant(TimeZone.getDefault().toZoneId())
             Timepoint(date.hour, date.minute, date.second)
         }
 

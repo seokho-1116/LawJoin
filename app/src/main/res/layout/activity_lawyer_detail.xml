@@ -17,6 +17,8 @@
         android:id="@+id/tv_lawyer_detail_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="20sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@id/iv_lawyer_profile_image"/>
 
@@ -45,7 +47,7 @@
             android:layout_marginStart="20dp"
             android:text="@string/msg_like"
             android:background="@drawable/bg_lawyer_detail_like"
-            android:drawableStart="@drawable/ic_lawyer_detail_heart"
+            android:drawableStart="@drawable/selector_like"
             android:paddingStart="10dp"
             android:paddingTop="5dp"
             android:paddingEnd="10dp"
