@@ -44,15 +44,6 @@ class PostDetailActivity : AppCompatActivity() {
         binding.btnWriteComment.setOnClickListener {
             it.isSelected = !it.isSelected
         }
-
-        postRepository.savePost {
-            it.child("post").push().setValue(Post())
-        }
-
-        val posts: MutableList<Post> = mutableListOf()
-        postRepository.findAllPost {
-            posts.add(it.getValue(Post::class.java)!!)
-        }
     }
 
     private fun initViews() {

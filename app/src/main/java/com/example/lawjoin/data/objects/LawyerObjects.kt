@@ -1,8 +1,6 @@
 package com.example.lawjoin.data.objects
 
-import android.graphics.drawable.Drawable
 import java.io.Serializable
-import kotlinx.parcelize.Parcelize
 
 data class LawyerObjects(
 
