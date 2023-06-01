@@ -4,6 +4,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.lawjoin.data.model.Lawyer
+import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -27,11 +28,10 @@ class LawyerRepository {
     fun findLawyerById(uid: String, callback: (Lawyer) -> Unit) {
         databaseReference
             .child("lawyer")
-            .equalTo(uid, "uid")
+            .child(uid)
             .addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val data = snapshot.children.firstOrNull()
-                    val lawyer = data?.getValue(Lawyer::class.java)!!
+                    val lawyer = snapshot.getValue(Lawyer::class.java)!!
                     callback(lawyer)
                 }
                 override fun onCancelled(error: DatabaseError) {
@@ -60,10 +60,23 @@ class LawyerRepository {
             })
     }
 
-    fun updateUnavailableTime(lawyer: Lawyer) {
-/*        val lawyerCollection = databaseReference.collection("lawyers")
-        val lawyerDocument = lawyerCollection.document(lawyer.id.toString())
+    fun saveLawyer(uid: String, callback: (DatabaseReference) -> Task<Void>) {
+        callback(databaseReference.child("lawyer").child(uid))
+    }
 
-        lawyerDocument.set(lawyer)*/
+    fun updateUnavailableTime(id: String, time: String) {
+        databaseReference
+            .child("lawyer")
+            .child(id)
+            .child("unavailableTime").addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val itemCount = dataSnapshot.childrenCount.toInt()
+                    dataSnapshot.ref
+                        .child(itemCount.toString())
+                        .setValue(time)
+                }
+                override fun onCancelled(databaseError: DatabaseError) {
+                }
+            })
     }
 }

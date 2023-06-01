@@ -3,37 +3,37 @@ package com.example.lawjoin
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lawjoin.chat.ChatRoomActivity
 import com.example.lawjoin.data.model.ChatRoom
+import com.example.lawjoin.data.model.LawyerDto
 import com.example.lawjoin.data.repository.ChatRoomRepository
 import com.example.lawjoin.data.repository.LawyerRepository
 import com.example.lawjoin.databinding.ChatRoomItemBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import java.time.Duration
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.util.TimeZone
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 class RecyclerChatRoomAdapter(private val context: Context) :
     RecyclerView.Adapter<RecyclerChatRoomAdapter.ViewHolder>() {
+    private val formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME
     private val lawyerRepository: LawyerRepository = LawyerRepository.getInstance()
     private val chatRoomRepository: ChatRoomRepository = ChatRoomRepository.getInstance()
-    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    var chatRooms: MutableList<ChatRoom> = mutableListOf()
-    var chatRoomKeys: MutableList<String> = mutableListOf()
+    private var chatRooms: MutableList<ChatRoom> = mutableListOf()
+    private var chatRoomKeys: MutableList<String> = mutableListOf()
     private var myUid: String
     private var auth: FirebaseAuth = Firebase.auth
 
@@ -45,23 +45,24 @@ class RecyclerChatRoomAdapter(private val context: Context) :
     private fun setupAllChatRoomList() {
         chatRoomRepository.findAllChatRoomsByUid(myUid) {
             chatRooms.clear()
-            chatRooms.add(it!!.getValue<ChatRoom>()!!)
-            chatRoomKeys.add(it.key.toString())
-
+            for (data in it.children) {
+                chatRooms.add(data.getValue(ChatRoom::class.java)!!)
+                chatRoomKeys.add(data.key.toString())
+            }
             notifyDataSetChanged()
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.chat_room_item, parent, false)
-        return ViewHolder(ChatRoomItemBinding.bind(view))
+        val binding = ChatRoomItemBinding.inflate(LayoutInflater.from(context), parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val opponent = chatRooms[position].users.first { it != myUid }
         lawyerRepository.findLawyerById(opponent) {
             holder.chatProfile = it.profile_url
-            holder.opponentUser = it.uid!!
+            holder.opponentUser = LawyerDto(it.uid, it.name, it.email)
             holder.receiver.text = it.name
         }
 
@@ -74,23 +75,23 @@ class RecyclerChatRoomAdapter(private val context: Context) :
             (context as AppCompatActivity).finish()
         }
 
-        if (chatRooms[position].messages!!.isNotEmpty()) {
+        if (chatRooms[position].messages.isNotEmpty()) {
             setupLastMessageAndDate(holder, position)
-            setupMessageCount(holder, position)
         }
+        setupMessageCount(holder, position)
     }
 
     private fun setupLastMessageAndDate(holder: ViewHolder, position: Int) {
-        val lastMessage = chatRooms[position].messages
+        val lastMessage = chatRooms[position].messages.values
             .sortedWith(compareBy { it.sendDate })
             .last()
         holder.lastMessage.text = lastMessage.content
-        holder.date.text = getLastMessageTimeString(lastMessage.sendDate)
+        holder.date.text = getLastMessageTimeString(ZonedDateTime.parse(lastMessage.sendDate, formatter))
     }
 
     private fun setupMessageCount(holder: ViewHolder, position: Int) {
         val unconfirmedCount =
-            chatRooms[position].messages.filter {
+            chatRooms[position].messages.values.filter {
                 it.confirmed && it.senderUid != myUid
             }.size
 
@@ -103,22 +104,17 @@ class RecyclerChatRoomAdapter(private val context: Context) :
     }
 
     private fun getLastMessageTimeString(lastTimeString: ZonedDateTime): String {
-        val zoneId = TimeZone.getDefault().toZoneId()
-        val withZoneSameLocal = lastTimeString.withZoneSameLocal(zoneId)
+        val zoneId = ZoneId.systemDefault()
+        val messageTime = lastTimeString.withZoneSameInstant(zoneId)
         val currentTime = LocalDateTime.now().atZone(zoneId)
 
-        val monthAgo = currentTime.monthValue - withZoneSameLocal.monthValue
-        val dayAgo = currentTime.dayOfMonth - withZoneSameLocal.dayOfMonth
-        val hourAgo = currentTime.hour - withZoneSameLocal.hour
-        val minuteAgo = currentTime.minute - withZoneSameLocal.minute
-
+        val difference = ChronoUnit.MINUTES.between(messageTime, currentTime)
         return when {
-            monthAgo > 0 -> monthAgo.toString() + "개월 전"
-            dayAgo > 1 -> dayAgo.toString() + "일 전"
-            dayAgo == 0 -> "어제"
-            hourAgo > 0 -> hourAgo.toString() + "시간 전"
-            minuteAgo > 0 -> minuteAgo.toString() + "분 전"
-            else -> "방금"
+            difference < 1 -> "방금 전"
+            difference < 60 -> "${difference}분 전"
+            difference < 1440 -> "${difference / 60}시간 전"
+            difference < 43200 -> "${difference / 1440}일 전"
+            else -> "${difference / 43200}달 전"
         }
     }
 
@@ -126,16 +122,14 @@ class RecyclerChatRoomAdapter(private val context: Context) :
         return chatRooms.size
     }
 
-    inner class ViewHolder(itemView: ChatRoomItemBinding) :
-        RecyclerView.ViewHolder(itemView.root) {
+    class ViewHolder(binding: ChatRoomItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         var chatProfile = ""
-        var opponentUser = ""
-        var chatRoomKey = ""
-        var layout = itemView.root
-        var receiver = itemView.tvChatRoomReceiver
-        var lastMessage = itemView.tvChatRoomText
-        var date = itemView.tvChatDate
-        var unreadCount = itemView.tvChatRoomNotificationCount
+        var opponentUser = LawyerDto()
+        var layout = binding.root
+        var receiver = binding.tvChatRoomReceiver
+        var lastMessage = binding.tvChatRoomText
+        var date = binding.tvChatDate
+        var unreadCount = binding.tvChatRoomNotificationCount
     }
-
 }

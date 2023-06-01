@@ -13,11 +13,11 @@ class CounselReservationViewModel : ViewModel() {
     private val counselReservationRepository = CounselReservationRepository()
     private val lawyerRepository = LawyerRepository()
 
-    fun updateUnavailableTimeOfLawyer(lawyer: Lawyer) {
-        lawyerRepository.updateUnavailableTime(lawyer)
+    fun updateUnavailableTimeOfLawyer(id: String, time: String) {
+        lawyerRepository.updateUnavailableTime(id, time)
     }
 
-    fun save(counselReservation: CounselReservation) {
+    fun saveCounselReservation(counselReservation: CounselReservation) {
         counselReservationRepository.saveCounselReservation(counselReservation)
     }
 }

@@ -16,13 +16,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/iv_chat_profile"
+            android:id="@+id/btn_chat_profile"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="4dp"
-            android:background="@drawable/ic_chat_profile_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -45,10 +44,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/chat_header_title"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/divide_line1"
-            app:layout_constraintRight_toRightOf="@id/iv_chat_profile"
+            app:layout_constraintRight_toRightOf="@id/btn_chat_profile"
             app:layout_constraintLeft_toLeftOf="@+id/iv_chat_back"
             app:layout_constraintTop_toTopOf="parent" />
 

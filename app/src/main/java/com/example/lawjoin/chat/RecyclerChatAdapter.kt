@@ -10,42 +10,57 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.lawjoin.R
 import com.example.lawjoin.data.model.Message
 import com.example.lawjoin.data.repository.ChatRoomRepository
-import com.example.lawjoin.databinding.ChatMessageReceiverBinding
 import com.example.lawjoin.databinding.ChatMessageSenderBinding
+import com.example.lawjoin.databinding.ChatMessageReceiverBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.text.StringBuilder
 
 @RequiresApi(Build.VERSION_CODES.O)
-class RecyclerChatAdapter(
-    private val context: Context,
-    var chatRoomKey: String,
-) :
+class RecyclerChatAdapter(private val context: Context, private var chatRoomKey: String, ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME
     private val chatRoomRepository = ChatRoomRepository.getInstance()
     var messages: MutableList<Message> = mutableListOf()
     var messageKeys: MutableList<String> = mutableListOf()
     private val auth: FirebaseAuth = Firebase.auth
     private val myUid = auth.currentUser?.uid.toString()
+    private var lastFetchedMessageTimestamp: ZonedDateTime = ZonedDateTime.parse("2000-01-01T00:00:00Z[UTC]")
     private val recyclerView = (context as ChatRoomActivity).recyclerView
 
     init {
-        setupMessages()
-    }
-
-    private fun setupMessages() {
         getMessages()
     }
 
     private fun getMessages() {
         chatRoomRepository.findUserChatRoomByKey(myUid, chatRoomKey) {
-            messages.clear()
-            it.child("messages").children.forEach { ref ->
-                messages.add(ref.value as Message)
-                messageKeys.add(ref.key.toString())
+            val messagesData = it.child("messages")
+            val newMessages = mutableListOf<Message>()
+            val newMessageKeys = mutableListOf<String>()
+
+            messagesData.children.forEach { messageSnapshot ->
+                val message = messageSnapshot.getValue(Message::class.java)
+                val messageKey = messageSnapshot.key
+                if (message != null && messageKey != null) {
+                    val messageTimestamp = ZonedDateTime.parse(message.sendDate)
+                    if (messageTimestamp.isAfter(lastFetchedMessageTimestamp)) {
+                        newMessages.add(message)
+                        newMessageKeys.add(messageKey)
+                    }
+                }
             }
+
+            messages.addAll(newMessages)
+            messageKeys.addAll(newMessageKeys)
+
+            if (newMessages.isNotEmpty()) {
+                val lastNewMessageTimestamp = ZonedDateTime.parse(newMessages.last().sendDate)
+                lastFetchedMessageTimestamp = lastNewMessageTimestamp
+            }
+
             notifyDataSetChanged()
             recyclerView.scrollToPosition(messages.size - 1)
         }
@@ -94,7 +109,7 @@ class RecyclerChatAdapter(
         fun bind(position: Int) {
             message.text = messages[position].content
 
-            date.text = getDateText(messages[position].sendDate)
+            date.text = getDateText(ZonedDateTime.parse(messages[position].sendDate, formatter))
 
             if (messages[position].confirmed)
                 isShown.visibility = View.GONE
@@ -114,7 +129,7 @@ class RecyclerChatAdapter(
         fun bind(position: Int) {
             txtMessage.text = messages[position].content
 
-            txtDate.text = getDateText(messages[position].sendDate)
+            txtDate.text = getDateText(ZonedDateTime.parse(messages[position].sendDate, formatter))
 
             if (messages[position].confirmed)
                 isShown.visibility = View.GONE

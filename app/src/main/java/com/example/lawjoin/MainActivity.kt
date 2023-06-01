@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             .placeholder(R.drawable.ic_chat_user_default_profile) // Optional placeholder image while loading
             .error(R.drawable.ic_chat_user_default_profile) // Optional error image if the loading fails
             .transition(DrawableTransitionOptions.withCrossFade())
-            .into(binding.ivChatProfile)
+            .into(binding.btnChatProfile)
 
         binding.ibMainMessage.isClickable = false
         binding.ibMainMessage.isPressed = true
@@ -46,11 +46,13 @@ class MainActivity : AppCompatActivity() {
     private fun initializeListener() {
         //TODO: 변호사 리스트 액티비티 추가
         //TODO: 디자인 일관성으로 하단에 바 추가하기
+        binding.btnChatProfile.setOnClickListener {
+            //TODO: 내정보로 이동
+        }
         binding.btnStartChat.setOnClickListener {
             startActivity(Intent(this@MainActivity, ActivityLawyerListBinding::class.java))
             finish()
         }
-
         binding.ibMainLawyer.setOnClickListener {
             startActivity(Intent(this@MainActivity, ActivityLawyerListBinding::class.java))
         }
@@ -58,10 +60,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, ActivityLawWordBinding::class.java))
         }
         binding.ibMainPost.setOnClickListener {
+            //TODO: 게시글 리스트로
         }
+        binding.edtChatSearch
     }
 
-    //TODO: recycler
     private fun setupRecycler() {
         binding.rvChatList.layoutManager = LinearLayoutManager(this)
         binding.rvChatList.adapter = RecyclerChatRoomAdapter(this)

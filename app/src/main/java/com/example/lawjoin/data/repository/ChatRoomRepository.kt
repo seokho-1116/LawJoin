@@ -11,7 +11,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class ChatRoomRepository {
-    private val databaseReference: DatabaseReference = Firebase.database.reference.child("chat_rooms").child("chat_room")
+    private val databaseReference: DatabaseReference = Firebase.database.getReference("chat_rooms").child("chat_room")
 
     companion object{
         private val INSTANCE = ChatRoomRepository()
@@ -29,9 +29,7 @@ class ChatRoomRepository {
                     Log.e("CHAT DATA", "failed to get chat rooms data")
                 }
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    for (data in snapshot.children) {
-                        callback(data)
-                    }
+                    callback(snapshot)
                 }
             })
     }
@@ -53,7 +51,7 @@ class ChatRoomRepository {
         databaseReference
             .child(uid)
             .child(chatKey)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
+            .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
                     Log.e("CHAT DATA", "failed to get chat rooms data")
                 }
@@ -85,7 +83,7 @@ class ChatRoomRepository {
     }
 
     fun saveChatRoomUnder(uid: String, callback: (DatabaseReference) -> Task<Void>) {
-        callback(databaseReference.child("chat_room").child(uid))
+        callback(databaseReference.child(uid))
     }
 
     //TODO: 리스트에 메시지가 잘 들어가나 테스트
@@ -93,6 +91,7 @@ class ChatRoomRepository {
         databaseReference.child(message.senderUid)
             .child(chatKey)
             .child("messages")
+            .push()
             .setValue(message)
             .addOnSuccessListener {
                 callback()

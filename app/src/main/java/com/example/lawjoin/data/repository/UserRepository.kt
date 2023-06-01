@@ -1,5 +1,6 @@
 package com.example.lawjoin.data.repository
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -7,32 +8,32 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class PostRepository {
-    private val database = Firebase.database.reference.child("posts")
+class UserRepository {
+    private val databaseReference: DatabaseReference = Firebase.database.reference.child("users")
 
     companion object{
-        private val INSTANCE = PostRepository()
+        private val INSTANCE = UserRepository()
 
-        fun getInstance(): PostRepository {
+        fun getInstance(): UserRepository {
             return INSTANCE
         }
     }
 
-    fun savePost(callback: (DatabaseReference) -> Unit) {
-        callback(database)
+    fun saveUser(uid: String, callback: (DatabaseReference) -> Task<Void>) {
+        callback(databaseReference.child("user").child(uid))
     }
 
-    fun findAllPost(callback: (DataSnapshot) -> Boolean) {
-        database.child("post")
+    fun findUser(uid: String, callback: (DataSnapshot) -> Unit) {
+        databaseReference
+            .child("user")
+            .child(uid)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     callback(snapshot)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
-
             })
     }
 }
