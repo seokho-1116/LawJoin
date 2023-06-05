@@ -14,10 +14,12 @@ import com.example.lawjoin.data.objects.LawyerObjects
 import java.io.Serializable
 import kotlin.collections.ArrayList
 
-class LawyerListAdapter(private val lawyerObjects: ArrayList<LawyerObjects>, var context: Context)
+class LawyerListAdapter (private val lawyerObjects: ArrayList<LawyerObjects>,
+                         private val context: Context)
     : RecyclerView.Adapter<LawyerListAdapter.ViewHolder>(), Filterable {
 
     private var excelSearchList: List<LawyerObjects>? = null
+    private var filtered: Boolean = false
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val lawyerName: TextView
@@ -48,6 +50,7 @@ class LawyerListAdapter(private val lawyerObjects: ArrayList<LawyerObjects>, var
                 }.run { context.startActivity(this) }
             }
         }
+
     }
 
     init{
@@ -56,7 +59,7 @@ class LawyerListAdapter(private val lawyerObjects: ArrayList<LawyerObjects>, var
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.lawyer_thumbnail, viewGroup, false)
+            .inflate(R.layout.lawyer_thumbnail_item, viewGroup, false)
 
         return ViewHolder(view)
     }
@@ -75,7 +78,7 @@ class LawyerListAdapter(private val lawyerObjects: ArrayList<LawyerObjects>, var
                     val filteredList = ArrayList<LawyerObjects>()
 
                     for (row in lawyerObjects){
-                        if (row.name.toLowerCase().contains(charString.toLowerCase()))
+                        if (row.name.toLowerCase().contains(charString.toLowerCase()) || row.category.toLowerCase().equals(charString.toLowerCase()))
                         {
                             filteredList.add(row)
                         }
@@ -92,6 +95,11 @@ class LawyerListAdapter(private val lawyerObjects: ArrayList<LawyerObjects>, var
                 notifyDataSetChanged()
             }
         }
+    }
+    fun clearFilter() {
+        excelSearchList = lawyerObjects
+        filtered = false
+        notifyDataSetChanged()
     }
 }
 

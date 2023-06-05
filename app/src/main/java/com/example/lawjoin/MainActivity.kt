@@ -31,6 +31,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeView() {
+
+        // 인텐트로 보내 필요 없이 어느 액티비티에서나 사용 가능함
+       // auth.currentUser.
         val user = auth.currentUser
         Glide.with(this)
             .load(user?.photoUrl)

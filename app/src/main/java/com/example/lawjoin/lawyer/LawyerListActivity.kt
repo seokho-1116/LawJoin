@@ -1,7 +1,9 @@
 package com.example.lawjoin.lawyer
 
+import android.os.Build
 import android.os.Bundle
 import android.widget.SearchView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,27 +11,30 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.lawjoin.R
 import com.example.lawjoin.data.objects.CategoryObjects
 import com.example.lawjoin.data.objects.LawyerObjects
+import com.example.lawjoin.data.repository.LawyerRepository
 
 class LawyerListActivity : AppCompatActivity() {
     lateinit var categoryAdapter: CategoryAdapter
     lateinit var lawyerListAdapter : LawyerListAdapter
     lateinit var edt_lawyer_search : SearchView
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lawyer_list)
 
         val lawyerObjects = ArrayList<LawyerObjects>()
         val categoryObjects = ArrayList<CategoryObjects>()
+        val lawyerRepository = LawyerRepository.getInstance()
 
         val rvCategoryList = findViewById<RecyclerView> (R.id.rv_category_list)
         val rvLawyerList = findViewById<RecyclerView>(R.id.rv_lawyer_list)
-        edt_lawyer_search = findViewById<SearchView>(R.id.edt_lawyer_search)
+        edt_lawyer_search = findViewById<SearchView>(R.id.edt_chat_search)
 
         edt_lawyer_search.setOnQueryTextListener(searchViewTextListener)
 
-        categoryAdapter = CategoryAdapter(categoryObjects, this, lawyerObjects)
         lawyerListAdapter = LawyerListAdapter(lawyerObjects, this)
+        categoryAdapter = CategoryAdapter(categoryObjects, this, lawyerListAdapter)
 
         categoryObjects.add(CategoryObjects("카테고리1"))
         categoryObjects.add(CategoryObjects("카테고리2"))
@@ -71,6 +76,19 @@ class LawyerListActivity : AppCompatActivity() {
 
         val lawyerLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
         val categoryLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
+
+        lawyerRepository.getAllLawyers { lawyers ->
+            lawyerObjects.addAll(lawyers.map { lawyer ->
+                LawyerObjects(
+                    name = lawyer.name,
+                    summary = lawyer.introduce,
+                    category = lawyer.categories.toString(),
+                    review = lawyer.reviewCount.toString(),
+                    imageResId = R.drawable.ic_rectangle_background
+                )
+            })
+            lawyerListAdapter.notifyDataSetChanged()
+        }
 
         rvCategoryList.adapter =  categoryAdapter
         rvLawyerList.adapter = lawyerListAdapter
