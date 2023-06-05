@@ -35,5 +35,10 @@
             android:exported="true"/>
         <activity android:name=".post.PostDetailActivity"
             android:exported="true"/>
+        <activity android:name=".post.WritePostActivity"/>
+        <activity android:name=".account.AccountManagementActivity"/>
+        <activity android:name=".lawyer.LawyerListActivity"/>
+        <activity android:name=".lawyer.LawyerProfileDetailActivity"/>
+        <activity android:name=".post.BoardFreeActivity"/>
     </application>
 </manifest>

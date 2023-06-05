@@ -1,6 +1,5 @@
 package com.example.lawjoin.data.objects
 
-import android.graphics.drawable.Drawable
 import java.io.Serializable
 
 data class LawyerObjects(

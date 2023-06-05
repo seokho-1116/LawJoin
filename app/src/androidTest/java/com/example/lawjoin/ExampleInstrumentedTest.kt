@@ -1,11 +1,13 @@
 package com.example.lawjoin
 
-import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.lawjoin.data.model.*
+import com.example.lawjoin.data.model.CounselCase
+import com.example.lawjoin.data.model.CounselReview
+import com.example.lawjoin.data.model.Lawyer
+import com.example.lawjoin.data.model.LawyerOffice
+import com.example.lawjoin.data.model.Message
 import com.example.lawjoin.data.repository.ChatRoomRepository
-import com.example.lawjoin.data.repository.UserRepository
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -49,27 +51,14 @@ class ExampleInstrumentedTest {
         //reference.removeValue()
     }
 
+
     @Test
-    fun adsf(){
-        //디자인
-        val userRepository = UserRepository.getInstance()
-        userRepository.findUser("") { snapshot ->
-            val user = snapshot.getValue(CounselReservation::class.java)
-
-            // 사용자의 예약 정보를 가져와 UI에 표시
-            user?.let {
-                val reservationTime = it.startTime
-                val lawyerId = it.lawyerId
-
-                val reservation = reservationTime
-                val id = lawyerId
-                Log.d(TAG, "하잇")
-            }
-        }
+    fun savePostTest() {
+        val uid = Firebase.auth.currentUser!!.uid
+        /*database.reference.child("reservations").child("reservation")
+            .child("uid").push().setValue()*/
     }
-    
-    // getValue(Post :: class.java)
-    // 타입을 정확히 알 수 없어서 형변환 필수
+
 
     @Test
     fun chatRoomTest() {
@@ -159,8 +148,7 @@ class ExampleInstrumentedTest {
         database.reference.child("lawyers").child("lawyer")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    list.add(snapshot.child(lawyer.uid).getValue(Lawyer::class.java)!!)
-                    latch.countDown()
+                    snapshot.children
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -171,8 +159,11 @@ class ExampleInstrumentedTest {
                     latch.countDown() // Make sure to release the latch in case of cancellation or error
                 }
             })
+        if (!latch.await(5, TimeUnit.SECONDS)) {}
+    }
+}
         // Wait for the latch countdown with a timeout
-        if (!latch.await(5, TimeUnit.SECONDS)) {
+
 
             /*val latch = CountDownLatch(1)
         database.reference.child("lawyers").child("lawyer").child("1")
@@ -192,7 +183,7 @@ class ExampleInstrumentedTest {
 
         if (!latch.await(5, TimeUnit.SECONDS)) {
             fail("Timeout waiting for onDataChange callback")
-        }*/
+        }
         }
     }
 
@@ -272,4 +263,4 @@ class ExampleInstrumentedTest {
         // Proceed with further assertions or actions after the callback has completed
         print(value)
     }
-}
+}*/
