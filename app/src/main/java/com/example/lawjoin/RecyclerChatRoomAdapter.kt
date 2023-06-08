@@ -7,43 +7,49 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.lawjoin.chat.ChatRoomActivity
+import com.example.lawjoin.common.AuthUtils
+import com.example.lawjoin.data.model.AuthUserDto
 import com.example.lawjoin.data.model.ChatRoom
 import com.example.lawjoin.data.model.LawyerDto
 import com.example.lawjoin.data.repository.ChatRoomRepository
 import com.example.lawjoin.data.repository.LawyerRepository
 import com.example.lawjoin.databinding.ChatRoomItemBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import java.time.Duration
+import com.google.firebase.storage.FirebaseStorage
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
-
 @RequiresApi(Build.VERSION_CODES.O)
 class RecyclerChatRoomAdapter(private val context: Context) :
     RecyclerView.Adapter<RecyclerChatRoomAdapter.ViewHolder>() {
+    private val storage = FirebaseStorage.getInstance()
     private val formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME
     private val lawyerRepository: LawyerRepository = LawyerRepository.getInstance()
     private val chatRoomRepository: ChatRoomRepository = ChatRoomRepository.getInstance()
     private var chatRooms: MutableList<ChatRoom> = mutableListOf()
     private var chatRoomKeys: MutableList<String> = mutableListOf()
-    private var myUid: String
-    private var auth: FirebaseAuth = Firebase.auth
+    private lateinit var currentUser: AuthUserDto
 
     init {
-        myUid = auth.currentUser?.uid.toString()
-        setupAllChatRoomList()
+        getCurrentUser()
+    }
+
+    private fun getCurrentUser() {
+
+        AuthUtils.getCurrentUser { authUserDto, _ ->
+            currentUser = authUserDto!!
+            setupAllChatRoomList()
+        }
     }
 
     private fun setupAllChatRoomList() {
-        chatRoomRepository.findAllChatRoomsByUid(myUid) {
+        chatRoomRepository.findAllChatRoomsByUid(currentUser.uid!!) {
             chatRooms.clear()
             for (data in it.children) {
                 chatRooms.add(data.getValue(ChatRoom::class.java)!!)
@@ -59,20 +65,36 @@ class RecyclerChatRoomAdapter(private val context: Context) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val opponent = chatRooms[position].users.first { it != myUid }
+
+        val opponent = chatRooms[position].users.first { it != currentUser.uid }
         lawyerRepository.findLawyerById(opponent) {
             holder.chatProfile = it.profile_url
             holder.opponentUser = LawyerDto(it.uid, it.name, it.email)
             holder.receiver.text = it.name
         }
 
-        holder.layout.setOnClickListener() {
+        when (opponent) {
+            "GPT" -> {
+                retrieveProfileUrl("profile/GPT.png") { url ->
+                    setProfileAndConfigureScreen(holder, url)
+                }
+            }
+            "BOT" -> {
+                retrieveProfileUrl("profile/BOT.png") { url ->
+                    setProfileAndConfigureScreen(holder, url)
+                }
+            }
+            else -> {
+                setProfileAndConfigureScreen(holder,holder.chatProfile)
+            }
+        }
+
+        holder.layout.setOnClickListener {
             val intent = Intent(context, ChatRoomActivity::class.java)
             intent.putExtra("chat_room", chatRooms[position])
             intent.putExtra("receiver", holder.opponentUser)
             intent.putExtra("chat_room_key", chatRoomKeys[position])
             context.startActivity(intent)
-            (context as AppCompatActivity).finish()
         }
 
         if (chatRooms[position].messages.isNotEmpty()) {
@@ -80,6 +102,24 @@ class RecyclerChatRoomAdapter(private val context: Context) :
         }
         setupMessageCount(holder, position)
     }
+
+    private fun retrieveProfileUrl(path: String, callback: (String) -> Unit) {
+        storage.reference.child(path)
+            .downloadUrl.addOnSuccessListener { uri ->
+                val url = uri.toString()
+                callback(url)
+            }
+    }
+
+    private fun setProfileAndConfigureScreen(holder: ViewHolder, url: String) {
+        holder.chatProfile = url
+
+        Glide.with(context)
+            .load(holder.chatProfile)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(holder.profileImage)
+    }
+
 
     private fun setupLastMessageAndDate(holder: ViewHolder, position: Int) {
         val lastMessage = chatRooms[position].messages.values
@@ -92,7 +132,7 @@ class RecyclerChatRoomAdapter(private val context: Context) :
     private fun setupMessageCount(holder: ViewHolder, position: Int) {
         val unconfirmedCount =
             chatRooms[position].messages.values.filter {
-                it.confirmed && it.senderUid != myUid
+                !it.confirmed && it.senderUid != currentUser.uid
             }.size
 
         if (unconfirmedCount > 0) {
@@ -131,5 +171,6 @@ class RecyclerChatRoomAdapter(private val context: Context) :
         var lastMessage = binding.tvChatRoomText
         var date = binding.tvChatDate
         var unreadCount = binding.tvChatRoomNotificationCount
+        var profileImage = binding.ivChatProfile
     }
 }

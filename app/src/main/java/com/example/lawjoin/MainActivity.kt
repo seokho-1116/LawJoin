@@ -7,10 +7,13 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.example.lawjoin.databinding.ActivityLawWordBinding
-import com.example.lawjoin.databinding.ActivityLawyerListBinding
+import com.example.lawjoin.account.AccountManagementActivity
+import com.example.lawjoin.common.AuthUtils
+import com.example.lawjoin.data.model.AuthUserDto
+import com.example.lawjoin.data.model.LawWord
 import com.example.lawjoin.databinding.ActivityMainBinding
+import com.example.lawjoin.lawyer.LawyerListActivity
+import com.example.lawjoin.post.BoardFreeActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -19,6 +22,7 @@ import com.google.firebase.ktx.Firebase
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var currentUser: AuthUserDto
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,16 +35,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeView() {
+        AuthUtils.getCurrentUser { authUserDto, _ ->
+            currentUser = authUserDto!!
 
-        // 인텐트로 보내 필요 없이 어느 액티비티에서나 사용 가능함
-       // auth.currentUser.
-        val user = auth.currentUser
-        Glide.with(this)
-            .load(user?.photoUrl)
-            .placeholder(R.drawable.ic_chat_user_default_profile) // Optional placeholder image while loading
-            .error(R.drawable.ic_chat_user_default_profile) // Optional error image if the loading fails
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .into(binding.btnChatProfile)
+            Glide.with(this)
+                .load(currentUser.chatProfile)
+                .circleCrop()
+                .into(binding.btnChatProfile)
+        }
 
         binding.ibMainMessage.isClickable = false
         binding.ibMainMessage.isPressed = true
@@ -48,22 +50,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun initializeListener() {
         //TODO: 변호사 리스트 액티비티 추가
-        //TODO: 디자인 일관성으로 하단에 바 추가하기
         binding.btnChatProfile.setOnClickListener {
-            //TODO: 내정보로 이동
+            startActivity(Intent(this, AccountManagementActivity::class.java))
         }
         binding.btnStartChat.setOnClickListener {
-            startActivity(Intent(this@MainActivity, ActivityLawyerListBinding::class.java))
+            startActivity(Intent(this, LawyerListActivity::class.java))
             finish()
         }
         binding.ibMainLawyer.setOnClickListener {
-            startActivity(Intent(this@MainActivity, ActivityLawyerListBinding::class.java))
+            startActivity(Intent(this, LawyerListActivity::class.java))
         }
         binding.ibMainLawWord.setOnClickListener {
-            startActivity(Intent(this@MainActivity, ActivityLawWordBinding::class.java))
+            startActivity(Intent(this, LawWord::class.java))
         }
         binding.ibMainPost.setOnClickListener {
             //TODO: 게시글 리스트로
+            startActivity(Intent(this, BoardFreeActivity::class.java))
         }
         binding.edtChatSearch
     }
