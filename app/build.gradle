@@ -16,6 +16,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
 
     buildTypes {
@@ -49,12 +52,14 @@ dependencies {
     //custom timepicker
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
 
-    //naver
-    implementation("com.navercorp.nid:oauth:5.5.0")
+    //kakao
+    implementation "com.kakao.sdk:v2-user:2.13.0"
+
     //google
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
 
     //firebase
+    implementation 'com.google.firebase:firebase-storage-ktx:20.2.0'
     implementation 'com.google.firebase:firebase-firestore-ktx:24.6.0'
     implementation platform('com.google.firebase:firebase-bom:32.0.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'

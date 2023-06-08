@@ -22,7 +22,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ly_reservation_info"
         android:layout_width="0dp"
-        android:layout_height="250dp"
+        android:layout_height="150dp"
         android:background="@drawable/bg_reservation_info"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_law_counsel_reservation_title"
@@ -51,7 +51,7 @@
             android:drawablePadding="10dp"
             android:textColor="#6798E1"
             android:layout_marginStart="40dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="30dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:drawableLeftCompat="@drawable/ic_reservation_office" />

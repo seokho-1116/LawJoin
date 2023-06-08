@@ -2,6 +2,7 @@ package com.example.lawjoin.data.model
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import java.io.Serializable
 import java.time.ZonedDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -23,7 +24,8 @@ class Lawyer(
     val unavailableTime: List<String> = listOf(),
     val reviewCount: Int = 0,
     val likeCount: Int = 0
-) {
+//TODO: 성별
+) : Serializable{
 
     fun toData(): CharSequence {
         return "변호사 이름: $name\n법률 사무소 이름: ${office.name}\n" +

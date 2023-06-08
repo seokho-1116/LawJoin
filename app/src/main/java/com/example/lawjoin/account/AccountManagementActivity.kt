@@ -2,9 +2,11 @@ package com.example.lawjoin.account
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +17,7 @@ import com.example.lawjoin.data.objects.MenuObjects
 class AccountManagementActivity : AppCompatActivity() {
     var context : Context = this
     lateinit var menuAdapter : MenuAdapter
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_management)
@@ -46,6 +49,7 @@ class AccountManagementActivity : AppCompatActivity() {
         reservationCancelBtn.setOnClickListener(){
 
         }
+
         /*reservationChangeBtn.setOnClickListener(){
             val intent = Intent(context, ).apply{
                 putExtra("data", )

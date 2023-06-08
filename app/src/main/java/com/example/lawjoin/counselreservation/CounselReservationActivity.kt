@@ -7,10 +7,13 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.lawjoin.account.AccountManagementActivity
+import com.example.lawjoin.common.AuthUtils
 import com.example.lawjoin.data.model.CounselReservation
 import com.example.lawjoin.data.model.Lawyer
 import com.example.lawjoin.databinding.ActivityCounselReservationBinding
 import com.example.lawjoin.common.ViewModelFactory
+import com.example.lawjoin.data.model.AuthUserDto
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -32,18 +35,19 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
     DatePickerDialog.OnDateSetListener {
     private val formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME
     private lateinit var binding : ActivityCounselReservationBinding
-    private lateinit var auth: FirebaseAuth
     private lateinit var timePickerDialog: TimePickerDialog
     private lateinit var datePickerDialog: DatePickerDialog
+
     private lateinit var counselReservationViewModel: CounselReservationViewModel
+
+    private lateinit var currentUser: AuthUserDto
+
     private val calendar = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.of("UTC")))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityCounselReservationBinding.inflate(layoutInflater)
-
-        auth = Firebase.auth
 
         counselReservationViewModel = ViewModelProvider(this, ViewModelFactory())[CounselReservationViewModel::class.java]
 
@@ -81,18 +85,20 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
             showTimePicker(lawyer)
         }
 
-        /**
-         * TODO: 현재 사용자 정보 가져오기, 예약 끝나고 내 정보로 이동해주기
-         */
+        AuthUtils.getCurrentUser { authUserDto, _ ->
+            currentUser = authUserDto!!
+        }
+
         binding.btnConfirmReservation.setOnClickListener {
             counselReservationViewModel.updateUnavailableTimeOfLawyer(lawyer.uid, datePickerToZonedDateTime().toString())
             val counselReservation = CounselReservation(
                 datePickerToZonedDateTime().toString(),
-                auth.currentUser?.uid,
+                currentUser.uid,
                 lawyer.uid,
                 binding.edtReservationDetail.text.toString()
             )
             counselReservationViewModel.saveCounselReservation(counselReservation)
+            startActivity(Intent(this, AccountManagementActivity::class.java))
         }
 
         setContentView(binding.root)
