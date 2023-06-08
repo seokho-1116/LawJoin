@@ -10,8 +10,8 @@ import com.example.lawjoin.data.repository.LawyerRepository
 
 @RequiresApi(Build.VERSION_CODES.O)
 class CounselReservationViewModel : ViewModel() {
-    private val counselReservationRepository = CounselReservationRepository()
-    private val lawyerRepository = LawyerRepository()
+    private val counselReservationRepository = CounselReservationRepository.getInstance()
+    private val lawyerRepository = LawyerRepository.getInstance()
 
     fun updateUnavailableTimeOfLawyer(id: String, time: String) {
         lawyerRepository.updateUnavailableTime(id, time)

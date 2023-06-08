@@ -1,4 +1,3 @@
-//firebase
 buildscript {
     repositories {
         google()

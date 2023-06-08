@@ -30,7 +30,7 @@
     <string name="start_page3_text1">상담 정보를 공유하세요</string>
     <string name="start_page3_text2">다른 사용자들과 게시판을 통해서 정보를 공유할 수 있습니다. 상담받은 후기를 생생하게 전해주세요.</string>
     <string name="start_page_skip">넘김</string>
-    <string name="start_page_next">다음</string>
+    <string name="start_page_next">시작하기</string>
 
     <string name="post_title">게시글</string>
     <string name="notice_title">공지사항</string>
@@ -59,4 +59,28 @@
     <string name="msg_write_post">글쓰기</string>
     <string name="msg_reservation_time">시간</string>
     <string name="msg_write_comment">댓글 쓰기</string>
+    <string name="msg_welcome">환영합니다</string>
+    <string name="msg_account_login">계정 로그인</string>
+    <string name="msg_account_signup">회원가입</string>
+    <string name="msg_login_google">G 구글로 로그인</string>
+    <string name="msg_login_with_email">이메일을 사용해 계정 로그인</string>
+    <string name="msg_signup_with_email">이메일을 사용해 계정 회원가입</string>
+    <string name="msg_no_account">계정이 없으신가요?</string>
+    <string name="msg_signup">회원가입</string>
+    <string name="msg_input_name">이름을 입력하세요</string>
+    <string name="msg_input_email">이메일을 입력하세요</string>
+    <string name="msg_input_password">비밀번호를 입력하세요</string>
+    <string name="msg_try_login">로그인하기</string>
+    <string name="msg_try_signup">가입하기</string>
+    <string name="dsc_login_image">변호사들 사이의 대화를 나타낸다.</string>
+    <string name="msg_message_profile">메시지 프로필</string>
+    <string name="msg_chat_is_confirmed">1</string>
+    <string name="msg_post_data">제출하기</string>
+    <string name="msg_lawyer_input_name">이름을 적어주세요</string>
+    <string name="msg_input_lawyer_office">소속 기관의 이름을 적어주세요</string>
+    <string name="msg_input_lawyer_office_phone">소속 기관의 번호를 적어주세요</string>
+    <string name="msg_input_lawyer_phone">핸드폰 번호를 적어주세요</string>
+    <string name="msg_input_lawyer_career">경력을 적어주세요</string>
+    <string name="msg_input_lawyer_certificate">취득한 자격증을 적어주세요</string>
+    <string name="dsc_sign_up_image">회원가입 이미지</string>
 </resources>

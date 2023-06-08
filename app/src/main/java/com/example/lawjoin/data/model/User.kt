@@ -30,6 +30,6 @@ class User(
         null
     )
 
-    constructor(uid: String?, email: String?, name: String?, phone: String?, chatProfile: String?) :
-            this(uid, name, email, phone, listOf(), listOf(), listOf(), listOf(), ZonedDateTime.now().toString(), chatProfile)
+    constructor(uid: String?, email: String?, name: String?, chatProfile: String?) :
+            this(uid, name, email, "", listOf(), listOf(), listOf(), listOf(), ZonedDateTime.now().toString(), chatProfile)
 }
