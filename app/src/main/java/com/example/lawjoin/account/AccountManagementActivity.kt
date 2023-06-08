@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -16,26 +15,36 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lawjoin.MainActivity
 import com.example.lawjoin.R
+import com.example.lawjoin.common.AuthUtils
 import com.example.lawjoin.counselreservation.CounselReservationActivity
-import com.example.lawjoin.data.model.CounselReservation
+import com.example.lawjoin.data.model.AuthUserDto
 import com.example.lawjoin.data.objects.MenuObjects
-import com.example.lawjoin.data.repository.UserRepository
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class AccountManagementActivity : AppCompatActivity() {
     private var context : Context = this
-    private val auth = Firebase.auth
-    lateinit private var menuAdapter : MenuAdapter
-    lateinit private var reservationDate : TextView
-    lateinit private var reservationLawyer : TextView
+    private lateinit var database: DatabaseReference
+    private lateinit var currentUser: AuthUserDto
+    private lateinit var menuAdapter : MenuAdapter
+    private lateinit var reservationDate : TextView
+    private lateinit var reservationLawyer : TextView
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_management)
 
-        val userRepository = UserRepository.getInstance()
+        database = Firebase.database.reference
         reservationDate = findViewById(R.id.reservationDate)
         reservationLawyer = findViewById(R.id.reservationLawyer)
         val menuObjects = ArrayList<MenuObjects>()
@@ -57,10 +66,11 @@ class AccountManagementActivity : AppCompatActivity() {
         rcMenuList.layoutManager = menuLayoutManager
         rcMenuList.adapter =  menuAdapter
 
-        var currentUser : FirebaseUser? = auth.currentUser
+        AuthUtils.getCurrentUser { authUserDto, _ ->
+            currentUser = authUserDto!!
+        }
         val userID = currentUser?.uid
         val userIDString: String = userID.toString()
-        // auth.currentUser 를 이용하여 userID에 현재 사용자 아이디값을 받고, String? -> String 변환
 
         mainBtn.setOnClickListener(){
             val intent = Intent(this, MainActivity::class.java)
@@ -68,11 +78,10 @@ class AccountManagementActivity : AppCompatActivity() {
         }
         reservationCancelBtn.setOnClickListener(){
             showSettingPopup(userIDString)
-            reservationCancel(userIDString)
         }
         reservationChangeBtn.setOnClickListener(){
             Toast.makeText(context, "변경할 날짜를 선택해주세요.", Toast.LENGTH_SHORT).show()
-            val intent = Intent(context, CounselReservationActivity::class.java)
+            val intent = Intent(this, CounselReservationActivity::class.java)
             startActivity(intent)
         }
 
@@ -80,21 +89,31 @@ class AccountManagementActivity : AppCompatActivity() {
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun displayReservationDetails(userId: String) {
-        val userRepository = UserRepository.getInstance()
+        val reservationsRef = Firebase.database.getReference("reservations").child("reservation").child(userId)
+        reservationsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    val startTime = dataSnapshot.child("startTime").getValue(String::class.java)
+                    val lawyerId = dataSnapshot.child("lawyerId").getValue(String::class.java)
+                    val formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME
+                    val dbDataTime = ZonedDateTime.parse(startTime.toString(), formatter)
 
-        userRepository.findUser(userId) { snapshot ->
-            val user = snapshot.getValue(CounselReservation::class.java)
-
-            // 사용자의 예약 정보를 가져와 UI에 표시
-            user?.let {
-                val reservationTime = it.startTime
-                val lawyerId = it.lawyerId
-
-                reservationDate.text = reservationTime
-                reservationLawyer.text = lawyerId
+                    if (startTime == null || lawyerId == null){
+                        reservationDate.setText("예약 일정이 없습니다.")
+                        reservationLawyer.setText("-")
+                    }
+                    else {
+                        reservationDate.setText(dbDataTime.withZoneSameInstant
+                            (TimeZone.getDefault().toZoneId()).toString())
+                        reservationLawyer.setText("변호사 " + lawyerId)
+                    }
+                }
             }
-        }
+            override fun onCancelled(databaseError: DatabaseError) {
+            }
+        })
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun showSettingPopup(userId: String) {
         val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = inflater.inflate(R.layout.alert_popup, null)
@@ -105,17 +124,19 @@ class AccountManagementActivity : AppCompatActivity() {
             .setTitle("예약 취소")
             .setPositiveButton("확인") { dialog, which ->
                 reservationCancel(userId)
-                Toast.makeText(applicationContext, "예약이 취소되었습니다.", Toast.LENGTH_SHORT)
+                Toast.makeText(applicationContext, "예약이 취소되었습니다.", Toast.LENGTH_SHORT).show()
             }
             .setNeutralButton("취소", null)
             .create()
         alertDialog.setView(view)
         alertDialog.show()
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun reservationCancel(userId: String) {
-        val userRepository = UserRepository.getInstance()
-        userRepository.saveUser(userId) { databaseReference ->
-            databaseReference.child("reservation").removeValue()
-        }
+        val reservationsRef = Firebase.database.getReference("reservations").child("reservation").child(userId)
+        reservationsRef.child("startTime").setValue(null)
+        reservationsRef.child("lawyerId").setValue(null)
+        reservationsRef.child("summary").setValue(null)
+        displayReservationDetails(userId)
     }
 }
