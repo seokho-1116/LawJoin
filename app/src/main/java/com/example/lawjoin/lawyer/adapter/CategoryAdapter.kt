@@ -1,4 +1,4 @@
-package com.example.lawjoin.lawyer
+package com.example.lawjoin.lawyer.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,32 +9,29 @@ import com.example.lawjoin.R
 import android.content.Context
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.Toast
-import com.example.lawjoin.data.objects.CategoryObjects
-import com.example.lawjoin.data.objects.LawyerObjects
+import com.example.lawjoin.data.model.Lawyer
 
-class CategoryAdapter(private val categorySet: ArrayList<CategoryObjects>, val context: Context, val lawyerObjects: ArrayList<LawyerObjects>)
+class CategoryAdapter(private val categories: List<String>, val context: Context, val lawyers: List<Lawyer>)
     : RecyclerView.Adapter<CategoryAdapter.ViewHolder>(), Filterable {
 
-    private var excelSearchList: List<LawyerObjects>? = null
+    private var excelSearchList: List<Lawyer>? = null
+
+    init {
+        this.excelSearchList = lawyers
+    }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val itemBoardContent: Button
+        private val itemBoardContent: Button
         init {
             itemBoardContent = view.findViewById(R.id.item_board_content)
         }
 
-        fun bind(item: CategoryObjects) {
-            itemBoardContent.text = item.category
+        fun bind(item: String) {
+            itemBoardContent.text = item
 
             itemView.setOnClickListener {
-                Toast.makeText(context, "시발", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    init{
-        this.excelSearchList = lawyerObjects
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -44,26 +41,26 @@ class CategoryAdapter(private val categorySet: ArrayList<CategoryObjects>, val c
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bind(categorySet[position])
+        viewHolder.bind(categories[position])
     }
-    override fun getItemCount() = categorySet.size
+
+    override fun getItemCount() = categories.size
 
     override fun getFilter() : Filter {
         return object : Filter() {
             override fun performFiltering(charSequence: CharSequence): FilterResults {
                 val charString = charSequence.toString()
-                if (charString.isEmpty()){
-                    excelSearchList = lawyerObjects
+                excelSearchList = if (charString.isEmpty()){
+                    lawyers
                 } else {
-                    val filteredList = ArrayList<LawyerObjects>()
+                    val filteredList = mutableListOf<Lawyer>()
 
-                    for (row in lawyerObjects){
-                        if (row.name.toLowerCase().contains(charString.toLowerCase()))
-                        {
+                    for (row in lawyers){
+                        if (row.name.toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row)
                         }
                     }
-                    excelSearchList = filteredList
+                    filteredList
                 }
                 val filterResults = FilterResults()
                 filterResults.values = excelSearchList
@@ -71,13 +68,10 @@ class CategoryAdapter(private val categorySet: ArrayList<CategoryObjects>, val c
             }
 
             override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
-                excelSearchList = filterResults.values as ArrayList <LawyerObjects>
+                excelSearchList = filterResults.values as MutableList<Lawyer>
                 notifyDataSetChanged()
             }
         }
     }
-
-
-
 }
 

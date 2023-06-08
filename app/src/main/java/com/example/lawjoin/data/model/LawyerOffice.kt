@@ -2,6 +2,7 @@ package com.example.lawjoin.data.model
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import java.io.Serializable
 import java.time.ZonedDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -11,7 +12,7 @@ class LawyerOffice (
     val openingTime: String,
     val closingTime: String,
     val location: String
-    ) {
+    ) : Serializable {
     constructor(): this(
         "",
         "",

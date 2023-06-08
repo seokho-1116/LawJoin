@@ -2,6 +2,7 @@ package com.example.lawjoin.data.model
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import java.io.Serializable
 import java.time.ZonedDateTime
 
 
@@ -11,6 +12,6 @@ class CounselReservation(
     val userId: String?,
     val lawyerId: String?,
     val summary: String
-) {
+) : Serializable {
     constructor() : this(ZonedDateTime.now().toString(), null, null, "")
 }
