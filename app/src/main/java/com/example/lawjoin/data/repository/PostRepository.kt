@@ -7,7 +7,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class PostRepository {
+class PostRepository private constructor() {
     private val database = Firebase.database.reference.child("posts")
 
     companion object{

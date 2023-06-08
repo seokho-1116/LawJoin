@@ -9,15 +9,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.lawjoin.R
-import com.example.lawjoin.common.ViewModelFactory
 import com.example.lawjoin.data.model.Lawyer
-import com.example.lawjoin.lawyerdetail.LawyerDetailViewModel
+import kotlin.text.StringBuilder
 
 @RequiresApi(Build.VERSION_CODES.O)
-class LawyerInfoFragment(): Fragment() {
-    private lateinit var lawyerDetailViewModel : LawyerDetailViewModel
+class LawyerInfoFragment(val lawyer: Lawyer): Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,48 +28,51 @@ class LawyerInfoFragment(): Fragment() {
     }
 
     private fun setupLawyerInfo(view: View) {
-        lawyerDetailViewModel = ViewModelProvider(requireActivity(), ViewModelFactory())[LawyerDetailViewModel::class.java]
-        lawyerDetailViewModel.lawyer.observe(viewLifecycleOwner) {lawyer ->
-            val lyLawyerInfo: LinearLayout = view.findViewById(R.id.sv_ly_lawyer_info)
-            val lyLawyerOfficeInfo: LinearLayout = view.findViewById(R.id.sv_ly_lawyer_office)
-            val tvLawyerName = lyLawyerInfo.findViewById<TextView>(R.id.tv_lawyer_name)
+        val tvCategory: TextView = view.findViewById(R.id.tv_categories)
+        val tvCareer: TextView = view.findViewById(R.id.tv_career)
+        val tvCertificate: TextView = view.findViewById(R.id.tv_certificates)
+        val lyLawyerInfo: LinearLayout = view.findViewById(R.id.sv_ly_lawyer_info)
+        val lyLawyerOfficeInfo: LinearLayout = view.findViewById(R.id.sv_ly_lawyer_office)
+        val tvLawyerName = lyLawyerInfo.findViewById<TextView>(R.id.tv_lawyer_name)
 
-            tvLawyerName.text = lawyer.name
+        tvLawyerName.text = lawyer.name
 
-            for (category in lawyer.categories) {
-                val tv = TextView(context)
-                tv.text = category
-                lyLawyerInfo.addView(tv)
-            }
-
-            for (career in lawyer.career) {
-                val tv = TextView(context)
-                tv.text = career
-                lyLawyerInfo.addView(tv)
-            }
-
-            for (certificate in lawyer.certificate) {
-                val tv = TextView(context)
-                tv.text = certificate
-                lyLawyerInfo.addView(tv)
-            }
-
-            val introduce = TextView(context)
-            introduce.text = lawyer.introduce
-            lyLawyerInfo.addView(introduce)
-
-            val tvLawyerOfficeName =
-                lyLawyerOfficeInfo.findViewById<TextView>(R.id.tv_lawyer_office_name)
-            tvLawyerOfficeName.text = lawyer.office.name
-            val tvLawyerOfficeLocation =
-                lyLawyerOfficeInfo.findViewById<TextView>(R.id.tv_lawyer_office_location)
-            tvLawyerOfficeLocation.text = lawyer.office.location
-            val tvLawyerOfficePhone =
-                lyLawyerOfficeInfo.findViewById<TextView>(R.id.tv_lawyer_office_phone)
-            tvLawyerOfficePhone.text = lawyer.office.phone
-            val tvLawyerOfficeOpeningHours =
-                lyLawyerOfficeInfo.findViewById<TextView>(R.id.tv_lawyer_office_opening_hours)
-            tvLawyerOfficeOpeningHours.text = lawyer.office.openingTime.toString()
+        val categoryBuilder = StringBuilder().appendLine("전문 분야")
+        for (category in lawyer.categories) {
+            categoryBuilder.append("-")
+            categoryBuilder.appendLine(category)
         }
+        tvCategory.text = categoryBuilder.toString()
+
+        val careerBuilder = StringBuilder().appendLine("경력")
+        for (career in lawyer.career) {
+            careerBuilder.append("-")
+            categoryBuilder.appendLine(career)
+        }
+        tvCareer.text = careerBuilder.toString()
+
+        val certificateBuilder = StringBuilder().appendLine("자격증")
+        for (certificate in lawyer.certificate) {
+            certificateBuilder.append("-")
+            certificateBuilder.appendLine(certificate)
+        }
+        tvCertificate.text = certificateBuilder.toString()
+
+        val introduce = TextView(context)
+        introduce.text = lawyer.introduce
+        lyLawyerInfo.addView(introduce)
+
+        val tvLawyerOfficeName =
+            lyLawyerOfficeInfo.findViewById<TextView>(R.id.tv_lawyer_office_name)
+        tvLawyerOfficeName.text = lawyer.office.name
+        val tvLawyerOfficeLocation =
+            lyLawyerOfficeInfo.findViewById<TextView>(R.id.tv_lawyer_office_location)
+        tvLawyerOfficeLocation.text = lawyer.office.location
+        val tvLawyerOfficePhone =
+            lyLawyerOfficeInfo.findViewById<TextView>(R.id.tv_lawyer_office_phone)
+        tvLawyerOfficePhone.text = lawyer.office.phone
+        val tvLawyerOfficeOpeningHours =
+            lyLawyerOfficeInfo.findViewById<TextView>(R.id.tv_lawyer_office_opening_hours)
+        tvLawyerOfficeOpeningHours.text = lawyer.office.openingTime.toString()
     }
 }

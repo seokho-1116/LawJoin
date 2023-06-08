@@ -13,7 +13,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 @RequiresApi(Build.VERSION_CODES.O)
-class LawyerRepository {
+class LawyerRepository private constructor() {
 
     private val databaseReference: DatabaseReference = Firebase.database.reference.child("lawyers")
 
@@ -40,7 +40,7 @@ class LawyerRepository {
             })
     }
 
-    fun getAllLawyers(callback: (List<Lawyer>) -> Unit){
+    fun findAllLawyers(callback: (List<Lawyer>) -> Unit){
         databaseReference
             .child("lawyer")
             .addListenerForSingleValueEvent(object: ValueEventListener {
