@@ -1,0 +1,86 @@
+<resources>
+    <string name="app_name">LawJoin</string>
+    <string name="chat_header_title">Sandra Dorsett</string>
+    <string name="tv_law_word_main">법률 용어 해석</string>
+    <string name="chat_edt_hint">Write here</string>
+    <string name="btn_law_word_back">단어 목차로</string>
+    <string name="str_law_word_previous">이전</string>
+    <string name="str_law_word_next">다음</string>
+    <string name="str_lawyer_list_main">시흥시 변호사 찾기</string>
+    <string name="str_edt_lawyer_search">검색</string>
+    <string name="str_law_word_title">법률 용어 찾기</string>
+
+    <string name="counsel_board_title">상담 게시판</string>
+    <string name="free_board_title">자유 게시판</string>
+    <string name="free_board_search">검색</string>
+    <string name="free_board_write">글쓰기</string>
+
+    <string name="write_title">제목</string>
+    <string name="write_main_content">내용</string>
+    <string name="write_write">글쓰기</string>
+    <string name="write_anynomous">익명으로 쓰기</string>
+    <string name="write_read_only_lawyer">변호사만 보기</string>
+
+    <string name="loadong_lawjoin">법Join</string>
+
+    <string name="start_page1_text1">무료로 법률 상담을 예약하세요</string>
+    <string name="start_page1_text2">시흥시에서 제공하는 무료 법률 상담 및 조언을 받을 수 있습니다. 편리하게 시간을 예약하세요. .</string>
+    <string name="start_page2_text1">다양한 법률 정보를 찾아보세요</string>
+    <string name="start_page2_text2">앱에서 제공해주는 다양한 법률 정보를 확인하세요. 특정 법률 정보를 북마크 할 수 있습니다. </string>
+    <string name="start_page3_text1">상담 정보를 공유하세요</string>
+    <string name="start_page3_text2">다른 사용자들과 게시판을 통해서 정보를 공유할 수 있습니다. 상담받은 후기를 생생하게 전해주세요.</string>
+    <string name="start_page_skip">넘김</string>
+    <string name="start_page_next">시작하기</string>
+
+    <string name="post_title">게시글</string>
+    <string name="notice_title">공지사항</string>
+    <string name="msg_career">경력</string>
+    <string name="msg_certificate">자격증</string>
+    <string name="msg_category">전문 분야</string>
+    <string name="msg_lawyer_info">변호사 정보</string>
+    <string name="msg_counsel_case">상담 사례</string>
+    <string name="msg_counsel_review">상담 후기</string>
+    <string name="msg_law_counsel_reservation">법률 상담 예약</string>
+    <string name="msg_reservation_detail">상담 내용</string>
+    <string name="hint_reservation_derail">상담 주제와 내용을 간략히 적어주세요.</string>
+    <string name="msg_reservation_confirm">예약하기</string>
+    <string name="msg_reservation_date">날짜</string>
+    <string name="msg_like">좋아요</string>
+    <string name="msg_share">공유하기</string>
+    <string name="msg_start_chat">채팅하기</string>
+    <string name="msg_start_reservation">상담 예약</string>
+    <string name="src_main_title">법조인 Chat</string>
+    <string name="msg_chat">채팅</string>
+    <string name="msg_lawyer">변호사</string>
+    <string name="msg_law_word">법률 용어</string>
+    <string name="msg_post">게시판</string>
+    <string name="msg_write_with_anonymous">익명으로 쓰기</string>
+    <string name="msg_only_see_lawyer">변호사만 보기</string>
+    <string name="msg_write_post">글쓰기</string>
+    <string name="msg_reservation_time">시간</string>
+    <string name="msg_write_comment">댓글 쓰기</string>
+    <string name="msg_welcome">환영합니다</string>
+    <string name="msg_account_login">계정 로그인</string>
+    <string name="msg_account_signup">회원가입</string>
+    <string name="msg_login_google">G 구글로 로그인</string>
+    <string name="msg_login_with_email">이메일을 사용해 계정 로그인</string>
+    <string name="msg_signup_with_email">이메일을 사용해 계정 회원가입</string>
+    <string name="msg_no_account">계정이 없으신가요?</string>
+    <string name="msg_signup">회원가입</string>
+    <string name="msg_input_name">이름을 입력하세요</string>
+    <string name="msg_input_email">이메일을 입력하세요</string>
+    <string name="msg_input_password">비밀번호를 입력하세요</string>
+    <string name="msg_try_login">로그인하기</string>
+    <string name="msg_try_signup">가입하기</string>
+    <string name="dsc_login_image">변호사들 사이의 대화를 나타낸다.</string>
+    <string name="msg_message_profile">메시지 프로필</string>
+    <string name="msg_chat_is_confirmed">1</string>
+    <string name="msg_post_data">제출하기</string>
+    <string name="msg_lawyer_input_name">이름을 적어주세요</string>
+    <string name="msg_input_lawyer_office">소속 기관의 이름을 적어주세요</string>
+    <string name="msg_input_lawyer_office_phone">소속 기관의 번호를 적어주세요</string>
+    <string name="msg_input_lawyer_phone">핸드폰 번호를 적어주세요</string>
+    <string name="msg_input_lawyer_career">경력을 적어주세요</string>
+    <string name="msg_input_lawyer_certificate">취득한 자격증을 적어주세요</string>
+    <string name="dsc_sign_up_image">회원가입 이미지</string>
+</resources>
