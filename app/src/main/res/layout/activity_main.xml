@@ -64,7 +64,7 @@
             tools:layout_editor_absoluteX="4dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <EditText
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/edt_chat_search"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

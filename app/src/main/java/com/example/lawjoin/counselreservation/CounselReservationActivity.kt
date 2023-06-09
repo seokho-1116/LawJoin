@@ -14,9 +14,6 @@ import com.example.lawjoin.data.model.Lawyer
 import com.example.lawjoin.databinding.ActivityCounselReservationBinding
 import com.example.lawjoin.common.ViewModelFactory
 import com.example.lawjoin.data.model.AuthUserDto
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import com.wdullaer.materialdatetimepicker.time.Timepoint
@@ -42,7 +39,7 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
 
     private lateinit var currentUser: AuthUserDto
 
-    private val calendar = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.of("UTC")))
+    private val calendar = Calendar.getInstance(TimeZone.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,15 +87,22 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
         }
 
         binding.btnConfirmReservation.setOnClickListener {
-            counselReservationViewModel.updateUnavailableTimeOfLawyer(lawyer.uid, datePickerToZonedDateTime().toString())
-            val counselReservation = CounselReservation(
-                datePickerToZonedDateTime().toString(),
-                currentUser.uid,
-                lawyer.uid,
-                binding.edtReservationDetail.text.toString()
-            )
-            counselReservationViewModel.saveCounselReservation(counselReservation)
-            startActivity(Intent(this, AccountManagementActivity::class.java))
+            counselReservationViewModel.existCounselReservation(currentUser.uid!!) {isDataExist ->
+                if (isDataExist) {
+                    Toast.makeText(this, "기존이 예약이 존재합니다. 기존 예약을 취소해주세요", Toast.LENGTH_SHORT).show()
+                } else {
+                    counselReservationViewModel.updateUnavailableTimeOfLawyer(lawyer.uid, datePickerToZonedDateTime().toString())
+                    val counselReservation = CounselReservation(
+                        datePickerToZonedDateTime().toString(),
+                        currentUser.uid,
+                        lawyer.uid,
+                        binding.edtReservationDetail.text.toString()
+                    )
+                    counselReservationViewModel.saveCounselReservation(counselReservation)
+                    startActivity(Intent(this, AccountManagementActivity::class.java))
+                    finish()
+                }
+            }
         }
 
         setContentView(binding.root)
@@ -116,8 +120,13 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
                 .withZoneSameInstant(TimeZone.getDefault().toZoneId())
             Timepoint(date.hour, date.minute, date.second)
         }
-
         timePickerDialog.setDisabledTimes(unavailableTime.toTypedArray())
+
+        timePickerDialog.setMinTime(
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            calendar.get(Calendar.SECOND) + 1
+        )
 
         timePickerDialog.show(supportFragmentManager, "Datepickerdialog")
     }
@@ -150,7 +159,7 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
     private fun datePickerToZonedDateTime(): ZonedDateTime {
         val selectedDay = datePickerDialog.selectedDay
         val selectedTime = timePickerDialog.selectedTime
-        return LocalDateTime.of(LocalDate.of(selectedDay.year, selectedDay.month, selectedDay.day),
+        return LocalDateTime.of(LocalDate.of(selectedDay.year, selectedDay.month.plus(1), selectedDay.day),
             LocalTime.of(selectedTime.hour, selectedTime.minute, selectedTime.second)).atZone(ZoneId.of("UTC"))
     }
 

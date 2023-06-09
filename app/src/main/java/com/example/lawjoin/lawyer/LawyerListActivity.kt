@@ -2,16 +2,12 @@ package com.example.lawjoin.lawyer
 
 import android.os.Build
 import android.os.Bundle
-import android.widget.SearchView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.lawjoin.R
 import com.example.lawjoin.common.ViewModelFactory
-import com.example.lawjoin.data.objects.CategoryObjects
-import com.example.lawjoin.data.objects.LawyerObjects
 import com.example.lawjoin.data.repository.LawyerRepository
 import com.example.lawjoin.databinding.ActivityLawyerListBinding
 import com.example.lawjoin.lawyer.adapter.CategoryAdapter

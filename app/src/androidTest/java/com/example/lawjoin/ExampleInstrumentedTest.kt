@@ -190,8 +190,8 @@ class ExampleInstrumentedTest {
             office = LawyerOffice(
                 name = "Law Firm",
                 phone = "123-456-7890",
-                openingTime = "9:00 AM",
-                closingTime = "5:00 PM",
+                openingTime = "09:00",
+                closingTime = "17:00",
                 location = "123 Main St, City"
             ),
             career = listOf("Senior Lawyer", "10+ years of experience"),
@@ -218,14 +218,14 @@ class ExampleInstrumentedTest {
                     id = "case123",
                     title = "Personal Injury Case",
                     detail = "Represented client in a personal injury lawsuit against a negligent driver.",
-                    date = "2023-05-15",
+                    date = ZonedDateTime.now(ZoneId.of("UTC")).toString(),
                     result = "Settlement reached"
                 ),
                 CounselCase(
                     id = "case456",
                     title = "Contract Dispute",
                     detail = "Assisted client in resolving a contract dispute with a business partner.",
-                    date = "2023-05-20",
+                    date = ZonedDateTime.now(ZoneId.of("UTC")).toString(),
                     result = "Case pending"
                 )
             ),
@@ -233,7 +233,7 @@ class ExampleInstrumentedTest {
             categories = listOf("Personal Injury", "Contract Law"),
             certificate = listOf("Bar Association Certification", "Specialized Training in Personal Injury Law"),
             basicCounselTime = 60L,
-            unavailableTime = listOf("2023-06-10 2:00 PM", "2023-06-12 9:30 AM"),
+            unavailableTime = listOf(ZonedDateTime.now(ZoneId.of("UTC")).toString(), ZonedDateTime.now(ZoneId.of("UTC")).plusDays(9).toString() ),
             reviewCount = 2,
             likeCount = 10
         )

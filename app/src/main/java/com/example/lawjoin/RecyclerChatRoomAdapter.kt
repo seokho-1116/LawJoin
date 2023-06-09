@@ -6,6 +6,8 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,9 +16,12 @@ import com.example.lawjoin.chat.ChatRoomActivity
 import com.example.lawjoin.common.AuthUtils
 import com.example.lawjoin.data.model.AuthUserDto
 import com.example.lawjoin.data.model.ChatRoom
+import com.example.lawjoin.data.model.Lawyer
 import com.example.lawjoin.data.model.LawyerDto
+import com.example.lawjoin.data.model.User
 import com.example.lawjoin.data.repository.ChatRoomRepository
 import com.example.lawjoin.data.repository.LawyerRepository
+import com.example.lawjoin.data.repository.UserRepository
 import com.example.lawjoin.databinding.ChatRoomItemBinding
 import com.google.firebase.storage.FirebaseStorage
 import java.time.LocalDateTime
@@ -27,13 +32,14 @@ import java.time.temporal.ChronoUnit
 
 @RequiresApi(Build.VERSION_CODES.O)
 class RecyclerChatRoomAdapter(private val context: Context) :
-    RecyclerView.Adapter<RecyclerChatRoomAdapter.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerChatRoomAdapter.ViewHolder>(), Filterable {
     private val storage = FirebaseStorage.getInstance()
     private val formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME
     private val lawyerRepository: LawyerRepository = LawyerRepository.getInstance()
     private val chatRoomRepository: ChatRoomRepository = ChatRoomRepository.getInstance()
     private var chatRooms: MutableList<ChatRoom> = mutableListOf()
     private var chatRoomKeys: MutableList<String> = mutableListOf()
+    private lateinit var excelSearchList: List<ChatRoom>
     private lateinit var currentUser: AuthUserDto
 
     init {
@@ -41,7 +47,6 @@ class RecyclerChatRoomAdapter(private val context: Context) :
     }
 
     private fun getCurrentUser() {
-
         AuthUtils.getCurrentUser { authUserDto, _ ->
             currentUser = authUserDto!!
             setupAllChatRoomList()
@@ -161,6 +166,42 @@ class RecyclerChatRoomAdapter(private val context: Context) :
     override fun getItemCount(): Int {
         return chatRooms.size
     }
+
+    override fun getFilter() : Filter {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence): FilterResults {
+                val charString = charSequence.toString()
+                excelSearchList = if (charString.isEmpty()){
+                    chatRooms
+                } else {
+                    val filteredList = mutableListOf<ChatRoom>()
+
+                    //TODO: 반대편 사용자 리스트 가져왔고 반대편 사용자 이름과 사용자가 입력한 이름을 필터링
+                    for (chatRoom in chatRooms) {
+                        val opponent = chatRoom.users.filter {
+                            it != currentUser.uid
+                        }.toString()
+                        LawyerRepository.getInstance().findLawyerById(opponent) {
+                            val name = it.name
+                            if (name.toLowerCase().contains(charString.toLowerCase())) {
+                                filteredList.add(chatRoom)
+                            }
+                        }
+                    }
+                    filteredList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = excelSearchList
+                return filterResults
+            }
+
+            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
+                excelSearchList = filterResults.values as List<ChatRoom>
+                notifyDataSetChanged()
+            }
+        }
+    }
+
 
     class ViewHolder(binding: ChatRoomItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
