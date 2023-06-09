@@ -21,9 +21,7 @@ import com.google.firebase.storage.FirebaseStorage
 @RequiresApi(Build.VERSION_CODES.O)
 class LawyerListAdapter(private val lawyers: List<Lawyer>, var context: Context)
     : RecyclerView.Adapter<LawyerListAdapter.LawyerListViewHolder>(), Filterable {
-    private val storage = FirebaseStorage.getInstance()
     private var excelSearchList: List<Lawyer>? = null
-
 
     init {
         this.excelSearchList = lawyers
@@ -80,6 +78,7 @@ class LawyerListAdapter(private val lawyers: List<Lawyer>, var context: Context)
     override fun onBindViewHolder(lawyerListViewHolder: LawyerListViewHolder, position: Int) {
         lawyerListViewHolder.bind(excelSearchList!![position])
     }
+
     override fun getItemCount() = excelSearchList!!.size
 
     override fun getFilter() : Filter{

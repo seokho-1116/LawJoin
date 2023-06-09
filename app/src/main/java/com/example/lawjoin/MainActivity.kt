@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.lawjoin.account.AccountManagementActivity
@@ -21,13 +22,11 @@ import com.google.firebase.ktx.Firebase
 @RequiresApi(Build.VERSION_CODES.O)
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var auth: FirebaseAuth
     private lateinit var currentUser: AuthUserDto
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        auth = Firebase.auth
         initializeView()
         initializeListener()
         setupRecycler()
@@ -72,6 +71,21 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRecycler() {
         binding.rvChatList.layoutManager = LinearLayoutManager(this)
-        binding.rvChatList.adapter = RecyclerChatRoomAdapter(this)
+        val adapter = RecyclerChatRoomAdapter(this)
+        binding.rvChatList.adapter = adapter
+
+        val searchViewTextListener =
+            object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(s: String): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(s: String): Boolean {
+                    adapter.filter.filter(s)
+                    return false
+                }
+            }
+
+        binding.edtChatSearch.setOnQueryTextListener(searchViewTextListener)
     }
 }
