@@ -20,7 +20,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <!-- Redirect URI: "kakao${NATIVE_APP_KEY}://oauth" -->
                 <data android:host="oauth"
                     android:scheme="@string/kakao_native_app_keys" />
             </intent-filter>
@@ -45,10 +44,14 @@
             android:exported="true"/>
         <activity android:name=".post.PostDetailActivity"
             android:exported="true"/>
-        <activity android:name=".post.WritePostActivity"/>
-        <activity android:name=".account.AccountManagementActivity"/>
-        <activity android:name=".lawyer.LawyerListActivity"/>
-        <activity android:name=".post.BoardFreeActivity"/>
+        <activity android:name=".post.WritePostActivity"
+            android:exported="true"/>
+        <activity android:name=".account.AccountManagementActivity"
+            android:exported="true"/>
+        <activity android:name=".lawyer.LawyerListActivity"
+            android:exported="true"/>
+        <activity android:name=".post.BoardFreeActivity"
+            android:exported="true"/>
         <activity android:name=".start.StartInfoActivity"
             android:exported="true">
             <intent-filter>
