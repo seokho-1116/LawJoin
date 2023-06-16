@@ -1,15 +1,11 @@
 package com.example.lawjoin.start
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.example.lawjoin.MainActivity
-import com.example.lawjoin.common.AppPreferenceManager
 import com.example.lawjoin.databinding.ActivityStartInfoBinding
 import com.example.lawjoin.login.LoginActivity
 import com.example.lawjoin.start.fragment.FirstInfoFragment

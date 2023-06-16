@@ -27,6 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:padding="10dp"
+        android:showDividers="middle"
+        android:divider="@drawable/divider"
         app:layout_constraintLeft_toRightOf="@id/iv_lawyer_profile_image"
         app:layout_constraintTop_toBottomOf="@id/tv_lawyer_detail_name"
         android:orientation="vertical">
@@ -37,6 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/ly_lawyer_info_tab"
         app:layout_constraintTop_toBottomOf="@id/iv_lawyer_profile_image"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -46,41 +49,32 @@
             android:id="@+id/btn_lawyer_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="7dp"
             android:text="@string/msg_like"
             android:background="@drawable/bg_lawyer_detail_like"
             android:drawableStart="@drawable/selector_like"
             android:paddingStart="10dp"
             android:paddingTop="5dp"
             android:paddingEnd="10dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
             android:paddingBottom="5dp" />
 
         <Button
             android:id="@+id/btn_lawyer_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="7dp"
             android:text="@string/msg_share"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
             android:background="@drawable/bg_lawyer_detail_like"
             android:drawableStart="@drawable/ic_lawyer_detail_share"
             android:paddingTop="5dp"
             android:paddingStart="10dp"
             android:paddingBottom="5dp"
             android:paddingEnd="10dp"/>
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ly_start_chat_reservation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        app:layout_constraintBottom_toBottomOf="@id/ly_lawyer_info_tab"
-        app:layout_constraintLeft_toRightOf="@id/ly_lawyer_like_share"
-        app:layout_constraintTop_toBottomOf="@id/iv_lawyer_profile_image"
-        app:layout_constraintRight_toRightOf="parent"
-        android:orientation="vertical">
         <Button
             android:id="@+id/btn_chat_start"
             android:layout_width="wrap_content"
@@ -89,9 +83,11 @@
             android:textColor="@color/white"
             app:layout_constraintLeft_toRightOf="@id/ly_lawyer_like_share"
             android:background="@drawable/bg_confirm_reservation"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="7dp"
             android:paddingTop="5dp"
             android:paddingStart="10dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
             android:paddingBottom="5dp"
             android:paddingEnd="10dp"/>
 
@@ -101,9 +97,11 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_confirm_reservation"
             android:text="@string/msg_start_reservation"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
             android:textColor="@color/white"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="7dp"
+            android:layout_marginEnd="7dp"
             android:paddingStart="10dp"
             android:paddingTop="5dp"
             android:paddingEnd="10dp"
@@ -113,12 +111,13 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/ly_lawyer_info_tab"
         android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/vp_lawyer_info"
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorColor="#2673D1"
         android:background="@drawable/bg_lawyer_detail_tab"
-        app:layout_constraintTop_toBottomOf="@id/ly_start_chat_reservation"
+        app:layout_constraintTop_toBottomOf="@id/ly_lawyer_like_share"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
     </com.google.android.material.tabs.TabLayout>

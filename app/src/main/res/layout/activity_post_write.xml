@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/edt_post_title"
+        android:id="@+id/edt_comment_title"
         android:layout_marginLeft="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,11 +21,11 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#d3d3d3"
-        app:layout_constraintTop_toBottomOf="@id/edt_post_title"
+        app:layout_constraintTop_toBottomOf="@id/edt_comment_title"
         tools:layout_editor_absoluteX="4dp" />
 
     <EditText
-        android:id="@+id/edt_post_content"
+        android:id="@+id/edt_comment_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"

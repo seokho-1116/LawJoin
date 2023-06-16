@@ -1,24 +1,23 @@
 package com.example.lawjoin.lawyerdetail.fragment
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lawjoin.R
-import com.example.lawjoin.common.ViewModelFactory
-import com.example.lawjoin.data.model.CounselCase
-import com.example.lawjoin.data.model.Lawyer
-import com.example.lawjoin.lawyerdetail.LawyerDetailViewModel
+import com.example.lawjoin.data.model.Post
+import com.example.lawjoin.databinding.ActivityCommentWriteBinding
 import com.example.lawjoin.lawyerdetail.adapter.CounselCaseAdapter
 
 @RequiresApi(Build.VERSION_CODES.O)
-class CounselCaseFragment(val counselCases: List<CounselCase>): Fragment() {
+class CounselCaseFragment(val counselCases: List<Post>): Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,8 +31,8 @@ class CounselCaseFragment(val counselCases: List<CounselCase>): Fragment() {
     }
 
     private fun setupLawyerInfo(view: View) {
-            val rv: RecyclerView = view.findViewById(R.id.rv_counsel_case)
-            rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            rv.adapter = CounselCaseAdapter(counselCases)
+        val rv: RecyclerView = view.findViewById(R.id.rv_counsel_case)
+        rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        rv.adapter = CounselCaseAdapter(counselCases)
     }
 }

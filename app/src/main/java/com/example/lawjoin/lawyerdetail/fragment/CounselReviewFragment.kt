@@ -1,10 +1,12 @@
 package com.example.lawjoin.lawyerdetail.fragment
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -18,7 +20,8 @@ import com.example.lawjoin.lawyerdetail.LawyerDetailViewModel
 import com.example.lawjoin.lawyerdetail.adapter.CounselReviewAdapter
 
 @RequiresApi(Build.VERSION_CODES.O)
-class CounselReviewFragment(val counselReviews: List<CounselReview>): Fragment() {
+class CounselReviewFragment(private val lawyerId: String,
+                            private val counselReviews: List<CounselReview>): Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,5 +38,12 @@ class CounselReviewFragment(val counselReviews: List<CounselReview>): Fragment()
         val rv: RecyclerView = view.findViewById(R.id.rv_counsel_review)
         rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rv.adapter = CounselReviewAdapter(counselReviews)
+
+        val button = view.findViewById<Button>(R.id.btn_comment_write)
+        button.setOnClickListener {
+            val intent = Intent(context, CommentWriteActivity::class.java)
+            intent.putExtra("lawyerId", lawyerId)
+            startActivity(intent)
+        }
     }
 }

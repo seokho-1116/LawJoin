@@ -21,13 +21,15 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:host="oauth"
-                    android:scheme="@string/kakao_native_app_keys" />
+                    android:scheme="${KAKAO_API_KEY" />
             </intent-filter>
         </activity>
 
         <activity android:name=".login.LoginActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".lawyerdetail.fragment.CommentWriteActivity"
+            android:exported="true"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -40,6 +42,10 @@
             android:name=".counselreservation.CounselReservationActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".word.LawWordActivity"
+            android:exported="true"/>
+        <activity android:name=".word.LawWordListActivity"
+            android:exported="true"/>
         <activity android:name=".chat.ChatRoomActivity"
             android:exported="true"/>
         <activity android:name=".post.PostDetailActivity"

@@ -13,8 +13,8 @@ class WritePostActivity: AppCompatActivity() {
         setContentView(R.layout.activity_post_write)
 
         val btnWrite = findViewById<Button>(R.id.btn_write)
-        val edit_post_title = findViewById<EditText>(R.id.edt_post_title)
-        val edit_post_content = findViewById<EditText>(R.id.edt_post_content)
+        val edit_post_title = findViewById<EditText>(R.id.edt_comment_title)
+        val edit_post_content = findViewById<EditText>(R.id.edt_comment_content)
         val cb_write_anonymous = findViewById<CheckBox>(R.id.cb_write_anonymous)
         val cb_for_only_lawyer = findViewById<CheckBox>(R.id.cb_for_only_lawyer)
 

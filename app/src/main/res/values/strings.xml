@@ -83,4 +83,7 @@
     <string name="msg_input_lawyer_career">경력을 적어주세요</string>
     <string name="msg_input_lawyer_certificate">취득한 자격증을 적어주세요</string>
     <string name="dsc_sign_up_image">회원가입 이미지</string>
+    <string name="msg_bookmark">북마크</string>
+    <string name="navigation_drawer_open">open drawer</string>
+    <string name="navigation_drawer_close">drawer_close</string>
 </resources>
