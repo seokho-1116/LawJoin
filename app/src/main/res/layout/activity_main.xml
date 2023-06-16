@@ -17,28 +17,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/btn_chat_profile"
+            android:id="@+id/btn_navigation"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginBottom="4dp"
             android:background="?android:selectableItemBackgroundBorderless"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/iv_chat_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/ic_navigation_view"
-            app:layout_constraintBottom_toTopOf="@+id/divide_line1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_navigation_view" />
 
         <TextView
             android:id="@+id/tv_chat_receiver"
@@ -52,7 +41,7 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/divide_line1"
             app:layout_constraintRight_toRightOf="@id/btn_chat_profile"
-            app:layout_constraintLeft_toLeftOf="@+id/iv_chat_back"
+            app:layout_constraintLeft_toLeftOf="@+id/btn_navigation"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
@@ -62,6 +51,19 @@
             android:background="#d3d3d3"
             app:layout_constraintBottom_toBottomOf="@id/ly_main_bar"
             tools:layout_editor_absoluteX="4dp" />
+
+        <ImageButton
+            android:id="@+id/btn_chat_profile"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.SearchView
@@ -108,68 +110,78 @@
         android:id="@+id/ly_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:background="@drawable/bg_chat_bar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
             <ImageButton
                 android:id="@+id/ib_main_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/selector_main_chat"/>
+            <TextView
+                android:text = "@string/msg_chat"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
             <ImageButton
                 android:id="@+id/ib_main_lawyer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="59dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/ic_main_lawyer"/>
+                android:background="@drawable/selector_main_lawyer"/>
+            <TextView
+                android:text = "@string/msg_lawyer"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
             <ImageButton
                 android:id="@+id/ib_main_law_word"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="73dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/ic_main_law_word"/>
+                android:background="@drawable/selector_main_law_word"/>
+            <TextView
+                android:text = "@string/msg_law_word"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
             <ImageButton
                 android:id="@+id/ib_main_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="73dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/ic_main_post"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:text = "@string/msg_chat"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:text = "@string/msg_lawyer"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:text = "@string/msg_law_word"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:background="@drawable/selector_main_post"/>
             <TextView
                 android:text="@string/msg_post"
-                android:layout_weight="1"
                 android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

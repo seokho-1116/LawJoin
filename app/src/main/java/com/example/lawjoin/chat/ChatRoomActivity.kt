@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.lawjoin.BuildConfig
 import com.example.lawjoin.MainActivity
 import com.example.lawjoin.R
 import com.example.lawjoin.common.AuthUtils
@@ -63,10 +64,10 @@ class ChatRoomActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         initializeProperties()
         initializeListeners()
         setupChatRoom()
+        setContentView(binding.root)
     }
 
     private fun initializeProperties() {
@@ -137,7 +138,7 @@ class ChatRoomActivity : AppCompatActivity() {
         val body: RequestBody = requestObject.toString().toRequestBody(mediaType)
         val request: Request = Request.Builder()
             .url("https://api.openai.com/v1/chat/completions")
-            .header("Authorization", "Bearer ${getString(R.string.gpt_api_key)}")
+            .header("Authorization", "Bearer ${BuildConfig.OPEN_AI_API_KEY}")
             .post(body)
             .build()
 

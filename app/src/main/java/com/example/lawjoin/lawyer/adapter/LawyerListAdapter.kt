@@ -53,7 +53,7 @@ class LawyerListAdapter(private val lawyers: List<Lawyer>, var context: Context)
 
             itemView.setOnClickListener {
                 val intent = Intent(context, LawyerDetailActivity::class.java)
-                intent.putExtra("lawyer", item)
+                intent.putExtra("lawyerId", item.uid)
                 context.startActivity(intent)
             }
         }
@@ -61,7 +61,6 @@ class LawyerListAdapter(private val lawyers: List<Lawyer>, var context: Context)
         private fun setProfileAndConfigureScreen(url: String) {
             Glide.with(context)
                 .load(url)
-                .error(R.drawable.ic_lawyer_basic)
                 .error(R.drawable.ic_lawyer_basic)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(lawyerImage)

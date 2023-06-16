@@ -16,12 +16,9 @@ import com.example.lawjoin.chat.ChatRoomActivity
 import com.example.lawjoin.common.AuthUtils
 import com.example.lawjoin.data.model.AuthUserDto
 import com.example.lawjoin.data.model.ChatRoom
-import com.example.lawjoin.data.model.Lawyer
 import com.example.lawjoin.data.model.LawyerDto
-import com.example.lawjoin.data.model.User
 import com.example.lawjoin.data.repository.ChatRoomRepository
 import com.example.lawjoin.data.repository.LawyerRepository
-import com.example.lawjoin.data.repository.UserRepository
 import com.example.lawjoin.databinding.ChatRoomItemBinding
 import com.google.firebase.storage.FirebaseStorage
 import java.time.LocalDateTime
@@ -38,8 +35,8 @@ class RecyclerChatRoomAdapter(private val context: Context) :
     private val lawyerRepository: LawyerRepository = LawyerRepository.getInstance()
     private val chatRoomRepository: ChatRoomRepository = ChatRoomRepository.getInstance()
     private var chatRooms: MutableList<ChatRoom> = mutableListOf()
+    private var excelSearchList: List<ChatRoom> = chatRooms
     private var chatRoomKeys: MutableList<String> = mutableListOf()
-    private lateinit var excelSearchList: List<ChatRoom>
     private lateinit var currentUser: AuthUserDto
 
     init {
@@ -71,27 +68,32 @@ class RecyclerChatRoomAdapter(private val context: Context) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val opponent = chatRooms[position].users.first { it != currentUser.uid }
+        val opponent = excelSearchList[position].users.first { it != currentUser.uid }
         lawyerRepository.findLawyerById(opponent) {
             holder.chatProfile = it.profile_url
             holder.opponentUser = LawyerDto(it.uid, it.name, it.email)
             holder.receiver.text = it.name
-        }
 
-        when (opponent) {
-            "GPT" -> {
-                retrieveProfileUrl("profile/GPT.png") { url ->
-                    setProfileAndConfigureScreen(holder, url)
+            when (opponent) {
+                "GPT" -> {
+                    retrieveProfileUrl("profile/GPT.png") { url ->
+                        setProfileAndConfigureScreen(holder, url)
+                    }
+                }
+                "BOT" -> {
+                    retrieveProfileUrl("profile/BOT.png") { url ->
+                        setProfileAndConfigureScreen(holder, url)
+                    }
+                }
+                else -> {
+                    setProfileAndConfigureScreen(holder,holder.chatProfile)
                 }
             }
-            "BOT" -> {
-                retrieveProfileUrl("profile/BOT.png") { url ->
-                    setProfileAndConfigureScreen(holder, url)
-                }
+
+            if (excelSearchList[position].messages.isNotEmpty()) {
+                setupLastMessageAndDate(holder, position)
             }
-            else -> {
-                setProfileAndConfigureScreen(holder,holder.chatProfile)
-            }
+            setupMessageCount(holder, position)
         }
 
         holder.layout.setOnClickListener {
@@ -101,11 +103,6 @@ class RecyclerChatRoomAdapter(private val context: Context) :
             intent.putExtra("chat_room_key", chatRoomKeys[position])
             context.startActivity(intent)
         }
-
-        if (chatRooms[position].messages.isNotEmpty()) {
-            setupLastMessageAndDate(holder, position)
-        }
-        setupMessageCount(holder, position)
     }
 
     private fun retrieveProfileUrl(path: String, callback: (String) -> Unit) {
@@ -121,13 +118,14 @@ class RecyclerChatRoomAdapter(private val context: Context) :
 
         Glide.with(context)
             .load(holder.chatProfile)
+            .error(R.drawable.ic_lawyer_basic)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(holder.profileImage)
     }
 
 
     private fun setupLastMessageAndDate(holder: ViewHolder, position: Int) {
-        val lastMessage = chatRooms[position].messages.values
+        val lastMessage = excelSearchList[position].messages.values
             .sortedWith(compareBy { it.sendDate })
             .last()
         holder.lastMessage.text = lastMessage.content
@@ -136,15 +134,13 @@ class RecyclerChatRoomAdapter(private val context: Context) :
 
     private fun setupMessageCount(holder: ViewHolder, position: Int) {
         val unconfirmedCount =
-            chatRooms[position].messages.values.filter {
+            excelSearchList[position].messages.values.filter {
                 !it.confirmed && it.senderUid != currentUser.uid
             }.size
 
         if (unconfirmedCount > 0) {
             holder.unreadCount.visibility = View.VISIBLE
             holder.unreadCount.text = unconfirmedCount.toString()
-        } else {
-            holder.unreadCount.visibility = View.GONE
         }
     }
 
@@ -164,7 +160,7 @@ class RecyclerChatRoomAdapter(private val context: Context) :
     }
 
     override fun getItemCount(): Int {
-        return chatRooms.size
+        return excelSearchList.size
     }
 
     override fun getFilter() : Filter {
@@ -178,7 +174,7 @@ class RecyclerChatRoomAdapter(private val context: Context) :
 
                     //TODO: 반대편 사용자 리스트 가져왔고 반대편 사용자 이름과 사용자가 입력한 이름을 필터링
                     for (chatRoom in chatRooms) {
-                        val opponent = chatRoom.users.filter {
+                        val opponent = chatRoom.users.first {
                             it != currentUser.uid
                         }.toString()
                         LawyerRepository.getInstance().findLawyerById(opponent) {

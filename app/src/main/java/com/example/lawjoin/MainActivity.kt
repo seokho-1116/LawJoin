@@ -4,20 +4,24 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
+import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.lawjoin.account.AccountManagementActivity
 import com.example.lawjoin.common.AuthUtils
 import com.example.lawjoin.data.model.AuthUserDto
-import com.example.lawjoin.data.model.LawWord
 import com.example.lawjoin.databinding.ActivityMainBinding
 import com.example.lawjoin.lawyer.LawyerListActivity
-import com.example.lawjoin.post.BoardFreeActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.example.lawjoin.post.PostDetailActivity
+import com.example.lawjoin.word.LawWordListActivity
+import com.google.android.material.navigation.NavigationView
 
 @RequiresApi(Build.VERSION_CODES.O)
 class MainActivity : AppCompatActivity() {
@@ -44,11 +48,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.ibMainMessage.isClickable = false
-        binding.ibMainMessage.isPressed = true
+        binding.ibMainMessage.isSelected = true
     }
 
     private fun initializeListener() {
-        //TODO: 변호사 리스트 액티비티 추가
         binding.btnChatProfile.setOnClickListener {
             startActivity(Intent(this, AccountManagementActivity::class.java))
         }
@@ -60,13 +63,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, LawyerListActivity::class.java))
         }
         binding.ibMainLawWord.setOnClickListener {
-            startActivity(Intent(this, LawWord::class.java))
+            startActivity(Intent(this, LawWordListActivity::class.java))
         }
         binding.ibMainPost.setOnClickListener {
-            //TODO: 게시글 리스트로
-            startActivity(Intent(this, BoardFreeActivity::class.java))
+            startActivity(Intent(this, PostDetailActivity::class.java))
         }
-        binding.edtChatSearch
     }
 
     private fun setupRecycler() {
