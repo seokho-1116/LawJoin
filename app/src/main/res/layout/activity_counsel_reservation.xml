@@ -22,7 +22,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ly_reservation_info"
         android:layout_width="0dp"
-        android:layout_height="250dp"
+        android:layout_height="150dp"
         android:background="@drawable/bg_reservation_info"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_law_counsel_reservation_title"
@@ -51,7 +51,7 @@
             android:drawablePadding="10dp"
             android:textColor="#6798E1"
             android:layout_marginStart="40dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="30dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:drawableLeftCompat="@drawable/ic_reservation_office" />
@@ -160,7 +160,7 @@
         android:layout_marginTop="50dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/ly_reservation_start_time">
         <TextView
             android:id="@+id/tv_counsel_detail_msg"
             android:layout_width="wrap_content"
@@ -176,7 +176,7 @@
         <EditText
             android:id="@+id/edt_reservation_detail"
             android:layout_width="0dp"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:background="@drawable/bg_reservation_context"
             android:textSize="16sp"
             android:hint="@string/hint_reservation_derail"

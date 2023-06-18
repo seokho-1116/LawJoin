@@ -8,7 +8,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class UserRepository {
+class UserRepository private constructor() {
     private val databaseReference: DatabaseReference = Firebase.database.reference.child("users")
 
     companion object{

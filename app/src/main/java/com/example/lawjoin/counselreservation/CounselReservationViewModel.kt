@@ -4,14 +4,17 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import com.example.lawjoin.data.model.CounselReservation
-import com.example.lawjoin.data.model.Lawyer
 import com.example.lawjoin.data.repository.CounselReservationRepository
 import com.example.lawjoin.data.repository.LawyerRepository
 
 @RequiresApi(Build.VERSION_CODES.O)
 class CounselReservationViewModel : ViewModel() {
-    private val counselReservationRepository = CounselReservationRepository()
-    private val lawyerRepository = LawyerRepository()
+    private val counselReservationRepository = CounselReservationRepository.getInstance()
+    private val lawyerRepository = LawyerRepository.getInstance()
+
+    fun existCounselReservation(uid: String, callback: (Boolean) -> Unit) {
+        counselReservationRepository.existCounselReservation(uid, callback)
+    }
 
     fun updateUnavailableTimeOfLawyer(id: String, time: String) {
         lawyerRepository.updateUnavailableTime(id, time)

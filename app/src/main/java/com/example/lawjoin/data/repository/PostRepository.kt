@@ -24,11 +24,7 @@ class PostRepository {
     }
 
     fun savePost(callback: (DatabaseReference) -> Task<Void>) {
-//        callback(databaseReference.child("post").push())
-
-        val pushedPostRef: DatabaseReference = databaseReference.child("post").push()
-        val postId = pushedPostRef.key.toString()
-        databaseReference.child("post").child(postId).setValue("id", postId)
+        callback(databaseReference.child("post").push())
     }
 
     fun findPost(postId: String, callback: (Post) -> Unit) {

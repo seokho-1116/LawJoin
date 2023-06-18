@@ -8,9 +8,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.ktx.Firebase
 
-class ChatRoomRepository {
+class ChatRoomRepository private constructor() {
     private val databaseReference: DatabaseReference = Firebase.database.getReference("chat_rooms").child("chat_room")
 
     companion object{
@@ -86,15 +87,36 @@ class ChatRoomRepository {
         callback(databaseReference.child(uid))
     }
 
-    //TODO: 리스트에 메시지가 잘 들어가나 테스트
-    fun saveChatRoomMessage(chatKey: String, message: Message, callback: () -> Unit) {
-        databaseReference.child(message.senderUid)
+    fun saveChatRoomMessage(uid: String, chatKey: String, message: Message, callback: () -> Unit) {
+        databaseReference.child(uid)
             .child(chatKey)
             .child("messages")
             .push()
             .setValue(message)
             .addOnSuccessListener {
                 callback()
+            }
+    }
+
+    fun updateMessages(uid: String,
+                       chatKey: String,
+                       answerMessages: List<Message>) {
+        val reference = databaseReference
+            .child("$uid/$chatKey/messages")
+
+        val dataMap = mutableMapOf<String, Message>()
+        for (message in answerMessages) {
+            val newMessageRef = reference.push()
+            val messageId = newMessageRef.key
+            if (messageId != null) {
+                dataMap[messageId] = message
+            }
+        }
+
+        reference
+            .updateChildren(dataMap as Map<String, Any>)
+            .addOnSuccessListener {
+                Log.d("ChatRoomRepository", "update successful")
             }
     }
 }

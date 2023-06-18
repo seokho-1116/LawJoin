@@ -23,6 +23,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="4dp"
+            android:background="?android:selectableItemBackgroundBorderless"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -63,7 +64,7 @@
             tools:layout_editor_absoluteX="4dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <EditText
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/edt_chat_search"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -119,28 +120,28 @@
                 android:id="@+id/ib_main_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="25dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/selector_main_chat"/>
             <ImageButton
                 android:id="@+id/ib_main_lawyer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="80dp"
+                android:layout_marginStart="59dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/ic_main_lawyer"/>
             <ImageButton
                 android:id="@+id/ib_main_law_word"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="80dp"
+                android:layout_marginStart="73dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/ic_main_law_word"/>
             <ImageButton
                 android:id="@+id/ib_main_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="70dp"
+                android:layout_marginStart="73dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/ic_main_post"/>
         </LinearLayout>
@@ -150,26 +151,26 @@
             android:orientation="horizontal">
             <TextView
                 android:text = "@string/msg_chat"
-                android:layout_marginBottom="5dp"
-                android:layout_marginStart="40dp"
+                android:gravity="center"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:text = "@string/msg_lawyer"
-                android:layout_marginBottom="5dp"
-                android:layout_marginStart="70dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:text = "@string/msg_law_word"
-                android:layout_marginBottom="5dp"
-                android:layout_marginStart="60dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:text="@string/msg_post"
-                android:layout_marginBottom="5dp"
-                android:layout_marginStart="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
