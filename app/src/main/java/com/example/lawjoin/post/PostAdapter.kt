@@ -1,39 +1,73 @@
 package com.example.lawjoin.post
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lawjoin.R
 import com.example.lawjoin.data.model.Post
+import com.example.lawjoin.databinding.PostItemBinding
+import kotlin.collections.ArrayList
 
-class PostAdapter(private val postData: List<Post>) : RecyclerView.Adapter<PostAdapter.PostViewHolder>(){
-    class PostViewHolder(view: View) : RecyclerView.ViewHolder(view){
-        val textView: TextView
+class PostAdapter(var posts: List<Post>, var context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+    var filteredPostList: List<Post> = listOf()
 
-        init {
-            textView = view.findViewById(R.id.avatar_list_post_title)
+    inner class ViewHolder(itemView: PostItemBinding) : RecyclerView.ViewHolder(itemView.root) {
+        private val title = itemView.tvPostTitle
+        fun bind(position: Int) {
+            title.text = filteredPostList[position].title
+            itemView.setOnClickListener {
+                filteredPostList[position].id
+//                val intent = Intent(context, PostDetailActivity::class.java)
+//                intent.putExtra("post_id", filteredPostList[position].title)
+//                context.startActivity(intent)
+            }
         }
     }
-    // Create new views (invoked by the layout manager)
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): PostViewHolder {
-        // Create a new view, which defines the UI of the list item
+
+    init {
+        this.filteredPostList = posts
+    }
+
+
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.post, viewGroup, false)
-
-        return PostViewHolder(view)
+            .inflate(R.layout.post_item, viewGroup, false)
+        return ViewHolder(PostItemBinding.bind(view))
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(viewHolder: PostViewHolder, position: Int) {
-
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
-        viewHolder.textView.text = postData[position].title
+    override fun onBindViewHolder(viewholder: RecyclerView.ViewHolder, position: Int) {
+        (viewholder as ViewHolder).bind(position)
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = postData.size
+    override fun getItemCount(): Int = filteredPostList.size
 
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence): FilterResults {
+                val charString = charSequence.toString()
+                if (charString.isEmpty()) {
+                    filteredPostList = posts
+                } else {
+                    val filteredList = ArrayList<Post>()
+                    for (row in posts) {
+                        if (row.title.toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row)
+                        }
+                    }
+                    filteredPostList = filteredList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = filteredPostList
+                return filterResults
+            }
+
+            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
+                filteredPostList = filterResults.values as ArrayList<Post>
+                notifyDataSetChanged()
+            }
+        }
+    }
 }

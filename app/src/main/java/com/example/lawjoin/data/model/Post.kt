@@ -1,17 +1,39 @@
 package com.example.lawjoin.data.model
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.io.Serializable
 import java.time.ZonedDateTime
 
+
+@RequiresApi(Build.VERSION_CODES.O)
 class Post(
-    val id: Int,
+    var id: String = "",
     val title: String,
     val detail: String,
     val ownerId: String,
-    val comment: List<Comment>,
-    val createTime: ZonedDateTime,
-    val modifyTime: ZonedDateTime,
+    val comment: Comment = Comment(
+        "", "", "", "", "", ""
+    ),
+    val createTime: String,
+    val modifyTime: String,
     val isAnonymous: Boolean,
     val isForOnlyLawyer: Boolean,
     val recommendationCount: Int
-): Serializable
+) : Serializable {
+    constructor(): this(
+        "",
+        "",
+        "",
+        "",
+        Comment(
+            "", "", "", "", "", ""
+        ),
+        ZonedDateTime.now().toString(),
+        ZonedDateTime.now().plusHours(8L).toString(),
+        false,
+        false,
+        0
+
+    )
+}
