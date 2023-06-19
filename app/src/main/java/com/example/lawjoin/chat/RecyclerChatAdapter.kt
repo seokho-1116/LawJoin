@@ -18,6 +18,9 @@ import com.example.lawjoin.data.repository.ChatRoomRepository
 import com.example.lawjoin.data.repository.LawyerRepository
 import com.example.lawjoin.databinding.ChatMessageSenderBinding
 import com.example.lawjoin.databinding.ChatMessageReceiverBinding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -76,6 +79,26 @@ class RecyclerChatAdapter(private val context: Context, private var chatRoomKey:
 
             notifyDataSetChanged()
             recyclerView.scrollToPosition(messages.size - 1)
+
+            newMessageKeys.forEachIndexed { index, messageKey ->
+                val messageRef = messagesData.child(messageKey).child("confirmed").ref
+                messageRef.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val confirmedValue = snapshot.value as Boolean
+                        if (confirmedValue) {
+                            // Update the 'confirmed' property of the message in the local list
+                            newMessages[index].confirmed = true
+
+                            // Notify the adapter to update the UI
+                            notifyItemChanged(index)
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        // Handle onCancelled event if necessary
+                    }
+                })
+            }
         }
     }
 
@@ -128,10 +151,7 @@ class RecyclerChatAdapter(private val context: Context, private var chatRoomKey:
             setupMessageProfile(position)
 
             if (messages[position].senderUid != "GPT" && messages[position].senderUid != "BOT") {
-                if (messages[position].confirmed)
-                    isShown.visibility = View.GONE
-                else
-                    isShown.visibility = View.VISIBLE
+                isShown.visibility = View.GONE
                 setShown(position)
             }
 
