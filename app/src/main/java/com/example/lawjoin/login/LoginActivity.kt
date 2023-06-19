@@ -79,6 +79,10 @@ class LoginActivity: AppCompatActivity() {
     private fun checkAuth() {
         val user = Firebase.auth.currentUser
         if (user != null) {
+            if (user.providerData[1].providerId == "password"
+                && intent.getBooleanExtra("isSignUp", false)) {
+                addChatRoom(user.uid)
+            }
             val intent = Intent(applicationContext, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -87,12 +91,7 @@ class LoginActivity: AppCompatActivity() {
         if (AuthApiClient.instance.hasToken()) {
             UserApiClient.instance.accessTokenInfo { _, error ->
                 if (error != null) {
-                    if (error is KakaoSdkError && error.isInvalidTokenError()) {
-                        return@accessTokenInfo
-                    }
-                    else {
-                        Log.e(TAG, "카카오 로그인 토큰 에러", error)
-                    }
+                    return@accessTokenInfo
                 }
                 else {
                     val intent = Intent(applicationContext, MainActivity::class.java)

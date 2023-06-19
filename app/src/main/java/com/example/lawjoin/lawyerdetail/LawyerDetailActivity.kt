@@ -39,7 +39,6 @@ import java.io.Serializable
  */
 @RequiresApi(Build.VERSION_CODES.O)
 open class LawyerDetailActivity : AppCompatActivity() {
-    private val lawyerRepository = LawyerRepository.getInstance()
     private val userRepository = UserRepository.getInstance()
     private val chatRoomRepository = ChatRoomRepository.getInstance()
     private lateinit var binding : ActivityLawyerDetailBinding
@@ -161,7 +160,7 @@ open class LawyerDetailActivity : AppCompatActivity() {
                 goToChatRoom(chatRoom, LawyerDto(lawyer.uid, lawyer.name, lawyer.email))
             } else {
                 chatRoomRepository.saveChatRoomUnder(currentUser.uid!!) { reference ->
-                    reference.push().setValue(chatRoom).addOnSuccessListener {
+                    reference.child(lawyer.uid).setValue(chatRoom).addOnSuccessListener {
                         goToChatRoom(chatRoom, LawyerDto(lawyer.uid, lawyer.name, lawyer.email))
                     }
                 }
@@ -173,7 +172,7 @@ open class LawyerDetailActivity : AppCompatActivity() {
         val intent = Intent(this, ChatRoomActivity::class.java)
         intent.putExtra("chat_room", chatRoom)
         intent.putExtra("receiver", lawyer)
-        intent.putExtra("chat_room_key",currentUser.uid)
+        intent.putExtra("chat_room_key", lawyer.uid)
         startActivity(intent)
     }
 

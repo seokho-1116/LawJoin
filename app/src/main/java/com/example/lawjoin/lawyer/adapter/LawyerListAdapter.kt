@@ -45,7 +45,7 @@ class LawyerListAdapter(private val lawyers: List<Lawyer>, var context: Context)
             lawyerName.text = item.name
             lawyerSummary.text = item.introduce
             lawyerReview.text = item.reviewCount.toString()
-            lawyerCategory.text = item.categories.first()
+            lawyerCategory.text = item.categories.firstOrNull()
 
             FireBaseStorageUtils.setupProfile(item.uid, item.profile_url) {
                 setProfileAndConfigureScreen(it)

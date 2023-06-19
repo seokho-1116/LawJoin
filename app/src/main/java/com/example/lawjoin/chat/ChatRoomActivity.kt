@@ -66,7 +66,6 @@ class ChatRoomActivity : AppCompatActivity() {
         binding = ActivityChatBinding.inflate(layoutInflater)
         initializeProperties()
         initializeListeners()
-        setupChatRoom()
         setContentView(binding.root)
     }
 
@@ -114,10 +113,6 @@ class ChatRoomActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupChatRoom() {
-        setupRecycler()
-    }
-
     private fun putMessage() {
         toReceiver()
         when (receiver.uid) {
@@ -141,6 +136,7 @@ class ChatRoomActivity : AppCompatActivity() {
             .header("Authorization", "Bearer ${BuildConfig.OPEN_AI_API_KEY}")
             .post(body)
             .build()
+
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -264,11 +260,6 @@ class ChatRoomActivity : AppCompatActivity() {
 
         chatRoomRepository.saveChatRoomMessage(currentUser.uid!!, chatRoomKey, message) {
         }
-    }
-
-    private fun setupRecycler() {
-        //binding.rvChatContent.layoutManager = LinearLayoutManager(this)
-        //binding.rvChatContent.adapter = chatAdapter
     }
 
     inner class VerticalSpaceItemDecoration(private val verticalSpaceHeight: Int) :

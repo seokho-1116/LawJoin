@@ -25,7 +25,7 @@ class ChatRoomRepository private constructor() {
     fun findAllChatRoomsByUid(uid: String, callback: (DataSnapshot) -> Unit) {
         databaseReference
             .child(uid)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
+            .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
                     Log.e("CHAT DATA", "failed to get chat rooms data")
                 }

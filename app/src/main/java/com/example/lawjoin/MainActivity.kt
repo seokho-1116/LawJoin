@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
 
             Glide.with(this)
                 .load(currentUser.chatProfile)
+                .error(R.drawable.ic_chat_user_default_profile)
                 .circleCrop()
                 .into(binding.btnChatProfile)
         }
