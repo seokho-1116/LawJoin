@@ -33,7 +33,6 @@ class MyLikeLawyerListActivity : AppCompatActivity() {
 
         lawyerRepository = LawyerRepository.getInstance()
 
-        val rvCategoryList = binding.rvCategoryList
         val rvLawyerList = binding.rvLawyerList
         searchView = binding.edtChatSearch
 
@@ -48,7 +47,6 @@ class MyLikeLawyerListActivity : AppCompatActivity() {
             lawyerListAdapter = LawyerListAdapter(lawyers, this)
             // 여기서 인자 넘길때 리스트 값 수정
 
-            rvCategoryList.adapter = categoryAdapter
             rvLawyerList.adapter = lawyerListAdapter
 
             searchViewTextListener =
@@ -64,11 +62,8 @@ class MyLikeLawyerListActivity : AppCompatActivity() {
                 }
             searchView.setOnQueryTextListener(searchViewTextListener)
         }
-
         val lawyerLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        val categoryLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        rvCategoryList.layoutManager = categoryLayoutManager
         rvLawyerList.layoutManager = lawyerLayoutManager
     }
 }

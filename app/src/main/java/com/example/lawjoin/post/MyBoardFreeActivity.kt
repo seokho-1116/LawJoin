@@ -19,6 +19,7 @@ class MyBoardFreeActivity : AppCompatActivity() {
     private lateinit var lawyerRepository: LawyerRepository
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var lawyerListAdapter: LawyerListAdapter
+    private lateinit var postAdapter: PostAdapter
     private lateinit var searchView: SearchView
     private lateinit var lawyerListViewModel: LawyerListViewModel
     private lateinit var searchViewTextListener: SearchView.OnQueryTextListener
@@ -30,11 +31,12 @@ class MyBoardFreeActivity : AppCompatActivity() {
 
         lawyerRepository = LawyerRepository.getInstance()
 
-        val rvCategoryList = binding.rvCategoryList
-        val rvLawyerList = binding.rvLawyerList
+        val myBoardList = binding.rvCategoryList
         searchView = binding.edtChatSearch
 
+        // 이건뭐지
         lawyerListViewModel = ViewModelProvider(this, ViewModelFactory())[LawyerListViewModel::class.java]
+
         lawyerListViewModel.getAllLawyers()
         lawyerListViewModel.lawyers.observe(this) { lawyers ->
             categoryAdapter = CategoryAdapter(
@@ -44,8 +46,7 @@ class MyBoardFreeActivity : AppCompatActivity() {
             )
             lawyerListAdapter = LawyerListAdapter(lawyers, this)
 
-            rvCategoryList.adapter = categoryAdapter
-            rvLawyerList.adapter = lawyerListAdapter
+            myBoardList.adapter = postAdapter
 
             searchViewTextListener =
                 object : SearchView.OnQueryTextListener {
@@ -54,6 +55,7 @@ class MyBoardFreeActivity : AppCompatActivity() {
                     }
 
                     override fun onQueryTextChange(s: String): Boolean {
+                        // postAdapter 에 필터가 없나
                         lawyerListAdapter.filter.filter(s)
                         return false
                     }
@@ -61,10 +63,8 @@ class MyBoardFreeActivity : AppCompatActivity() {
             searchView.setOnQueryTextListener(searchViewTextListener)
         }
 
-        val lawyerLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         val categoryLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        rvCategoryList.layoutManager = categoryLayoutManager
-        rvLawyerList.layoutManager = lawyerLayoutManager
+        myBoardList.layoutManager = categoryLayoutManager
     }
 }
