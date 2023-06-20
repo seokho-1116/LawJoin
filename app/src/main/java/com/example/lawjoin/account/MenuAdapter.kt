@@ -71,7 +71,7 @@ class MenuAdapter(private val menuSet: ArrayList<MenuObjects>, var context:Conte
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.managementItem1.text = menuSet!![position].menu
+        viewHolder.managementItem1.text = menuSet[position].menu
         viewHolder.bind(menuSet[position])
     }
     override fun getItemCount() = menuSet.size

@@ -6,17 +6,17 @@ import java.io.Serializable
 import java.time.ZonedDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
-class Lawyer(
+data class Lawyer(
     val uid: String = "",
     val name: String = "",
     val email: String = "",
-    val profile_url: String = "",
+    val profileUrl: String = "",
     val office: LawyerOffice = LawyerOffice(
         "", "", ZonedDateTime.now().toString(), ZonedDateTime.now().toString(), ""
     ),
     val career: List<String> = listOf(),
-    val counselReviews: List<CounselReview> = listOf(),
-    val counselCases: List<CounselCase> = listOf(),
+    val counselReviewList: MutableList<CounselReview> = mutableListOf(),
+    val counselCaseList: MutableList<Post> = mutableListOf(),
     val introduce: String = "",
     val categories: List<String> = listOf(),
     val certificate: List<String> = listOf(),
@@ -24,7 +24,6 @@ class Lawyer(
     val unavailableTime: List<String> = listOf(),
     val reviewCount: Int = 0,
     val likeCount: Int = 0
-//TODO: 성별
 ) : Serializable{
 
     fun toData(): CharSequence {

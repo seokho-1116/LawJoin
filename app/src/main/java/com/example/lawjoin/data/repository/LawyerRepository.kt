@@ -3,7 +3,9 @@ package com.example.lawjoin.data.repository
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.example.lawjoin.data.model.CounselReview
 import com.example.lawjoin.data.model.Lawyer
+import com.example.lawjoin.data.model.Post
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -29,9 +31,15 @@ class LawyerRepository private constructor() {
         databaseReference
             .child("lawyer")
             .child(uid)
-            .addListenerForSingleValueEvent(object: ValueEventListener {
+            .addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val lawyer = snapshot.getValue(Lawyer::class.java)!!
+                    for (case in snapshot.child("counselCases").children) {
+                        lawyer.counselCaseList.add(case.getValue(Post::class.java)!!)
+                    }
+                    for (reviews in snapshot.child("counselReviews").children) {
+                        lawyer.counselReviewList.add(reviews.getValue(CounselReview::class.java)!!)
+                    }
                     callback(lawyer)
                 }
                 override fun onCancelled(error: DatabaseError) {
@@ -48,6 +56,12 @@ class LawyerRepository private constructor() {
                     val lawyerList = mutableListOf<Lawyer>()
                     for (data in snapshot.children) {
                         val lawyer = data.getValue(Lawyer::class.java)
+                        for (case in data.child("counselCases").children) {
+                            lawyer!!.counselCaseList.add(case.getValue(Post::class.java)!!)
+                        }
+                        for (reviews in data.child("counselReviews").children) {
+                            lawyer!!.counselReviewList.add(reviews.getValue(CounselReview::class.java)!!)
+                        }
                         if (lawyer != null) {
                             lawyerList.add(lawyer)
                         }
@@ -58,10 +72,6 @@ class LawyerRepository private constructor() {
                     Log.e("FirebaseQuery", "Query canceled or encountered an error: ${error.message}")
                 }
             })
-    }
-
-    fun saveLawyer(uid: String, callback: (DatabaseReference) -> Task<Void>) {
-        callback(databaseReference.child("lawyer").child(uid))
     }
 
     fun updateUnavailableTime(id: String, time: String) {
@@ -76,7 +86,16 @@ class LawyerRepository private constructor() {
                         .setValue(time)
                 }
                 override fun onCancelled(databaseError: DatabaseError) {
+                    Log.e("FirebaseQuery", "Query canceled or encountered an error: ${databaseError.message}")
                 }
             })
+    }
+
+    fun saveLawyerReview(lawyerId: String, counselReview: CounselReview) {
+        databaseReference
+            .child("lawyer")
+            .child(lawyerId)
+            .child("counselReviews")
+            .push().setValue(counselReview)
     }
 }

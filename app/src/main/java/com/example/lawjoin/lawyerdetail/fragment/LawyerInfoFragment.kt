@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.lawjoin.R
 import com.example.lawjoin.data.model.Lawyer
+import org.w3c.dom.Text
 import kotlin.text.StringBuilder
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -24,7 +25,25 @@ class LawyerInfoFragment(val lawyer: Lawyer): Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (lawyer.uid == "GPT" || lawyer.uid == "BOT") {
+            setupInfo(view)
+            return
+        }
         setupLawyerInfo(view)
+    }
+
+    private fun setupInfo(view: View) {
+        val lyLawyerInfo: LinearLayout = view.findViewById(R.id.sv_ly_lawyer_info)
+        val tvLawyerName = lyLawyerInfo.findViewById<TextView>(R.id.tv_lawyer_name)
+        val tvLawyerIntroduce = view.findViewById<TextView>(R.id.tv_lawyer_introduce)
+        val lyLawyerOfficeInfo: LinearLayout = view.findViewById(R.id.sv_ly_lawyer_office)
+        view.findViewById<TextView?>(R.id.tv_categories).visibility = View.GONE
+        view.findViewById<TextView?>(R.id.tv_career).visibility = View.GONE
+        view.findViewById<TextView?>(R.id.tv_certificates).visibility = View.GONE
+
+        lyLawyerOfficeInfo.visibility = View.GONE
+        tvLawyerName.text = lawyer.name
+        tvLawyerIntroduce.text = lawyer.introduce
     }
 
     private fun setupLawyerInfo(view: View) {
@@ -34,6 +53,7 @@ class LawyerInfoFragment(val lawyer: Lawyer): Fragment() {
         val lyLawyerInfo: LinearLayout = view.findViewById(R.id.sv_ly_lawyer_info)
         val lyLawyerOfficeInfo: LinearLayout = view.findViewById(R.id.sv_ly_lawyer_office)
         val tvLawyerName = lyLawyerInfo.findViewById<TextView>(R.id.tv_lawyer_name)
+        val tvLawyerIntroduce = view.findViewById<TextView>(R.id.tv_lawyer_introduce)
 
         tvLawyerName.text = lawyer.name
 
@@ -47,7 +67,7 @@ class LawyerInfoFragment(val lawyer: Lawyer): Fragment() {
         val careerBuilder = StringBuilder().appendLine("경력")
         for (career in lawyer.career) {
             careerBuilder.append("-")
-            categoryBuilder.appendLine(career)
+            careerBuilder.appendLine(career)
         }
         tvCareer.text = careerBuilder.toString()
 
@@ -58,9 +78,7 @@ class LawyerInfoFragment(val lawyer: Lawyer): Fragment() {
         }
         tvCertificate.text = certificateBuilder.toString()
 
-        val introduce = TextView(context)
-        introduce.text = lawyer.introduce
-        lyLawyerInfo.addView(introduce)
+        tvLawyerIntroduce.text = lawyer.introduce
 
         val tvLawyerOfficeName =
             lyLawyerOfficeInfo.findViewById<TextView>(R.id.tv_lawyer_office_name)
@@ -72,7 +90,7 @@ class LawyerInfoFragment(val lawyer: Lawyer): Fragment() {
             lyLawyerOfficeInfo.findViewById<TextView>(R.id.tv_lawyer_office_phone)
         tvLawyerOfficePhone.text = lawyer.office.phone
         val tvLawyerOfficeOpeningHours =
-            lyLawyerOfficeInfo.findViewById<TextView>(R.id.tv_lawyer_office_opening_hours)
-        tvLawyerOfficeOpeningHours.text = lawyer.office.openingTime.toString()
+            lyLawyerOfficeInfo.findViewById<TextView>(R.id.tv_lawyer_office_business_hours)
+        tvLawyerOfficeOpeningHours.text = lawyer.office.openingTime.plus(" ~ ").plus(lawyer.office.closingTime)
     }
 }

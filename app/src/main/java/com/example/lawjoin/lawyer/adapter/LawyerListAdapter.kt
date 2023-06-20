@@ -16,7 +16,6 @@ import com.example.lawjoin.R
 import com.example.lawjoin.common.FireBaseStorageUtils
 import com.example.lawjoin.data.model.Lawyer
 import com.example.lawjoin.lawyerdetail.LawyerDetailActivity
-import com.google.firebase.storage.FirebaseStorage
 
 @RequiresApi(Build.VERSION_CODES.O)
 class LawyerListAdapter(private val lawyers: List<Lawyer>, var context: Context)
@@ -45,15 +44,15 @@ class LawyerListAdapter(private val lawyers: List<Lawyer>, var context: Context)
             lawyerName.text = item.name
             lawyerSummary.text = item.introduce
             lawyerReview.text = item.reviewCount.toString()
-            lawyerCategory.text = item.categories.first()
+            lawyerCategory.text = item.categories.firstOrNull()
 
-            FireBaseStorageUtils.setupProfile(item.uid, item.profile_url) {
+            FireBaseStorageUtils.setupProfile(item.uid, item.profileUrl) {
                 setProfileAndConfigureScreen(it)
             }
 
             itemView.setOnClickListener {
                 val intent = Intent(context, LawyerDetailActivity::class.java)
-                intent.putExtra("lawyer", item)
+                intent.putExtra("lawyerId", item.uid)
                 context.startActivity(intent)
             }
         }
@@ -61,7 +60,6 @@ class LawyerListAdapter(private val lawyers: List<Lawyer>, var context: Context)
         private fun setProfileAndConfigureScreen(url: String) {
             Glide.with(context)
                 .load(url)
-                .error(R.drawable.ic_lawyer_basic)
                 .error(R.drawable.ic_lawyer_basic)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(lawyerImage)

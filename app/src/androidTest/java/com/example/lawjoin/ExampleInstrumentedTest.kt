@@ -8,14 +8,11 @@ import com.example.lawjoin.data.model.Lawyer
 import com.example.lawjoin.data.model.LawyerOffice
 import com.example.lawjoin.data.model.Message
 import com.example.lawjoin.data.repository.ChatRoomRepository
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.GenericTypeIndicator
-import com.google.firebase.database.MutableData
-import com.google.firebase.database.Transaction
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -186,7 +183,7 @@ class ExampleInstrumentedTest {
             uid = "123456789",
             name = "John Doe",
             email = "johndoe@example.com",
-            profile_url = "https://example.com/profile",
+            profileUrl = "https://example.com/profile",
             office = LawyerOffice(
                 name = "Law Firm",
                 phone = "123-456-7890",
@@ -195,7 +192,7 @@ class ExampleInstrumentedTest {
                 location = "123 Main St, City"
             ),
             career = listOf("Senior Lawyer", "10+ years of experience"),
-            counselReviews = listOf(
+            counselReviewList = listOf(
                 CounselReview(
                     title = "Great Service",
                     detail = "I highly recommend this lawyer. Very knowledgeable and professional.",

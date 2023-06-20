@@ -2,7 +2,6 @@ package com.example.lawjoin.data.model
 
 import java.io.Serializable
 
-data class ChatRoom(val messages: Map<String, Message>,
-                    val users: List<String>) : Serializable {
-    constructor() : this(mapOf(), listOf())
-}
+data class ChatRoom(val messages: Map<String, Message> = mapOf(),
+                    val users: List<String> = listOf()
+) : Serializable
