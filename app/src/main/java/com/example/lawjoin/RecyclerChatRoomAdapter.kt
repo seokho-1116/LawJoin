@@ -70,7 +70,7 @@ class RecyclerChatRoomAdapter(private val context: Context) :
 
         val opponent = excelSearchList[position].users.first { it != currentUser.uid }
         lawyerRepository.findLawyerById(opponent) {
-            holder.chatProfile = it.profile_url
+            holder.chatProfile = it.profileUrl
             holder.opponentUser = LawyerDto(it.uid, it.name, it.email)
             holder.receiver.text = it.name
 

@@ -7,7 +7,7 @@ import java.io.Serializable
 import java.time.ZonedDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
-class User(
+data class User(
     val uid: String? = "", val name:String? = "", val email: String? = "",
     val phone: String? = "",
     val likeLawyers: MutableList<String> = mutableListOf(),

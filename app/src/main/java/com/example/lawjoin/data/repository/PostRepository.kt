@@ -1,7 +1,10 @@
 package com.example.lawjoin.data.repository
 
 import android.os.Build
+import android.provider.ContactsContract.Data
+import android.util.Log
 import androidx.annotation.RequiresApi
+import com.example.lawjoin.data.model.Comment
 import com.example.lawjoin.data.model.Post
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
@@ -17,34 +20,35 @@ class PostRepository {
 
     companion object{
         private val INSTANCE = PostRepository()
+        private const val TAG = "PostRepository"
 
         fun getInstance(): PostRepository {
             return INSTANCE
         }
     }
 
-    fun savePost(callback: (DatabaseReference) -> Task<Void>) {
-        callback(databaseReference.child("post").push())
+    fun savePost(category: String, callback: (DatabaseReference) -> Task<Void>) {
+        callback(databaseReference.child(category).push())
     }
 
-    fun findPost(postId: String, callback: (Post) -> Unit) {
+    fun findPost(category: String, postId: String, callback: (DataSnapshot) -> Unit) {
         databaseReference
-            .child("post")
+            .child(category)
             .child(postId)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val post = snapshot.getValue(Post::class.java)!!
-                    callback(post)
+                    callback(snapshot)
                 }
                 override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "Query canceled or encountered an error: ${error.message}")
                 }
             })
     }
 
-    fun findAllPosts(callback: (List<Post>) -> Unit) {
+    fun findAllPosts(category: String, callback: (List<Post>) -> Unit) {
         databaseReference
-            .child("post")
-            .addListenerForSingleValueEvent(object : ValueEventListener {
+            .child(category)
+            .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val postList = mutableListOf<Post>()
                     for (data in snapshot.children) {
@@ -57,6 +61,7 @@ class PostRepository {
                     callback(postList)
                 }
                 override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "Query canceled or encountered an error: ${error.message}")
                 }
             })
     }
@@ -65,36 +70,45 @@ class PostRepository {
         callback(databaseReference.child("counselPost").push())
     }
 
-    fun findCounselPost(postId: String, callback: (Post) -> Unit) {
-        databaseReference
-            .child("counselPost")
+    fun updatePostComment(category: String, postId: String, comment: Comment) {
+        databaseReference.child(category)
             .child(postId)
+            .child("comments")
+            .push()
+            .setValue(comment)
+    }
+
+    fun updatePostRecommendCount(category: String, postId: String) {
+        val reference = databaseReference.child(category)
+            .child(postId)
+            .child("recommendationCount")
+
+        reference
             .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val post = snapshot.getValue(Post::class.java)!!
-                    callback(post)
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val previousValue = dataSnapshot.getValue(Int::class.java)
+                    val updatedValue = previousValue?.plus(1) ?: 1
+                    reference.setValue(updatedValue)
                 }
+
                 override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "Query canceled or encountered an error: ${error.message}")
                 }
             })
     }
 
-    fun findAllCounselPosts(callback: (List<Post>) -> Unit) {
+    fun findCommentsUnderPost(category: String, postId: String, callback: (DataSnapshot) -> Unit) {
         databaseReference
-            .child("counselPost")
-            .addListenerForSingleValueEvent(object : ValueEventListener {
+            .child(category)
+            .child(postId)
+            .child("comments")
+            .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val postList = mutableListOf<Post>()
-                    for (data in snapshot.children) {
-                        val post = data.getValue(Post::class.java)
-                        if (post != null){
-                            post.id = data.key.toString()
-                            postList.add(post)
-                        }
-                    }
-                    callback(postList)
+                    callback(snapshot)
                 }
+
                 override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "Query canceled or encountered an error: ${error.message}")
                 }
             })
     }

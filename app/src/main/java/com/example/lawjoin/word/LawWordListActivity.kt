@@ -12,7 +12,8 @@ import com.example.lawjoin.MainActivity
 import com.example.lawjoin.data.repository.LawWordRepository
 import com.example.lawjoin.databinding.ActivityLawWordListBinding
 import com.example.lawjoin.lawyer.LawyerListActivity
-import com.example.lawjoin.post.PostDetailActivity
+import com.example.lawjoin.post.BoardFreeActivity
+import com.example.lawjoin.post.FreePostActivity
 
 
 //TODO: 법률 용어 리스트
@@ -79,7 +80,7 @@ class LawWordListActivity : AppCompatActivity() {
             startActivity(Intent(this, LawWordListActivity::class.java))
         }
         binding.ibMainPost.setOnClickListener {
-            startActivity(Intent(this, PostDetailActivity::class.java))
+            startActivity(Intent(this, BoardFreeActivity::class.java))
         }
 
         binding.ibMainLawWord.isClickable = false

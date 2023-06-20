@@ -53,7 +53,8 @@
         android:orientation="horizontal"
         android:background="@drawable/bg_chat_bar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:baselineAligned="false">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,6 +63,7 @@
             android:orientation="vertical">
             <ImageButton
                 android:id="@+id/ib_main_message"
+                android:contentDescription="@string/desc_main_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -80,6 +82,7 @@
             android:orientation="vertical">
             <ImageButton
                 android:id="@+id/ib_main_lawyer"
+                android:contentDescription="@string/desc_main_lawyer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -99,6 +102,7 @@
             <ImageButton
                 android:id="@+id/ib_main_law_word"
                 android:layout_width="wrap_content"
+                android:contentDescription="@string/desc_law_word"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/selector_main_law_word"/>
@@ -116,6 +120,7 @@
             android:orientation="vertical">
             <ImageButton
                 android:id="@+id/ib_main_post"
+                android:contentDescription="@string/desc_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

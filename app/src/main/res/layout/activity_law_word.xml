@@ -125,6 +125,7 @@
 
         <ImageView
             android:id="@+id/iv_law_word_quoted"
+            android:contentDescription="@string/desc_law_word_quoted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

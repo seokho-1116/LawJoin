@@ -30,7 +30,7 @@
         android:paddingTop="5dp"
         android:paddingEnd="10dp"
         android:paddingBottom="5dp"
-        android:text="리뷰 쓰기"
+        android:text="@string/msg_write_review"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -10,12 +10,12 @@
         android:id="@+id/join"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
         android:gravity="center_vertical"
         android:lineSpacingExtra="8sp"
         android:layout_marginStart="30dp"
         android:layout_marginBottom="30dp"
         android:text="@string/loadong_lawjoin"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toTopOf="@id/start_page_image"
         android:textAppearance="@style/join"/>
@@ -24,7 +24,7 @@
         android:id="@+id/start_page_image"
         android:layout_width="360dp"
         android:layout_height="400dp"
-        android:background="@drawable/ic_start_page_image"
+        android:background="@drawable/bg_free_counsel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -37,11 +37,11 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:gravity="center_horizontal|top"
-        android:lineSpacingExtra="12sp"
-        android:text="@string/start_page1_text1"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        android:text="@string/msg_free_counsel_info"
         android:textAppearance="@style/start_page_text1"
         android:translationY="-5.91sp"
-        android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/start_page_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -55,45 +55,29 @@
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal|top"
         android:lineSpacingExtra="8sp"
-        android:text="@string/start_page1_text2"
+        android:text="@string/msg_counsel_info"
         android:textAppearance="@style/start_page_text2"
         android:translationY="-3.78sp"
         app:layout_constraintTop_toBottomOf="@+id/start_page_text1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-
-    <LinearLayout
-        android:id="@+id/group_dot"
+    <Button
+        android:id="@+id/btn_start_free_counsel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
         android:layout_alignParentTop="true"
-        android:background="#00000000"
-        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_write_post"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@+id/start_page_text2"
+        android:text="@string/msg_reserve"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:paddingTop="5dp"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/start_page_text2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <View
-            android:id="@+id/dot1"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/ic_start_page_dot_activated" />
-        <View
-            android:id="@+id/dot2"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_marginEnd="15dp"
-
-            android:background="@drawable/ic_start_page_dot_default" />
-        <View
-            android:id="@+id/dot3"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_marginEnd="15dp"
-            android:background="@drawable/ic_start_page_dot_default" />
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,8 +8,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.lawjoin.MainActivity
 import com.example.lawjoin.common.ViewModelFactory
 import com.example.lawjoin.databinding.ActivityCounselBoardListBinding
+import com.example.lawjoin.lawyer.LawyerListActivity
+import com.example.lawjoin.word.LawWordListActivity
 
 @RequiresApi(Build.VERSION_CODES.O)
 open class BoardCounselActivity : AppCompatActivity() {
@@ -25,10 +28,10 @@ open class BoardCounselActivity : AppCompatActivity() {
         val rvPostList = binding.rvCounselPostList
 
         postViewModel = ViewModelProvider(this, ViewModelFactory())[PostViewModel::class.java]
-        postViewModel.findAllCounselPosts()
+        postViewModel.findAllPosts("counsel_post")
 
         postViewModel.counselPosts.observe(this) { counselPosts ->
-            postadapter = PostAdapter(counselPosts, this)
+            postadapter = PostAdapter(counselPosts, true, this)
             rvPostList.adapter = postadapter
         }
 
@@ -48,10 +51,37 @@ open class BoardCounselActivity : AppCompatActivity() {
                 }
             })
 
+        binding.swCounselBoard.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                startActivity(Intent(this, BoardFreeActivity::class.java))
+                finish()
+            }
+        }
+
         binding.btnWrite.setOnClickListener {
             val intent = Intent(applicationContext, WritePostActivity::class.java)
-            intent.putExtra("type", "counsel")
+            intent.putExtra("type", "counsel_post")
             startActivity(intent)
         }
+
+        initializeListener()
+    }
+
+    private fun initializeListener() {
+        binding.ibMainMessage.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+        binding.ibMainLawyer.setOnClickListener {
+            startActivity(Intent(this, LawyerListActivity::class.java))
+        }
+        binding.ibMainLawWord.setOnClickListener {
+            startActivity(Intent(this, LawWordListActivity::class.java))
+        }
+        binding.ibMainPost.setOnClickListener {
+            startActivity(Intent(this, BoardFreeActivity::class.java))
+        }
+
+        binding.ibMainPost.isClickable = false
+        binding.ibMainPost.isSelected = true
     }
 }

@@ -7,6 +7,4 @@ data class LawWord(
     val wordNumber: String = "",
     val word: String = "",
     val wordDescription: String = ""
-) : Serializable {
-    constructor(word: String) : this("", "", word, "")
-}
+) : Serializable

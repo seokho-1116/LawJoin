@@ -22,7 +22,6 @@ import com.example.lawjoin.data.model.ChatRoom
 import com.example.lawjoin.data.model.Lawyer
 import com.example.lawjoin.data.model.LawyerDto
 import com.example.lawjoin.data.repository.ChatRoomRepository
-import com.example.lawjoin.data.repository.LawyerRepository
 import com.example.lawjoin.data.repository.UserRepository
 import com.example.lawjoin.databinding.ActivityLawyerDetailBinding
 import com.example.lawjoin.lawyerdetail.adapter.ViewPagerAdapter
@@ -80,7 +79,7 @@ open class LawyerDetailActivity : AppCompatActivity() {
                 tab.text = tabName["$position".toInt()]
             }.attach()
 
-            FireBaseStorageUtils.setupProfile(lawyerId, lawyer.profile_url) {
+            FireBaseStorageUtils.setupProfile(lawyerId, lawyer.profileUrl) {
                 setProfileAndConfigureScreen(it)
             }
 
@@ -174,6 +173,7 @@ open class LawyerDetailActivity : AppCompatActivity() {
         intent.putExtra("receiver", lawyer)
         intent.putExtra("chat_room_key", lawyer.uid)
         startActivity(intent)
+        finish()
     }
 
     private inline fun <reified T : Serializable> Intent.serializable(key: String): T? = when {

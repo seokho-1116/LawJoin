@@ -16,6 +16,8 @@ class ChatRoomRepository private constructor() {
 
     companion object{
         private val INSTANCE = ChatRoomRepository()
+        private const val TAG = "ChatRoomRepository"
+        private const val FAIL_MESSAGE = "failed to get chat rooms data"
 
         fun getInstance(): ChatRoomRepository {
             return INSTANCE
@@ -27,7 +29,7 @@ class ChatRoomRepository private constructor() {
             .child(uid)
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
-                    Log.e("CHAT DATA", "failed to get chat rooms data")
+                    Log.e(TAG, FAIL_MESSAGE)
                 }
                 override fun onDataChange(snapshot: DataSnapshot) {
                     callback(snapshot)
@@ -40,7 +42,7 @@ class ChatRoomRepository private constructor() {
             .child(uid)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
-                    Log.e("CHAT DATA", "failed to get chat rooms data")
+                    Log.e(TAG, FAIL_MESSAGE)
                 }
                 override fun onDataChange(snapshot: DataSnapshot) {
                     callback(snapshot)
@@ -54,7 +56,7 @@ class ChatRoomRepository private constructor() {
             .child(chatKey)
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
-                    Log.e("CHAT DATA", "failed to get chat rooms data")
+                    Log.e(TAG, FAIL_MESSAGE)
                 }
                 override fun onDataChange(snapshot: DataSnapshot) {
                     callback(snapshot)
@@ -69,7 +71,7 @@ class ChatRoomRepository private constructor() {
             .endAt(gpt)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
-                    Log.e("CHAT DATA", "failed to get chat rooms data")
+                    Log.e(TAG, FAIL_MESSAGE)
                 }
                 override fun onDataChange(snapshot: DataSnapshot) {
                     callback(snapshot)

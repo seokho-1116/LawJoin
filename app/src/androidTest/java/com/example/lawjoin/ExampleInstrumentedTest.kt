@@ -183,7 +183,7 @@ class ExampleInstrumentedTest {
             uid = "123456789",
             name = "John Doe",
             email = "johndoe@example.com",
-            profile_url = "https://example.com/profile",
+            profileUrl = "https://example.com/profile",
             office = LawyerOffice(
                 name = "Law Firm",
                 phone = "123-456-7890",

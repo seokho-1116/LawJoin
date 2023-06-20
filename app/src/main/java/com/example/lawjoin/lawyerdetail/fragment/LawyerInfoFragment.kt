@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.lawjoin.R
 import com.example.lawjoin.data.model.Lawyer
+import org.w3c.dom.Text
 import kotlin.text.StringBuilder
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -24,7 +25,25 @@ class LawyerInfoFragment(val lawyer: Lawyer): Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (lawyer.uid == "GPT" || lawyer.uid == "BOT") {
+            setupInfo(view)
+            return
+        }
         setupLawyerInfo(view)
+    }
+
+    private fun setupInfo(view: View) {
+        val lyLawyerInfo: LinearLayout = view.findViewById(R.id.sv_ly_lawyer_info)
+        val tvLawyerName = lyLawyerInfo.findViewById<TextView>(R.id.tv_lawyer_name)
+        val tvLawyerIntroduce = view.findViewById<TextView>(R.id.tv_lawyer_introduce)
+        val lyLawyerOfficeInfo: LinearLayout = view.findViewById(R.id.sv_ly_lawyer_office)
+        view.findViewById<TextView?>(R.id.tv_categories).visibility = View.GONE
+        view.findViewById<TextView?>(R.id.tv_career).visibility = View.GONE
+        view.findViewById<TextView?>(R.id.tv_certificates).visibility = View.GONE
+
+        lyLawyerOfficeInfo.visibility = View.GONE
+        tvLawyerName.text = lawyer.name
+        tvLawyerIntroduce.text = lawyer.introduce
     }
 
     private fun setupLawyerInfo(view: View) {

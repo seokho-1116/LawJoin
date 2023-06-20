@@ -46,6 +46,7 @@ class LawWordActivity : AppCompatActivity() {
 
         binding.ibLawWordBack.setOnClickListener {
             startActivity(Intent(this, LawWordListActivity::class.java))
+            finish()
         }
     }
 

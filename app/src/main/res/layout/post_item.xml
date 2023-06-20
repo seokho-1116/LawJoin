@@ -19,9 +19,9 @@
         android:id="@+id/tv_post_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:gravity="left|center"
         android:text="@string/post_title"
         android:textAppearance="@style/list_item_o"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 </LinearLayout>

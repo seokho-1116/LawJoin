@@ -11,7 +11,10 @@ import com.example.lawjoin.data.model.Post
 import com.example.lawjoin.databinding.PostItemBinding
 import kotlin.collections.ArrayList
 
-class PostAdapter(var posts: List<Post>, var context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+class PostAdapter(var posts: List<Post>,
+                  var isCounsel: Boolean,
+                  var context: Context)
+    : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
     var filteredPostList: List<Post> = listOf()
 
     inner class ViewHolder(itemView: PostItemBinding) : RecyclerView.ViewHolder(itemView.root) {
@@ -20,9 +23,14 @@ class PostAdapter(var posts: List<Post>, var context: Context) : RecyclerView.Ad
             title.text = filteredPostList[position].title
             itemView.setOnClickListener {
                 filteredPostList[position].id
-//                val intent = Intent(context, PostDetailActivity::class.java)
-//                intent.putExtra("post_id", filteredPostList[position].title)
-//                context.startActivity(intent)
+                val intent = if (isCounsel) {
+                    Intent(context, CounselPostActivity::class.java)
+                } else {
+                    Intent(context, FreePostActivity::class.java)
+                }
+                intent.putExtra("isCounsel", isCounsel)
+                intent.putExtra("postId", filteredPostList[position].id)
+                context.startActivity(intent)
             }
         }
     }
@@ -48,8 +56,8 @@ class PostAdapter(var posts: List<Post>, var context: Context) : RecyclerView.Ad
         return object : Filter() {
             override fun performFiltering(charSequence: CharSequence): FilterResults {
                 val charString = charSequence.toString()
-                if (charString.isEmpty()) {
-                    filteredPostList = posts
+                filteredPostList = if (charString.isEmpty()) {
+                    posts
                 } else {
                     val filteredList = ArrayList<Post>()
                     for (row in posts) {
@@ -57,7 +65,7 @@ class PostAdapter(var posts: List<Post>, var context: Context) : RecyclerView.Ad
                             filteredList.add(row)
                         }
                     }
-                    filteredPostList = filteredList
+                    filteredList
                 }
                 val filterResults = FilterResults()
                 filterResults.values = filteredPostList

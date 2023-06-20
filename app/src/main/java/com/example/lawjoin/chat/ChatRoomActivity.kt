@@ -107,6 +107,7 @@ class ChatRoomActivity : AppCompatActivity() {
     private fun initializeListeners() {
         binding.ivChatBack.setOnClickListener {
             startActivity(Intent(this@ChatRoomActivity, MainActivity::class.java))
+            finish()
         }
         binding.ibChatSend.setOnClickListener {
             putMessage()

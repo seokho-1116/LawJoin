@@ -1,5 +1,6 @@
 package com.example.lawjoin.data.repository
 
+import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -13,6 +14,7 @@ class UserRepository private constructor() {
 
     companion object{
         private val INSTANCE = UserRepository()
+        private const val TAG = "UserRepository"
 
         fun getInstance(): UserRepository {
             return INSTANCE
@@ -33,6 +35,7 @@ class UserRepository private constructor() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "Query canceled or encountered an error: ${error.message}")
                 }
             })
     }
@@ -52,7 +55,7 @@ class UserRepository private constructor() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Handle error
+                Log.e(TAG, "Query canceled or encountered an error: ${databaseError.message}")
             }
         })
     }
@@ -72,7 +75,7 @@ class UserRepository private constructor() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Handle error
+                Log.e(TAG, "Query canceled or encountered an error: ${databaseError.message}")
             }
         })
     }
@@ -92,7 +95,7 @@ class UserRepository private constructor() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Handle error
+                Log.e(TAG, "Query canceled or encountered an error: ${databaseError.message}")
             }
         })
     }
@@ -112,7 +115,7 @@ class UserRepository private constructor() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Error handling
+                Log.e(TAG, "Query canceled or encountered an error: ${databaseError.message}")
             }
         })
     }
@@ -132,7 +135,7 @@ class UserRepository private constructor() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Error handling
+                Log.e(TAG, "Query canceled or encountered an error: ${databaseError.message}")
             }
         })
     }
@@ -152,6 +155,7 @@ class UserRepository private constructor() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
+                Log.e(TAG, "Query canceled or encountered an error: ${databaseError.message}")
             }
         })
     }

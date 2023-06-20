@@ -11,8 +11,8 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
-class PostDetailAdapter(private val comments: MutableList<Comment>) :
-    RecyclerView.Adapter<PostDetailAdapter.CommentViewHolder>() {
+class FreePostAdapter(private val comments: MutableList<Comment>) :
+    RecyclerView.Adapter<FreePostAdapter.CommentViewHolder>() {
 
     inner class CommentViewHolder(itemView: CommentItemBinding)
         : RecyclerView.ViewHolder(itemView.root) {
@@ -51,24 +51,5 @@ class PostDetailAdapter(private val comments: MutableList<Comment>) :
         comments.clear()
         comments.addAll(newComments)
         notifyDataSetChanged()
-    }
-
-    fun addComment(comment: Comment) {
-        comments.add(comment)
-        notifyItemInserted(comments.size - 1)
-    }
-
-    fun removeComment(position: Int) {
-        if (position in 0 until comments.size) {
-            comments.removeAt(position)
-            notifyItemRemoved(position)
-        }
-    }
-
-    fun updateComment(position: Int, updatedComment: Comment) {
-        if (position in 0 until comments.size) {
-            comments[position] = updatedComment
-            notifyItemChanged(position)
-        }
     }
 }

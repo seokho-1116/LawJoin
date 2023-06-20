@@ -19,21 +19,9 @@ class PostViewModel: ViewModel(){
     private val _counselPosts = MutableLiveData<List<Post>>()
     val counselPosts: LiveData<List<Post>> = _counselPosts
 
-    fun findPost(postId : String) {
-        postRepository.findPost(postId) {
-            _post.value = it
-        }
-    }
-
-    fun findAllPosts() {
-        postRepository.findAllPosts { posts ->
+    fun findAllPosts(category: String) {
+        postRepository.findAllPosts(category) { posts ->
             _posts.value = posts
-        }
-    }
-
-    fun findAllCounselPosts(){
-        postRepository.findAllCounselPosts { counselPosts ->
-            _counselPosts.value = counselPosts
         }
     }
 }

@@ -6,6 +6,8 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.lawjoin.common.AuthUtils
+import com.example.lawjoin.data.model.AuthUserDto
 import com.example.lawjoin.data.model.Comment
 import com.example.lawjoin.data.model.Post
 import com.example.lawjoin.data.repository.PostRepository
@@ -19,7 +21,7 @@ import java.time.ZonedDateTime
 class WritePostActivity: AppCompatActivity() {
     private val postRepository: PostRepository = PostRepository.getInstance()
     private lateinit var binding: ActivityPostWriteBinding
-    private lateinit var auth: FirebaseAuth
+    private lateinit var currentUser: AuthUserDto
     private lateinit var newPost: Post
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,17 +32,13 @@ class WritePostActivity: AppCompatActivity() {
         val postType = intent.getStringExtra("type")
         var moveActivityName = ""
 
-        val comment: Comment = Comment(
-            "", "", "", "", "", ""
-        )
+        AuthUtils.getCurrentUser { authUserDto, _ ->
+            currentUser = authUserDto!!
+        }
 
-
-        auth = Firebase.auth
-        val uid = auth.uid
         binding.btnWrite.setOnClickListener {
-            val id: String = ""
-//            var ownerId: String = currentUser.uid
-            var ownerId = "owner"
+            val id = ""
+            var ownerId: String = currentUser.uid!!
             if(binding.cbWriteAnonymous.isChecked){
                 ownerId = "익명"
             }
@@ -50,27 +48,25 @@ class WritePostActivity: AppCompatActivity() {
                 binding.edtPostTitle.text.toString(),
                 binding.edtPostContent.text.toString(),
                 ownerId,
-                comment,
+                mutableListOf(),
                 ZonedDateTime.now().toString(),
                 ZonedDateTime.now().toString(),
                 binding.cbWriteAnonymous.isChecked,
-                binding.cbForOnlyLawyer.isChecked,
                 0
             )
 
-            if(postType == "free") {
+            if(postType == "free_post") {
                 moveActivityName = "BoardFreeActivity"
-                postRepository.savePost() {
-                    it.setValue(newPost)
-                }
             }
-            else if (postType == "counsel") {
+            else if (postType == "counsel_post") {
                 moveActivityName = "BoardCounselActivity"
-                postRepository.saveCounselPost {
-                    it.setValue(newPost)
-                }
             }
-            var outIntent = Intent(applicationContext, moveActivityName::class.java)
+
+            postRepository.savePost(postType!!) {
+                it.setValue(newPost)
+            }
+
+            val outIntent = Intent(applicationContext, moveActivityName::class.java)
             setResult(Activity.RESULT_OK, outIntent)
             finish()
         }

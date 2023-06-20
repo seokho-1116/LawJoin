@@ -8,8 +8,11 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.lawjoin.MainActivity
 import com.example.lawjoin.common.ViewModelFactory
 import com.example.lawjoin.databinding.ActivityFreeBoardListBinding
+import com.example.lawjoin.lawyer.LawyerListActivity
+import com.example.lawjoin.word.LawWordListActivity
 
 @RequiresApi(Build.VERSION_CODES.O)
 open class BoardFreeActivity : AppCompatActivity() {
@@ -25,18 +28,13 @@ open class BoardFreeActivity : AppCompatActivity() {
         val rvPostList = binding.rvPostList
 
         postViewModel = ViewModelProvider(this, ViewModelFactory())[PostViewModel::class.java]
-        postViewModel.findAllPosts()
+        postViewModel.findAllPosts("free_post")
 
         postViewModel.posts.observe(this) { posts ->
-            postadapter = PostAdapter(posts, this)
+            postadapter = PostAdapter(posts, false, this)
             rvPostList.adapter = postadapter
 
-        }
-        val postLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        rvPostList.setHasFixedSize(true)
-        rvPostList.layoutManager = postLayoutManager
-
-        binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     return false
                 }
@@ -46,11 +44,43 @@ open class BoardFreeActivity : AppCompatActivity() {
                     return false
                 }
             })
+        }
+
+        val postLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rvPostList.setHasFixedSize(true)
+        rvPostList.layoutManager = postLayoutManager
+
+        binding.swFreeBoard.setOnCheckedChangeListener { _, isChecked ->
+            if (!isChecked) {
+                startActivity(Intent(this, BoardCounselActivity::class.java))
+                finish()
+            }
+        }
 
         binding.btnWrite.setOnClickListener {
             val intent = Intent(applicationContext, WritePostActivity::class.java)
-            intent.putExtra("type", "free")
+            intent.putExtra("type", "free_post")
             startActivity(intent)
         }
+
+        initializeListener()
+    }
+
+    private fun initializeListener() {
+        binding.ibMainMessage.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+        binding.ibMainLawyer.setOnClickListener {
+            startActivity(Intent(this, LawyerListActivity::class.java))
+        }
+        binding.ibMainLawWord.setOnClickListener {
+            startActivity(Intent(this, LawWordListActivity::class.java))
+        }
+        binding.ibMainPost.setOnClickListener {
+            startActivity(Intent(this, BoardFreeActivity::class.java))
+        }
+
+        binding.ibMainPost.isClickable = false
+        binding.ibMainPost.isSelected = true
     }
 }

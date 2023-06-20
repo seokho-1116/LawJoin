@@ -7,6 +7,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/parentConstraint2">
         <TextView
             android:id="@+id/managementItem1"
@@ -15,7 +17,7 @@
             app:layout_constraintTop_toTopOf="@id/parentConstraint2"
             app:layout_constraintBottom_toBottomOf="@id/parentConstraint2"
             app:layout_constraintLeft_toLeftOf="@id/parentConstraint2"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
             android:textSize="14sp" />
         <ImageView
             android:layout_width="12dp"
@@ -23,8 +25,9 @@
             app:layout_constraintTop_toTopOf="@id/parentConstraint2"
             app:layout_constraintBottom_toBottomOf="@id/parentConstraint2"
             app:layout_constraintRight_toRightOf="@id/parentConstraint2"
-            android:layout_marginRight="25dp"
-            android:src="@drawable/menu_arrow"/>
+            android:layout_marginEnd="25dp"
+            android:src="@drawable/menu_arrow"
+            android:contentDescription="@string/msg_desc_arrow" />
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"

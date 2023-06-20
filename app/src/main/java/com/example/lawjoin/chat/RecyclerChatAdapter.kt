@@ -12,7 +12,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.lawjoin.R
 import com.example.lawjoin.common.AuthUtils
 import com.example.lawjoin.data.model.AuthUserDto
-import com.example.lawjoin.data.model.ChatRoom
 import com.example.lawjoin.data.model.Message
 import com.example.lawjoin.data.repository.ChatRoomRepository
 import com.example.lawjoin.data.repository.LawyerRepository
@@ -168,7 +167,7 @@ class RecyclerChatAdapter(private val context: Context, private var chatRoomKey:
                 }
                 else -> {
                     lawyerRepository.findLawyerById(messages[position].senderUid) {
-                        setProfileAndConfigureScreen(this, it.profile_url)
+                        setProfileAndConfigureScreen(this, it.profileUrl)
                     }
                 }
             }
@@ -226,9 +225,11 @@ class RecyclerChatAdapter(private val context: Context, private var chatRoomKey:
 
         val dateText = StringBuilder()
         val timeFormat = "%02d:%02d"
+        val dateFormat = "%d-%s-%d"
 
         val hour = messageTime.hour
         val minute = messageTime.minute
+        dateText.appendLine(dateFormat.format(messageTime.year, messageTime.monthValue, messageTime.dayOfMonth))
         if (hour > 11) {
             dateText.append("오후 ")
             dateText.append(timeFormat.format(hour - 12, hour))

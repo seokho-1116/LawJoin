@@ -8,6 +8,7 @@ import com.example.lawjoin.counselreservation.CounselReservationViewModel
 import com.example.lawjoin.lawyer.LawyerListViewModel
 import com.example.lawjoin.lawyerdetail.LawyerDetailViewModel
 import com.example.lawjoin.post.PostDetailViewModel
+import com.example.lawjoin.post.PostViewModel
 
 class ViewModelFactory() : ViewModelProvider.Factory {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -20,7 +21,9 @@ class ViewModelFactory() : ViewModelProvider.Factory {
             PostDetailViewModel() as T
         } else if (modelClass.isAssignableFrom(LawyerListViewModel::class.java)){
             LawyerListViewModel() as T
-        }else {
+        } else if (modelClass.isAssignableFrom(PostViewModel::class.java)) {
+            PostViewModel() as T
+        } else {
             throw IllegalArgumentException()
         }
     }

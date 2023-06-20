@@ -139,6 +139,7 @@ class LoginActivity: AppCompatActivity() {
                 Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
                 saveUser()
                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                finish()
             }
         }
 
@@ -179,6 +180,7 @@ class LoginActivity: AppCompatActivity() {
             }
         }
         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -74,10 +74,6 @@ class LawyerRepository private constructor() {
             })
     }
 
-    fun saveLawyer(uid: String, callback: (DatabaseReference) -> Task<Void>) {
-        callback(databaseReference.child("lawyer").child(uid))
-    }
-
     fun updateUnavailableTime(id: String, time: String) {
         databaseReference
             .child("lawyer")
@@ -90,6 +86,7 @@ class LawyerRepository private constructor() {
                         .setValue(time)
                 }
                 override fun onCancelled(databaseError: DatabaseError) {
+                    Log.e("FirebaseQuery", "Query canceled or encountered an error: ${databaseError.message}")
                 }
             })
     }

@@ -12,9 +12,8 @@ import com.example.lawjoin.MainActivity
 import com.example.lawjoin.common.ViewModelFactory
 import com.example.lawjoin.data.repository.LawyerRepository
 import com.example.lawjoin.databinding.ActivityLawyerListBinding
-import com.example.lawjoin.lawyer.adapter.CategoryAdapter
 import com.example.lawjoin.lawyer.adapter.LawyerListAdapter
-import com.example.lawjoin.post.PostDetailActivity
+import com.example.lawjoin.post.BoardFreeActivity
 import com.example.lawjoin.word.LawWordListActivity
 
 //TODO: 변호사 리스트 기본 이미지
@@ -66,6 +65,10 @@ class LawyerListActivity : AppCompatActivity() {
     }
 
     private fun initializeListener() {
+        binding.fbFreeCounsel.setOnClickListener {
+
+        }
+
         binding.ibMainLawyer.setOnClickListener {
             startActivity(Intent(this, LawyerListActivity::class.java))
         }
@@ -76,7 +79,7 @@ class LawyerListActivity : AppCompatActivity() {
             startActivity(Intent(this, LawWordListActivity::class.java))
         }
         binding.ibMainPost.setOnClickListener {
-            startActivity(Intent(this, PostDetailActivity::class.java))
+            startActivity(Intent(this, BoardFreeActivity::class.java))
         }
         binding.ibMainLawyer.isClickable = false
         binding.ibMainLawyer.isSelected = true
