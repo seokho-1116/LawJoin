@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.lawjoin.R
 import com.example.lawjoin.data.objects.MenuObjects
 import com.example.lawjoin.lawyerdetail.LawyerDetailActivity
+import com.example.lawjoin.post.MyBoardFreeActivity
 import com.kakao.sdk.user.UserApiClient
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -35,21 +36,17 @@ class MenuAdapter(private val menuSet: ArrayList<MenuObjects>, var context:Conte
                         putExtra("data", userId)
                     }.run{context.startActivity(this)}
 
-                    //"북마크한 법률 단어 보기" -> Intent(context, ::class.java).apply{
-                    //    putExtra("data", userId)
-                    //}.run{context.startActivity(this)}
+                    "내가 쓴 글" -> Intent(context, MyBoardFreeActivity::class.java).apply{
+                        putExtra("data", userId)
+                    }.run{context.startActivity(this)}
 
-                    //"내가 쓴 글" -> Intent(context, LawyerProfileDetailActivity::class.java).apply{
-                    //    putExtra("data", userId)
-                    //}.run{context.startActivity(this)}
+                    /*"내 정보" -> Intent(context, LawyerProfileDetailActivity::class.java).apply{
+                        putExtra("data", userId)
+                    }.run{context.startActivity(this)}
 
-                    //"내 정보" -> Intent(context, LawyerProfileDetailActivity::class.java).apply{
-                    //    putExtra("data", userId)
-                    //}.run{context.startActivity(this)}
-
-                    //"앱 설정" -> Intent(context, LawyerProfileDetailActivity::class.java).apply{
-                    //    putExtra("data", userId)
-                    //}.run{context.startActivity(this)}
+                    "앱 설정" -> Intent(context, LawyerProfileDetailActivity::class.java).apply{
+                        putExtra("data", userId)
+                    }.run{context.startActivity(this)} */
 
                     //"로그아웃" -> 로그아웃 하는 코드로 팝업창? 띄우고 로그아웃 하는 코드 작성
                     "로그아웃" -> UserApiClient.instance.logout { error ->
