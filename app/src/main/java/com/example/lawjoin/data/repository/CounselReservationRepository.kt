@@ -14,6 +14,7 @@ class CounselReservationRepository private constructor() {
 
     companion object{
         private val INSTANCE = CounselReservationRepository()
+        private const val TAG = "CounselReservationRepository"
 
         fun getInstance(): CounselReservationRepository {
             return INSTANCE
@@ -30,7 +31,7 @@ class CounselReservationRepository private constructor() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Log.e("repository", "data change error");
+                    Log.e(TAG, "data change error");
                 }
             })
     }
@@ -38,7 +39,7 @@ class CounselReservationRepository private constructor() {
     fun saveCounselReservation(counselReservation: CounselReservation) {
         db.getReference("reservations")
             .child("reservation")
-            .child(counselReservation.userId.toString())
+            .child(counselReservation.userId)
             .setValue(counselReservation)
     }
 }

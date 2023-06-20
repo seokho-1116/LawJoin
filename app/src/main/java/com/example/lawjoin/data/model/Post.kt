@@ -1,17 +1,21 @@
 package com.example.lawjoin.data.model
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.io.Serializable
+import java.time.ZoneId
 import java.time.ZonedDateTime
 
-class Post(
-    val id: Int,
-    val title: String,
-    val detail: String,
-    val ownerId: String,
-    val comment: List<Comment>,
-    val createTime: ZonedDateTime,
-    val modifyTime: ZonedDateTime,
-    val isAnonymous: Boolean,
-    val isForOnlyLawyer: Boolean,
-    val recommendationCount: Int
-): Serializable
+
+@RequiresApi(Build.VERSION_CODES.O)
+data class Post(
+    var id: String = "",
+    val title: String = "",
+    val detail: String = "",
+    val ownerId: String = "",
+    val commentList: MutableList<Comment> = mutableListOf(),
+    val createTime: String = ZonedDateTime.now(ZoneId.of("UTC")).toString(),
+    val modifyTime: String = "",
+    val isAnonymous: Boolean = false,
+    val recommendationCount: Int = 0
+) : Serializable

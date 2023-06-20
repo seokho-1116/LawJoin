@@ -12,12 +12,14 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.lawjoin.R
 import com.example.lawjoin.common.AuthUtils
 import com.example.lawjoin.data.model.AuthUserDto
-import com.example.lawjoin.data.model.ChatRoom
 import com.example.lawjoin.data.model.Message
 import com.example.lawjoin.data.repository.ChatRoomRepository
 import com.example.lawjoin.data.repository.LawyerRepository
 import com.example.lawjoin.databinding.ChatMessageSenderBinding
 import com.example.lawjoin.databinding.ChatMessageReceiverBinding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -76,6 +78,26 @@ class RecyclerChatAdapter(private val context: Context, private var chatRoomKey:
 
             notifyDataSetChanged()
             recyclerView.scrollToPosition(messages.size - 1)
+
+            newMessageKeys.forEachIndexed { index, messageKey ->
+                val messageRef = messagesData.child(messageKey).child("confirmed").ref
+                messageRef.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val confirmedValue = snapshot.value as Boolean
+                        if (confirmedValue) {
+                            // Update the 'confirmed' property of the message in the local list
+                            newMessages[index].confirmed = true
+
+                            // Notify the adapter to update the UI
+                            notifyItemChanged(index)
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        // Handle onCancelled event if necessary
+                    }
+                })
+            }
         }
     }
 
@@ -128,10 +150,7 @@ class RecyclerChatAdapter(private val context: Context, private var chatRoomKey:
             setupMessageProfile(position)
 
             if (messages[position].senderUid != "GPT" && messages[position].senderUid != "BOT") {
-                if (messages[position].confirmed)
-                    isShown.visibility = View.GONE
-                else
-                    isShown.visibility = View.VISIBLE
+                isShown.visibility = View.GONE
                 setShown(position)
             }
 
@@ -148,7 +167,7 @@ class RecyclerChatAdapter(private val context: Context, private var chatRoomKey:
                 }
                 else -> {
                     lawyerRepository.findLawyerById(messages[position].senderUid) {
-                        setProfileAndConfigureScreen(this, it.profile_url)
+                        setProfileAndConfigureScreen(this, it.profileUrl)
                     }
                 }
             }
@@ -206,9 +225,11 @@ class RecyclerChatAdapter(private val context: Context, private var chatRoomKey:
 
         val dateText = StringBuilder()
         val timeFormat = "%02d:%02d"
+        val dateFormat = "%d-%s-%d"
 
         val hour = messageTime.hour
         val minute = messageTime.minute
+        dateText.appendLine(dateFormat.format(messageTime.year, messageTime.monthValue, messageTime.dayOfMonth))
         if (hour > 11) {
             dateText.append("오후 ")
             dateText.append(timeFormat.format(hour - 12, hour))

@@ -1,5 +1,6 @@
 package com.example.lawjoin.data.repository
 
+import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -13,6 +14,7 @@ class UserRepository private constructor() {
 
     companion object{
         private val INSTANCE = UserRepository()
+        private const val TAG = "UserRepository"
 
         fun getInstance(): UserRepository {
             return INSTANCE
@@ -33,7 +35,128 @@ class UserRepository private constructor() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "Query canceled or encountered an error: ${error.message}")
                 }
             })
+    }
+
+    fun updateBookmark(uid: String, postId: String) {
+        val bookmarkRef = databaseReference
+            .child("user")
+            .child(uid)
+            .child("bookmarked_posts")
+
+        bookmarkRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val exists = dataSnapshot.hasChild(postId)
+                if (!exists) {
+                    bookmarkRef.child(postId).setValue(true)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e(TAG, "Query canceled or encountered an error: ${databaseError.message}")
+            }
+        })
+    }
+
+    fun updateRecommendedPost(uid: String, postId: String) {
+        val recommendedRef = databaseReference
+            .child("user")
+            .child(uid)
+            .child("recommended_posts")
+
+        recommendedRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val exists = dataSnapshot.hasChild(postId)
+                if (!exists) {
+                    recommendedRef.child(postId).setValue(true)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e(TAG, "Query canceled or encountered an error: ${databaseError.message}")
+            }
+        })
+    }
+
+    fun updateLikeLawyer(uid: String, lawyerId: String) {
+        val likeLawyerRef = databaseReference
+            .child("user")
+            .child(uid)
+            .child("like_lawyers")
+
+        likeLawyerRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val exists = dataSnapshot.hasChild(lawyerId)
+                if (!exists) {
+                    likeLawyerRef.child(lawyerId).setValue(true)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e(TAG, "Query canceled or encountered an error: ${databaseError.message}")
+            }
+        })
+    }
+
+    fun deleteBookmark(uid: String, postId: String) {
+        val bookmarkRef = databaseReference
+            .child("user")
+            .child(uid)
+            .child("bookmarked_posts")
+            .child(postId)
+
+        bookmarkRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    bookmarkRef.removeValue()
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e(TAG, "Query canceled or encountered an error: ${databaseError.message}")
+            }
+        })
+    }
+
+    fun deleteRecommend(uid: String, postId: String) {
+        val recommendRef = databaseReference
+            .child("user")
+            .child(uid)
+            .child("recommended_posts")
+            .child(postId)
+
+        recommendRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    recommendRef.removeValue()
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e(TAG, "Query canceled or encountered an error: ${databaseError.message}")
+            }
+        })
+    }
+
+    fun deleteLikeLawyer(uid: String, lawyerId: String) {
+        val likeLawyersRef = databaseReference
+            .child("user")
+            .child(uid)
+            .child("like_lawyers")
+            .child(lawyerId)
+
+        likeLawyersRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    likeLawyersRef.removeValue()
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e(TAG, "Query canceled or encountered an error: ${databaseError.message}")
+            }
+        })
     }
 }

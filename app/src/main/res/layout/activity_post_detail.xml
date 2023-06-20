@@ -8,16 +8,26 @@
 
     <TextView
         android:id="@+id/tv_post_title"
+        style="@style/title"
+        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginStart="30dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_post_writer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="120dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <View
         android:id="@+id/divide_line1"
         android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_height="1dp"
@@ -26,9 +36,11 @@
         tools:layout_editor_absoluteX="4dp"/>
 
     <TextView
+        android:layout_marginTop="20dp"
         android:id="@+id/tv_post_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         app:layout_constraintTop_toBottomOf="@id/divide_line1"
@@ -39,6 +51,7 @@
         android:id="@+id/ly_recommend_bookmark"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_post_detail"
@@ -48,12 +61,13 @@
             android:id="@+id/btn_recommend_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/msg_like"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toTopOf="parent"
             android:background="@drawable/bg_lawyer_detail_like"
-            android:drawableStart="@drawable/ic_thumbs_up"
+            android:drawableStart="@drawable/selector_post_like"
             android:paddingStart="10dp"
             android:paddingTop="5dp"
             android:paddingEnd="10dp"
@@ -70,8 +84,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginBottom="20dp"
+            android:text="@string/msg_bookmark"
             android:background="@drawable/bg_lawyer_detail_like"
-            android:drawableStart="@drawable/ic_bookmark"
+            android:drawableStart="@drawable/selector_bookmark"
             android:paddingStart="10dp"
             android:paddingTop="5dp"
             android:paddingEnd="10dp"
@@ -93,30 +108,58 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_post_list"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         app:layout_constraintTop_toBottomOf="@id/divide_line2"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/divide_line3"/>
 
-    <Button
-        android:id="@+id/btn_write_comment"
-        android:layout_width="wrap_content"
+    <View
+        android:id="@+id/divide_line3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d3d3d3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/rv_post_list"
+        tools:layout_editor_absoluteX="4dp"/>
+
+    <EditText
+        android:id="@+id/edt_comment_input"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_write_post"
-        android:drawableStart="@drawable/ic_post_write"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="@id/ib_comment_send"
+        android:background="@drawable/bg_chat_input_text"
+        android:hint="@string/chat_edt_hint"
         android:paddingTop="5dp"
         android:paddingStart="10dp"
         android:paddingBottom="5dp"
         android:paddingEnd="10dp"
-        android:text="@string/msg_write_comment"
-        android:textColor="#FFFFFF"
-        android:minHeight="0dp"
-        android:textSize="12sp"
-        android:layout_marginTop="20dp"
-        android:drawablePadding="5dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rv_post_list"/>
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/divide_line3"/>
+
+    <ImageButton
+        android:id="@+id/ib_comment_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="30dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/btn_chat_left_arrow"
+        android:contentDescription="@string/desc_comment_send"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/edt_comment_input"
+        app:layout_constraintTop_toTopOf="@id/divide_line3" />
     </androidx.constraintlayout.widget.ConstraintLayout>

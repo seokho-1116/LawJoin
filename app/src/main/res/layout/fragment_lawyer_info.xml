@@ -16,54 +16,76 @@
         <LinearLayout
             android:id="@+id/sv_ly_lawyer_info"
             android:layout_width="match_parent"
+            android:showDividers="middle"
+            android:divider="@drawable/divider"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/tv_lawyer_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:id="@+id/tv_career"
-                android:text="@string/msg_career"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:id="@+id/tv_categories"
-                android:text="@string/msg_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:id="@+id/tv_certificates"
-                android:text="@string/msg_certificate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:id="@+id/tv_lawyer_introduce"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:id="@+id/sv_ly_lawyer"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_reservation_context"
+                android:padding="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_lawyer_name"
+                    android:textSize="24sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_career"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/msg_career"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_categories"
+                    android:text="@string/msg_category"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_certificates"
+                    android:text="@string/msg_certificate"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/tv_lawyer_introduce"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/sv_ly_lawyer_office"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:padding="15dp"
+                android:background="@drawable/bg_reservation_context"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/tv_lawyer_office_name"
+                    android:textSize="18sp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_height="wrap_content"/>
                 <TextView
                     android:id="@+id/tv_lawyer_office_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"/>
                 <TextView
-                    android:id="@+id/tv_lawyer_office_phone"
+                    android:id="@+id/tv_lawyer_office_business_hours"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"/>
                 <TextView
-                    android:id="@+id/tv_lawyer_office_opening_hours"
+                    android:id="@+id/tv_lawyer_office_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"/>

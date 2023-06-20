@@ -1,39 +1,75 @@
 package com.example.lawjoin.post
 
+import android.app.Activity
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.example.lawjoin.R
+import com.example.lawjoin.common.AuthUtils
+import com.example.lawjoin.data.model.AuthUserDto
+import com.example.lawjoin.data.model.Comment
+import com.example.lawjoin.data.model.Post
+import com.example.lawjoin.data.repository.PostRepository
+import com.example.lawjoin.databinding.ActivityPostWriteBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import java.time.ZonedDateTime
 
+@RequiresApi(Build.VERSION_CODES.O)
 class WritePostActivity: AppCompatActivity() {
+    private val postRepository: PostRepository = PostRepository.getInstance()
+    private lateinit var binding: ActivityPostWriteBinding
+    private lateinit var currentUser: AuthUserDto
+    private lateinit var newPost: Post
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_post_write)
+        binding = ActivityPostWriteBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val btnWrite = findViewById<Button>(R.id.btn_write)
-        val edit_post_title = findViewById<EditText>(R.id.edt_post_title)
-        val edit_post_content = findViewById<EditText>(R.id.edt_post_content)
-        val cb_write_anonymous = findViewById<CheckBox>(R.id.cb_write_anonymous)
-        val cb_for_only_lawyer = findViewById<CheckBox>(R.id.cb_for_only_lawyer)
+        val postType = intent.getStringExtra("type")
+        var moveActivityName = ""
 
-        // 제목 작성
-
-        // 본문 작성
-
-
-        // 글쓰기 버튼
-        btnWrite.setOnClickListener {
-            // 게시물 보여주는 창 이동
-            // 익명 체크
-            // 변호사만
-
-            // db저장
+        AuthUtils.getCurrentUser { authUserDto, _ ->
+            currentUser = authUserDto!!
         }
 
+        binding.btnWrite.setOnClickListener {
+            val id = ""
+            var ownerId: String = currentUser.uid!!
+            if(binding.cbWriteAnonymous.isChecked){
+                ownerId = "익명"
+            }
 
+            newPost = Post(
+                id,
+                binding.edtPostTitle.text.toString(),
+                binding.edtPostContent.text.toString(),
+                ownerId,
+                mutableListOf(),
+                ZonedDateTime.now().toString(),
+                ZonedDateTime.now().toString(),
+                binding.cbWriteAnonymous.isChecked,
+                0
+            )
 
+            if(postType == "free_post") {
+                moveActivityName = "BoardFreeActivity"
+            }
+            else if (postType == "counsel_post") {
+                moveActivityName = "BoardCounselActivity"
+            }
+
+            postRepository.savePost(postType!!) {
+                it.setValue(newPost)
+            }
+
+            val outIntent = Intent(applicationContext, moveActivityName::class.java)
+            setResult(Activity.RESULT_OK, outIntent)
+            finish()
+        }
     }
 }
 

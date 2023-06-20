@@ -94,9 +94,10 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
                     counselReservationViewModel.updateUnavailableTimeOfLawyer(lawyer.uid, datePickerToZonedDateTime().toString())
                     val counselReservation = CounselReservation(
                         datePickerToZonedDateTime().toString(),
-                        currentUser.uid,
+                        currentUser.uid!!,
                         lawyer.uid,
-                        binding.edtReservationDetail.text.toString()
+                        binding.edtReservationDetail.text.toString(),
+                        currentUser.name!!
                     )
                     counselReservationViewModel.saveCounselReservation(counselReservation)
                     startActivity(Intent(this, AccountManagementActivity::class.java))
@@ -127,7 +128,6 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
             calendar.get(Calendar.MINUTE),
             calendar.get(Calendar.SECOND) + 1
         )
-
         timePickerDialog.show(supportFragmentManager, "Datepickerdialog")
     }
 
@@ -149,7 +149,11 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
     }
 
     override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
-        binding.tvReservationTime.text = "$hourOfDay:$minute"
+        if (minute == 0) {
+            binding.tvReservationTime.text = "$hourOfDay:00"
+        } else {
+            binding.tvReservationTime.text = "$hourOfDay:$minute"
+        }
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {

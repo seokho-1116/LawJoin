@@ -79,6 +79,10 @@ class LoginActivity: AppCompatActivity() {
     private fun checkAuth() {
         val user = Firebase.auth.currentUser
         if (user != null) {
+            if (user.providerData[1].providerId == "password"
+                && intent.getBooleanExtra("isSignUp", false)) {
+                addChatRoom(user.uid)
+            }
             val intent = Intent(applicationContext, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -87,12 +91,7 @@ class LoginActivity: AppCompatActivity() {
         if (AuthApiClient.instance.hasToken()) {
             UserApiClient.instance.accessTokenInfo { _, error ->
                 if (error != null) {
-                    if (error is KakaoSdkError && error.isInvalidTokenError()) {
-                        return@accessTokenInfo
-                    }
-                    else {
-                        Log.e(TAG, "카카오 로그인 토큰 에러", error)
-                    }
+                    return@accessTokenInfo
                 }
                 else {
                     val intent = Intent(applicationContext, MainActivity::class.java)
@@ -140,6 +139,7 @@ class LoginActivity: AppCompatActivity() {
                 Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
                 saveUser()
                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                finish()
             }
         }
 
@@ -180,6 +180,7 @@ class LoginActivity: AppCompatActivity() {
             }
         }
         startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

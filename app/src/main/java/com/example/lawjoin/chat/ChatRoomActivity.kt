@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.example.lawjoin.BuildConfig
 import com.example.lawjoin.MainActivity
 import com.example.lawjoin.R
 import com.example.lawjoin.common.AuthUtils
@@ -63,10 +64,9 @@ class ChatRoomActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
-        setContentView(binding.root)
         initializeProperties()
         initializeListeners()
-        setupChatRoom()
+        setContentView(binding.root)
     }
 
     private fun initializeProperties() {
@@ -107,14 +107,11 @@ class ChatRoomActivity : AppCompatActivity() {
     private fun initializeListeners() {
         binding.ivChatBack.setOnClickListener {
             startActivity(Intent(this@ChatRoomActivity, MainActivity::class.java))
+            finish()
         }
         binding.ibChatSend.setOnClickListener {
             putMessage()
         }
-    }
-
-    private fun setupChatRoom() {
-        setupRecycler()
     }
 
     private fun putMessage() {
@@ -137,9 +134,10 @@ class ChatRoomActivity : AppCompatActivity() {
         val body: RequestBody = requestObject.toString().toRequestBody(mediaType)
         val request: Request = Request.Builder()
             .url("https://api.openai.com/v1/chat/completions")
-            .header("Authorization", "Bearer ${getString(R.string.gpt_api_key)}")
+            .header("Authorization", "Bearer ${BuildConfig.OPEN_AI_API_KEY}")
             .post(body)
             .build()
+
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -263,11 +261,6 @@ class ChatRoomActivity : AppCompatActivity() {
 
         chatRoomRepository.saveChatRoomMessage(currentUser.uid!!, chatRoomKey, message) {
         }
-    }
-
-    private fun setupRecycler() {
-        //binding.rvChatContent.layoutManager = LinearLayoutManager(this)
-        //binding.rvChatContent.adapter = chatAdapter
     }
 
     inner class VerticalSpaceItemDecoration(private val verticalSpaceHeight: Int) :
