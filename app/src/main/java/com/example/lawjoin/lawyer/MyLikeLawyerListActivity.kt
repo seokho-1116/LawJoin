@@ -34,16 +34,13 @@ class MyLikeLawyerListActivity : AppCompatActivity() {
         lawyerRepository = LawyerRepository.getInstance()
 
         val rvLawyerList = binding.rvLawyerList
+        // 바인딩 수정
         searchView = binding.edtChatSearch
 
         lawyerListViewModel = ViewModelProvider(this, ViewModelFactory())[LawyerListViewModel::class.java]
         lawyerListViewModel.getAllLawyers()
         lawyerListViewModel.lawyers.observe(this) { lawyers ->
-            categoryAdapter = CategoryAdapter(
-                lawyers.flatMap { lawyer -> lawyer.categories }.distinct(),
-                this,
-                lawyers
-            )
+
             lawyerListAdapter = LawyerListAdapter(lawyers, this)
             // 여기서 인자 넘길때 리스트 값 수정
 
