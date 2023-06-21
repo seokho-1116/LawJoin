@@ -89,24 +89,21 @@ class AccountManagementActivity : AppCompatActivity() {
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun displayReservationDetails(userId: String) {
-        val reservationsRef = Firebase.database.getReference("reservations").child("reservation").child(userId)
+        val reservationsRef = Firebase.database.getReference("reservations")
+            .child("reservation")
+            .child(userId)
         reservationsRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
                     val startTime = dataSnapshot.child("startTime").getValue(String::class.java)
-                    val lawyerId = dataSnapshot.child("lawyerId").getValue(String::class.java)
+                    val lawyerName = dataSnapshot.child("lawyerName").getValue(String::class.java)
                     val formatter = DateTimeFormatter.ISO_ZONED_DATE_TIME
-                    val dbDataTime = ZonedDateTime.parse(startTime.toString(), formatter)
-
-                    if (startTime == null || lawyerId == null){
-                        reservationDate.setText("예약 일정이 없습니다.")
-                        reservationLawyer.setText("-")
-                    }
-                    else {
-                        reservationDate.setText(dbDataTime.withZoneSameInstant
-                            (TimeZone.getDefault().toZoneId()).toString())
-                        reservationLawyer.setText("변호사 " + lawyerId)
-                    }
+                    val dbDataTime = ZonedDateTime.parse(startTime.toString(), formatter).withZoneSameInstant(TimeZone.getDefault().toZoneId())
+                    reservationDate.text = dbDataTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd  E  HH:mm").withZone(TimeZone.getDefault().toZoneId()))
+                    reservationLawyer.text = "변호사 $lawyerName"
+                } else {
+                    reservationDate.text = "예약 일정이 없습니다."
+                    reservationLawyer.text = "-"
                 }
             }
             override fun onCancelled(databaseError: DatabaseError) {
@@ -131,12 +128,13 @@ class AccountManagementActivity : AppCompatActivity() {
         alertDialog.setView(view)
         alertDialog.show()
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun reservationCancel(userId: String) {
-        val reservationsRef = Firebase.database.getReference("reservations").child("reservation").child(userId)
-        reservationsRef.child("startTime").setValue(null)
-        reservationsRef.child("lawyerId").setValue(null)
-        reservationsRef.child("summary").setValue(null)
+        Firebase.database.getReference("reservations")
+            .child("reservation")
+            .child(userId)
+            .removeValue()
         displayReservationDetails(userId)
     }
 }

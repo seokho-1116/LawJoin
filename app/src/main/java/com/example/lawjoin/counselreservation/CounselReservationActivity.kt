@@ -97,7 +97,8 @@ class CounselReservationActivity : AppCompatActivity(), TimePickerDialog.OnTimeS
                         currentUser.uid!!,
                         lawyer.uid,
                         binding.edtReservationDetail.text.toString(),
-                        currentUser.name!!
+                        currentUser.name!!,
+                        lawyer.name
                     )
                     counselReservationViewModel.saveCounselReservation(counselReservation)
                     startActivity(Intent(this, AccountManagementActivity::class.java))

@@ -28,7 +28,7 @@ open class BoardFreeActivity : AppCompatActivity() {
         val rvPostList = binding.rvPostList
 
         postViewModel = ViewModelProvider(this, ViewModelFactory())[PostViewModel::class.java]
-        postViewModel.findAllPosts("free_post")
+        postViewModel.findAllFreePosts("free_post")
 
         postViewModel.posts.observe(this) { posts ->
             postadapter = PostAdapter(posts, false, this)

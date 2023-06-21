@@ -1,6 +1,7 @@
 package com.example.lawjoin.lawyer
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
@@ -16,7 +17,6 @@ import com.example.lawjoin.lawyer.adapter.LawyerListAdapter
 import com.example.lawjoin.post.BoardFreeActivity
 import com.example.lawjoin.word.LawWordListActivity
 
-//TODO: 변호사 리스트 기본 이미지
 @RequiresApi(Build.VERSION_CODES.O)
 class LawyerListActivity : AppCompatActivity() {
     private lateinit var lawyerRepository: LawyerRepository
@@ -65,8 +65,9 @@ class LawyerListActivity : AppCompatActivity() {
     }
 
     private fun initializeListener() {
-        binding.fbFreeCounsel.setOnClickListener {
-
+        binding.btnFreeCounsel.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:031-310-2929"))
+            startActivity(intent)
         }
 
         binding.ibMainLawyer.setOnClickListener {

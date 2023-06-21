@@ -28,7 +28,7 @@ open class BoardCounselActivity : AppCompatActivity() {
         val rvPostList = binding.rvCounselPostList
 
         postViewModel = ViewModelProvider(this, ViewModelFactory())[PostViewModel::class.java]
-        postViewModel.findAllPosts("counsel_post")
+        postViewModel.findAllCounselPosts("counsel_post")
 
         postViewModel.counselPosts.observe(this) { counselPosts ->
             postadapter = PostAdapter(counselPosts, true, this)

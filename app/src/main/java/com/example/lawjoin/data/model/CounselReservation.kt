@@ -13,5 +13,6 @@ data class CounselReservation(
     val userId: String = "",
     val lawyerId: String = "",
     val summary: String = "",
-    val userName: String = ""
+    val userName: String = "",
+    val lawyerName: String = ""
 ) : Serializable
