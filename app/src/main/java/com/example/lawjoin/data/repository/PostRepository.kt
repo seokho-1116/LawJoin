@@ -131,7 +131,6 @@ class PostRepository {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
             })
 
@@ -155,7 +154,6 @@ class PostRepository {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
         })
     }

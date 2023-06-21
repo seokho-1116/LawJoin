@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.example.lawjoin.R
 import com.example.lawjoin.data.model.Lawyer
-import org.w3c.dom.Text
 import kotlin.text.StringBuilder
 
 @RequiresApi(Build.VERSION_CODES.O)

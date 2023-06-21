@@ -6,7 +6,6 @@ import androidx.annotation.RequiresApi
 import com.example.lawjoin.data.model.CounselReview
 import com.example.lawjoin.data.model.Lawyer
 import com.example.lawjoin.data.model.Post
-import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -119,7 +118,6 @@ class LawyerRepository private constructor() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
 
         })

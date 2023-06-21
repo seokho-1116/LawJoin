@@ -13,10 +13,8 @@ import com.example.lawjoin.data.repository.LawWordRepository
 import com.example.lawjoin.databinding.ActivityLawWordListBinding
 import com.example.lawjoin.lawyer.LawyerListActivity
 import com.example.lawjoin.post.BoardFreeActivity
-import com.example.lawjoin.post.FreePostActivity
 
 
-//TODO: 법률 용어 리스트
 @RequiresApi(Build.VERSION_CODES.O)
 class LawWordListActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView

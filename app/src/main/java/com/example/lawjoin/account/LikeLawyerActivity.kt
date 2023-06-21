@@ -4,7 +4,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.lawjoin.common.AuthUtils

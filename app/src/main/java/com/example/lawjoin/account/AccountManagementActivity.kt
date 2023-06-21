@@ -7,23 +7,18 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.lawjoin.MainActivity
 import com.example.lawjoin.R
 import com.example.lawjoin.common.AuthUtils
 import com.example.lawjoin.counselreservation.CounselReservationActivity
 import com.example.lawjoin.data.model.AuthUserDto
-import com.example.lawjoin.data.objects.MenuObjects
 import com.example.lawjoin.databinding.ActivityAccountManagementBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -37,7 +32,6 @@ import com.kakao.sdk.user.UserApiClient
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class AccountManagementActivity : AppCompatActivity() {

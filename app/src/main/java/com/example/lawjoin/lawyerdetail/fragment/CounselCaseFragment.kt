@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lawjoin.R
 import com.example.lawjoin.data.model.Post
-import com.example.lawjoin.databinding.ActivityCommentWriteBinding
 import com.example.lawjoin.lawyerdetail.adapter.CounselCaseAdapter
 
 @RequiresApi(Build.VERSION_CODES.O)
