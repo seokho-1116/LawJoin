@@ -15,7 +15,7 @@
         android:lineSpacingExtra="8sp"
         android:layout_marginStart="30dp"
         android:layout_marginBottom="30dp"
-        android:text="@string/loadong_lawjoin"
+        android:text="@string/app_name"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toTopOf="@id/start_page_image"
         android:textAppearance="@style/join"/>
