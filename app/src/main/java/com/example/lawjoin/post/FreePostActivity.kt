@@ -27,6 +27,7 @@ class FreePostActivity : AppCompatActivity() {
     private lateinit var postId: String
     private lateinit var post: Post
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
