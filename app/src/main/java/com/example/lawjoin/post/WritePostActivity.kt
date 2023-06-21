@@ -57,9 +57,11 @@ class WritePostActivity: AppCompatActivity() {
 
             if(postType == "free_post") {
                 moveActivityName = "BoardFreeActivity"
+                newPost.isCounsel = false
             }
             else if (postType == "counsel_post") {
                 moveActivityName = "BoardCounselActivity"
+                newPost.isCounsel = true
             }
 
             postRepository.savePost(postType!!) {

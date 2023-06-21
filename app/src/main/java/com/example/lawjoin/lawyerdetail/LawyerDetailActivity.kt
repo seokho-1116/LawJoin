@@ -55,6 +55,12 @@ open class LawyerDetailActivity : AppCompatActivity() {
           binding.btnReserveCounsel.visibility = View.INVISIBLE
         }
 
+        userRepository.findLikeLawyerKey(currentUser.uid!!) {
+            if (it.contains(lawyerId)) {
+                binding.btnLawyerLike.isSelected = true
+            }
+        }
+
         lawyerDetailViewModel.getLawyer(lawyerId)
         lawyerDetailViewModel.lawyer.observe(this) {lawyer ->
             val adapter = ViewPagerAdapter(this)

@@ -31,7 +31,7 @@ open class BoardCounselActivity : AppCompatActivity() {
         postViewModel.findAllCounselPosts("counsel_post")
 
         postViewModel.counselPosts.observe(this) { counselPosts ->
-            postadapter = PostAdapter(counselPosts, true, this)
+            postadapter = PostAdapter(counselPosts, this)
             rvPostList.adapter = postadapter
         }
 

@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.lawjoin.data.model.Post
 import com.example.lawjoin.data.model.User
 import com.example.lawjoin.data.repository.UserRepository
 
@@ -32,23 +33,23 @@ class PostDetailViewModel: ViewModel(){
         }
     }
 
-    fun updateUserBookmark(postId: String) {
-        userRepository.updateBookmark(user.value?.uid!!, postId)
+    fun updateUserBookmark(post: Post) {
+        userRepository.updateBookmark(user.value?.uid!!, post)
     }
 
-    fun updateUserRecommendPost(postId: String) {
-        userRepository.updateRecommendedPost(user.value?.uid!!, postId)
+    fun updateUserRecommendPost(post: Post) {
+        userRepository.updateRecommendedPost(user.value?.uid!!, post)
     }
 
-    fun deleteBookmark(postId: String) {
-        if (user.value?.bookmarkedPosts!!.contains(postId)) {
-            userRepository.deleteBookmark(user.value?.uid!!, postId)
+    fun deleteBookmark(post: Post) {
+        if (user.value?.bookmarkedPosts!!.contains(post.id)) {
+            userRepository.deleteBookmark(user.value?.uid!!, post)
         }
     }
 
-    fun deleteRecommend(postId: String) {
-        if (user.value?.recommendPosts!!.contains(postId)) {
-            userRepository.deleteRecommend(user.value?.uid!!, postId)
+    fun deleteRecommend(post: Post) {
+        if (user.value?.recommendPosts!!.contains(post.id)) {
+            userRepository.deleteRecommend(user.value?.uid!!, post)
         }
     }
 }

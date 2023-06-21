@@ -98,4 +98,30 @@ class LawyerRepository private constructor() {
             .child("counselReviews")
             .push().setValue(counselReview)
     }
+
+    fun findLikeLawyers(uid: String, callback: (List<Lawyer>) -> Unit){
+        val likeLawyerRef = Firebase.database.reference.child("users")
+            .child("user")
+            .child(uid)
+            .child("like_lawyers")
+
+        val keys = mutableListOf<String>()
+        likeLawyerRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (lawyerId in snapshot.children) {
+                    keys.add(lawyerId.key.toString())
+                }
+
+                findAllLawyers {
+                    val filtered = it.filter { keys.contains(it.uid) }
+                    callback(filtered)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
 }

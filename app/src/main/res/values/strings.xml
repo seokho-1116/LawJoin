@@ -119,4 +119,10 @@
     <string name="msg_reservation_cancel">예약 취소</string>
     <string name="msg_reservation_change">예약 변경</string>
     <string name="msg_back_main">메인 화면</string>
+    <string name="msg_logout">로그아웃</string>
+    <string name="msg_info_edit">회원 정보 수정</string>
+    <string name="msg_view_myinfo">내 정보 보기</string>
+    <string name="msg_my_post">내가 쓴 글 보기</string>
+    <string name="msg_post_bookmark">북마크한 게시글 보기</string>
+    <string name="msg_like_lawyer">좋아요한 변호사</string>
 </resources>

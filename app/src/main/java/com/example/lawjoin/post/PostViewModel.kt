@@ -15,6 +15,10 @@ class PostViewModel: ViewModel(){
     val posts: LiveData<List<Post>> = _posts
     private val _counselPosts = MutableLiveData<List<Post>>()
     val counselPosts: LiveData<List<Post>> = _counselPosts
+    private val _bookmarkedPost = MutableLiveData<List<Post>>()
+    val bookmarkedPost = _bookmarkedPost
+    private val _myPost = MutableLiveData<List<Post>>()
+    val myPost = _myPost
 
     fun findAllFreePosts(category: String) {
         postRepository.findAllPosts(category) { posts ->
@@ -25,6 +29,18 @@ class PostViewModel: ViewModel(){
     fun findAllCounselPosts(category: String) {
         postRepository.findAllPosts(category) { posts ->
             _counselPosts.value = posts
+        }
+    }
+
+    fun findBookmarkedPost(uid: String) {
+        postRepository.findBookmarkedPost(uid) { posts ->
+            _bookmarkedPost.value = posts
+        }
+    }
+
+    fun findMyPost(uid: String) {
+        postRepository.findMyPost(uid) { posts ->
+            _myPost.value = posts
         }
     }
 }

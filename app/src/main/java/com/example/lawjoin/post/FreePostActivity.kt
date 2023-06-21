@@ -13,6 +13,7 @@ import com.example.lawjoin.data.model.AuthUserDto
 import com.example.lawjoin.data.model.Comment
 import com.example.lawjoin.data.model.Post
 import com.example.lawjoin.data.repository.PostRepository
+import com.example.lawjoin.data.repository.UserRepository
 import com.example.lawjoin.databinding.ActivityPostDetailBinding
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -20,12 +21,15 @@ import java.time.ZonedDateTime
 class FreePostActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private var postRepository: PostRepository = PostRepository.getInstance()
+    private val userRepository = UserRepository.getInstance()
     private lateinit var adapter: FreePostAdapter
     private lateinit var binding: ActivityPostDetailBinding
     private lateinit var postDetailViewModel: PostDetailViewModel
     private lateinit var currentUser: AuthUserDto
     private lateinit var postId: String
     private lateinit var post: Post
+    private var isAlreadyNotRecommend: Boolean = true
+    private var isAlreadyNotBookmarked: Boolean = true
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,13 +42,30 @@ class FreePostActivity : AppCompatActivity() {
 
         postId = intent.getStringExtra("postId")!!
 
+        userRepository.findRecommendedPost(currentUser.uid!!) {
+            if (it.contains(postId)) {
+                binding.btnRecommendPost.isSelected = true
+                isAlreadyNotRecommend = false
+            }
+        }
+
+        userRepository.findBookmarkedPost(currentUser.uid!!) {
+            if (it.contains(postId)) {
+                binding.btnRecommendPost.isSelected = true
+                isAlreadyNotBookmarked = false
+            }
+        }
+
         postRepository.findPost("free_post", postId) {
             post = it.getValue(Post::class.java)!!
+            post.id  = it.key.toString()
             for (comment in it.child("comments").children) {
                 post.commentList.add(comment.getValue(Comment::class.java)!!)
             }
             binding.tvPostTitle.text = post.title
             binding.tvPostDetail.text = post.detail
+            binding.btnRecommendPost.text = "${post.recommendationCount} ${binding.btnRecommendPost.text}"
+
 
             if (post.commentList.isEmpty()) {
                 binding.rvPostList.visibility = View.VISIBLE
@@ -101,16 +122,17 @@ class FreePostActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBackPressed() {
         super.onBackPressed()
-        if (binding.btnBookmarkPost.isSelected) {
-            postDetailViewModel.updateUserBookmark(postId)
-        } else {
-            postDetailViewModel.deleteBookmark(postId)
+        if (binding.btnBookmarkPost.isSelected && isAlreadyNotBookmarked) {
+            postDetailViewModel.updateUserBookmark(post)
+        } else if (!binding.btnRecommendPost.isSelected){
+            postDetailViewModel.deleteBookmark(post)
         }
-        if (binding.btnRecommendPost.isSelected) {
-            postDetailViewModel.updateUserRecommendPost(postId)
-            postRepository.updatePostRecommendCount("free_post", postId)
-        } else {
-            postDetailViewModel.deleteRecommend(postId)
+
+        if (binding.btnRecommendPost.isSelected && isAlreadyNotRecommend) {
+            postDetailViewModel.updateUserRecommendPost(post)
+            postRepository.updatePostRecommendCount("free_post", post)
+        } else if (!binding.btnRecommendPost.isSelected) {
+            postDetailViewModel.deleteRecommend(post)
         }
         finish()
     }

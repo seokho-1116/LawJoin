@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:clipToOutline="true">
 
     <TextView
@@ -76,26 +77,112 @@
         android:fontFamily="sans-serif"
         android:textColor="@color/white"
         android:backgroundTint="#2673D1"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/menu_rcView"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/rectangle_2"
-        app:layout_constraintBottom_toTopOf="@id/mainBtn"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
-    <Button
-        android:id="@+id/mainBtn"
-        android:layout_width="324dp"
-        android:layout_height="59dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/msg_back_main"
-        android:textSize="16sp"
-        android:fontFamily="sans-serif"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/menu_rcView"
-        android:backgroundTint="#2673D1"/>
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        app:layout_constraintTop_toBottomOf="@id/rectangle_2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/divide_line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d3d3d3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteX="4dp"/>
+
+        <Button
+            android:id="@+id/btn_my_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/msg_my_post"
+            android:textAlignment="viewStart"
+            style="?android:attr/borderlessButtonStyle"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"/>
+        <View
+            android:id="@+id/divide_line3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d3d3d3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteX="4dp"/>
+
+        <Button
+            android:id="@+id/btn_bookmarked_post"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/msg_post_bookmark"
+            android:textAlignment="viewStart"
+            style="?android:attr/borderlessButtonStyle"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"/>
+        <View
+            android:id="@+id/divide_line4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d3d3d3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteX="4dp"/>
+
+        <Button
+            android:id="@+id/btn_like_lawyer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/msg_like_lawyer"
+            android:textAlignment="viewStart"
+            style="?android:attr/borderlessButtonStyle"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif"/>
+
+        <View
+            android:id="@+id/divide_line5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#d3d3d3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteX="4dp"/>
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/msg_logout"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/white"
+            android:backgroundTint="@android:color/holo_red_light"/>
+
+        <Button
+            android:id="@+id/mainBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="30dp"
+            android:text="@string/msg_back_main"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/white"
+            android:backgroundTint="#2673D1"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

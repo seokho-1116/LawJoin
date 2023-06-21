@@ -31,7 +31,7 @@ open class BoardFreeActivity : AppCompatActivity() {
         postViewModel.findAllFreePosts("free_post")
 
         postViewModel.posts.observe(this) { posts ->
-            postadapter = PostAdapter(posts, false, this)
+            postadapter = PostAdapter(posts, this)
             rvPostList.adapter = postadapter
 
             binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

@@ -75,5 +75,11 @@
         </activity>
         <activity android:name=".login.SignUpActivity"
             android:exported="true"/>
+        <activity android:name=".account.BookmarkedPostActivity"
+            android:exported="true"/>
+        <activity android:name=".account.LikeLawyerActivity"
+            android:exported="true"/>
+        <activity android:name=".account.MyPostActivity"
+            android:exported="true"/>
     </application>
 </manifest>
