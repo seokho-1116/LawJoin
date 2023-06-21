@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import com.example.lawjoin.MainActivity
 import com.example.lawjoin.R
 import com.example.lawjoin.login.LoginActivity
 

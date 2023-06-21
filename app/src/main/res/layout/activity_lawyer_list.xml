@@ -39,7 +39,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
     <Button
-        android:id="@+id/fb_free_counsel"
+        android:id="@+id/btn_free_counsel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
@@ -59,7 +59,7 @@
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toTopOf="@id/ly_bottom_bar"
-        app:layout_constraintTop_toBottomOf="@id/fb_free_counsel"/>
+        app:layout_constraintTop_toBottomOf="@id/btn_free_counsel"/>
 
     <LinearLayout
         android:id="@+id/ly_bottom_bar"

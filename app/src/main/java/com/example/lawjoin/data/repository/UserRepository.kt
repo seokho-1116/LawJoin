@@ -1,6 +1,7 @@
 package com.example.lawjoin.data.repository
 
 import android.util.Log
+import com.example.lawjoin.data.model.Post
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -40,7 +41,7 @@ class UserRepository private constructor() {
             })
     }
 
-    fun updateBookmark(uid: String, postId: String) {
+    fun updateBookmark(uid: String, post: Post) {
         val bookmarkRef = databaseReference
             .child("user")
             .child(uid)
@@ -48,9 +49,9 @@ class UserRepository private constructor() {
 
         bookmarkRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val exists = dataSnapshot.hasChild(postId)
+                val exists = dataSnapshot.hasChild(post.id)
                 if (!exists) {
-                    bookmarkRef.child(postId).setValue(true)
+                    bookmarkRef.child(post.id).setValue(post)
                 }
             }
 
@@ -60,7 +61,7 @@ class UserRepository private constructor() {
         })
     }
 
-    fun updateRecommendedPost(uid: String, postId: String) {
+    fun updateRecommendedPost(uid: String, post: Post) {
         val recommendedRef = databaseReference
             .child("user")
             .child(uid)
@@ -68,9 +69,9 @@ class UserRepository private constructor() {
 
         recommendedRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val exists = dataSnapshot.hasChild(postId)
+                val exists = dataSnapshot.hasChild(post.id)
                 if (!exists) {
-                    recommendedRef.child(postId).setValue(true)
+                    recommendedRef.child(post.id).setValue(post)
                 }
             }
 
@@ -100,12 +101,12 @@ class UserRepository private constructor() {
         })
     }
 
-    fun deleteBookmark(uid: String, postId: String) {
+    fun deleteBookmark(uid: String, post: Post) {
         val bookmarkRef = databaseReference
             .child("user")
             .child(uid)
             .child("bookmarked_posts")
-            .child(postId)
+            .child(post.id)
 
         bookmarkRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -120,12 +121,12 @@ class UserRepository private constructor() {
         })
     }
 
-    fun deleteRecommend(uid: String, postId: String) {
+    fun deleteRecommend(uid: String, post: Post) {
         val recommendRef = databaseReference
             .child("user")
             .child(uid)
             .child("recommended_posts")
-            .child(postId)
+            .child(post.id)
 
         recommendRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -152,6 +153,69 @@ class UserRepository private constructor() {
                 if (dataSnapshot.exists()) {
                     likeLawyersRef.removeValue()
                 }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e(TAG, "Query canceled or encountered an error: ${databaseError.message}")
+            }
+        })
+    }
+
+    fun findLikeLawyerKey(uid: String, callback: (List<String>) -> Unit) {
+        val likeLawyersRef = databaseReference
+            .child("user")
+            .child(uid)
+            .child("like_lawyers")
+
+        likeLawyersRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val keys = mutableListOf<String>()
+                for (lawyerId in dataSnapshot.children) {
+                    keys.add(lawyerId.key.toString())
+                }
+                callback(keys)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e(TAG, "Query canceled or encountered an error: ${databaseError.message}")
+            }
+        })
+    }
+
+    fun findRecommendedPost(uid: String, callback: (List<String>) -> Unit) {
+        val likeLawyersRef = databaseReference
+            .child("user")
+            .child(uid)
+            .child("recommended_posts")
+
+        likeLawyersRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val keys = mutableListOf<String>()
+                for (postId in dataSnapshot.children) {
+                    keys.add(postId.key.toString())
+                }
+                callback(keys)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e(TAG, "Query canceled or encountered an error: ${databaseError.message}")
+            }
+        })
+    }
+
+    fun findBookmarkedPost(uid: String, callback: (List<String>) -> Unit) {
+        val likeLawyersRef = databaseReference
+            .child("user")
+            .child(uid)
+            .child("bookmarked_posts")
+
+        likeLawyersRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val keys = mutableListOf<String>()
+                for (postId in dataSnapshot.children) {
+                    keys.add(postId.key.toString())
+                }
+                callback(keys)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

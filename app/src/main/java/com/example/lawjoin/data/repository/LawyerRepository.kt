@@ -6,7 +6,6 @@ import androidx.annotation.RequiresApi
 import com.example.lawjoin.data.model.CounselReview
 import com.example.lawjoin.data.model.Lawyer
 import com.example.lawjoin.data.model.Post
-import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -97,5 +96,30 @@ class LawyerRepository private constructor() {
             .child(lawyerId)
             .child("counselReviews")
             .push().setValue(counselReview)
+    }
+
+    fun findLikeLawyers(uid: String, callback: (List<Lawyer>) -> Unit){
+        val likeLawyerRef = Firebase.database.reference.child("users")
+            .child("user")
+            .child(uid)
+            .child("like_lawyers")
+
+        val keys = mutableListOf<String>()
+        likeLawyerRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (lawyerId in snapshot.children) {
+                    keys.add(lawyerId.key.toString())
+                }
+
+                findAllLawyers {
+                    val filtered = it.filter { keys.contains(it.uid) }
+                    callback(filtered)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
     }
 }

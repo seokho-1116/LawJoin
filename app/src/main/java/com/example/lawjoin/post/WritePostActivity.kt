@@ -8,13 +8,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.lawjoin.common.AuthUtils
 import com.example.lawjoin.data.model.AuthUserDto
-import com.example.lawjoin.data.model.Comment
 import com.example.lawjoin.data.model.Post
 import com.example.lawjoin.data.repository.PostRepository
 import com.example.lawjoin.databinding.ActivityPostWriteBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import java.time.ZonedDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -57,9 +53,11 @@ class WritePostActivity: AppCompatActivity() {
 
             if(postType == "free_post") {
                 moveActivityName = "BoardFreeActivity"
+                newPost.isCounsel = false
             }
             else if (postType == "counsel_post") {
                 moveActivityName = "BoardCounselActivity"
+                newPost.isCounsel = true
             }
 
             postRepository.savePost(postType!!) {

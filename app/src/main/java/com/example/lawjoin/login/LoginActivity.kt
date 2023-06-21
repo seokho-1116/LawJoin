@@ -28,7 +28,6 @@ import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
-import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -43,6 +42,8 @@ class LoginActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        auth = Firebase.auth
+
         checkAuth()
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -71,13 +72,12 @@ class LoginActivity: AppCompatActivity() {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        auth = Firebase.auth
         database = FirebaseDatabase.getInstance()
         setContentView(binding.root)
     }
 
     private fun checkAuth() {
-        val user = Firebase.auth.currentUser
+        val user = auth.currentUser
         if (user != null) {
             if (user.providerData[1].providerId == "password"
                 && intent.getBooleanExtra("isSignUp", false)) {

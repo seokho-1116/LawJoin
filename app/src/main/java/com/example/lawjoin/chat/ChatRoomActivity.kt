@@ -11,10 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.lawjoin.BuildConfig
 import com.example.lawjoin.MainActivity
-import com.example.lawjoin.R
 import com.example.lawjoin.common.AuthUtils
 import com.example.lawjoin.data.model.AuthUserDto
 import com.example.lawjoin.data.model.ChatRoom
@@ -26,11 +24,9 @@ import com.example.lawjoin.databinding.ActivityChatBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.kakao.sdk.user.UserApiClient
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody

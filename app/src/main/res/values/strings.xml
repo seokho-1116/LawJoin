@@ -115,4 +115,14 @@
     <string name="msg_reserve">예약하기</string>
     <string name="msg_counsel_info">시흥시에서 제공하는 무료 법률 상담 및 조언을 받을 수 있습니다. 편리하게 시간을 예약하세요. .</string>
     <string name="msg_free_counsel_info">무료로 법률 상담을 예약하세요.</string>
+    <string name="msg_account_manage">계정 관리</string>
+    <string name="msg_reservation_cancel">예약 취소</string>
+    <string name="msg_reservation_change">예약 변경</string>
+    <string name="msg_back_main">메인 화면</string>
+    <string name="msg_logout">로그아웃</string>
+    <string name="msg_info_edit">회원 정보 수정</string>
+    <string name="msg_view_myinfo">내 정보 보기</string>
+    <string name="msg_my_post">내가 쓴 글 보기</string>
+    <string name="msg_post_bookmark">북마크한 게시글 보기</string>
+    <string name="msg_like_lawyer">좋아요한 변호사</string>
 </resources>

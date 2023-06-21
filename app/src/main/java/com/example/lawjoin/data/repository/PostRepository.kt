@@ -1,7 +1,6 @@
 package com.example.lawjoin.data.repository
 
 import android.os.Build
-import android.provider.ContactsContract.Data
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.lawjoin.data.model.Comment
@@ -78,9 +77,9 @@ class PostRepository {
             .setValue(comment)
     }
 
-    fun updatePostRecommendCount(category: String, postId: String) {
+    fun updatePostRecommendCount(category: String, post: Post) {
         val reference = databaseReference.child(category)
-            .child(postId)
+            .child(post.id)
             .child("recommendationCount")
 
         reference
@@ -111,5 +110,51 @@ class PostRepository {
                     Log.e(TAG, "Query canceled or encountered an error: ${error.message}")
                 }
             })
+    }
+
+    fun findBookmarkedPost(uid: String, callback: (List<Post>) -> Unit) {
+        Firebase.database.reference.child("users")
+            .child("user")
+            .child(uid)
+            .child("bookmarked_posts")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val postList = mutableListOf<Post>()
+                    for (data in snapshot.children) {
+                        val post = data.getValue(Post::class.java)
+                        if (post != null){
+                            post.id = data.key.toString()
+                            postList.add(post)
+                        }
+                    }
+                    callback(postList)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+
+    }
+
+    fun findMyPost(uid: String, callback: (List<Post>) -> Unit) {
+        val postsRef = databaseReference
+
+        postsRef.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val posts = mutableListOf<Post>()
+                for (category in snapshot.children) {
+                    for (post in category.children) {
+                        val ownerId = post.child("ownerId").getValue(String::class.java)!!
+                        if(ownerId == uid) {
+                            posts.add(post.getValue(Post::class.java)!!)
+                        }
+                    }
+                }
+                callback(posts)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
     }
 }

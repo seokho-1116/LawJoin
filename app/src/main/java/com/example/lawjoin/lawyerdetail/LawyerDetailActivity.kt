@@ -31,11 +31,6 @@ import com.example.lawjoin.lawyerdetail.fragment.LawyerInfoFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import java.io.Serializable
 
-/**
- * TODO: 상담 후기 작성
- * TODO: 상담 사례 자세히 보기
- * TODO: 좋아요 버튼 처리
- */
 @RequiresApi(Build.VERSION_CODES.O)
 open class LawyerDetailActivity : AppCompatActivity() {
     private val userRepository = UserRepository.getInstance()
@@ -53,6 +48,12 @@ open class LawyerDetailActivity : AppCompatActivity() {
         if (lawyerId == "GPT" || lawyerId == "BOT") {
           binding.btnChatStart.visibility = View.INVISIBLE
           binding.btnReserveCounsel.visibility = View.INVISIBLE
+        }
+
+        userRepository.findLikeLawyerKey(currentUser.uid!!) {
+            if (it.contains(lawyerId)) {
+                binding.btnLawyerLike.isSelected = true
+            }
         }
 
         lawyerDetailViewModel.getLawyer(lawyerId)

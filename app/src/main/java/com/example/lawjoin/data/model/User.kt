@@ -1,6 +1,5 @@
 package com.example.lawjoin.data.model
 
-import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import java.io.Serializable

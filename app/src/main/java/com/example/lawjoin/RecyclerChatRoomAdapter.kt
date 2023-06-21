@@ -172,7 +172,6 @@ class RecyclerChatRoomAdapter(private val context: Context) :
                 } else {
                     val filteredList = mutableListOf<ChatRoom>()
 
-                    //TODO: 반대편 사용자 리스트 가져왔고 반대편 사용자 이름과 사용자가 입력한 이름을 필터링
                     for (chatRoom in chatRooms) {
                         val opponent = chatRoom.users.first {
                             it != currentUser.uid

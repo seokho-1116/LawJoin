@@ -13,6 +13,7 @@ import com.example.lawjoin.data.model.AuthUserDto
 import com.example.lawjoin.data.model.Comment
 import com.example.lawjoin.data.model.Post
 import com.example.lawjoin.data.repository.PostRepository
+import com.example.lawjoin.data.repository.UserRepository
 import com.example.lawjoin.databinding.ActivityPostDetailBinding
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -20,12 +21,15 @@ import java.time.ZonedDateTime
 class CounselPostActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private var postRepository: PostRepository = PostRepository.getInstance()
+    private val userRepository = UserRepository.getInstance()
     private lateinit var adapter: FreePostAdapter
     private lateinit var binding: ActivityPostDetailBinding
     private lateinit var postDetailViewModel: PostDetailViewModel
     private lateinit var currentUser: AuthUserDto
     private lateinit var postId: String
     private lateinit var post: Post
+    private var isAlreadyNotRecommend: Boolean = true
+    private var isAlreadyNotBookmarked: Boolean = true
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +41,20 @@ class CounselPostActivity : AppCompatActivity() {
         }
 
         postId = intent.getStringExtra("postId")!!
+
+        userRepository.findRecommendedPost(currentUser.uid!!) {
+            if (it.contains(postId)) {
+                binding.btnRecommendPost.isSelected = true
+                isAlreadyNotBookmarked = true
+            }
+        }
+
+        userRepository.findBookmarkedPost(currentUser.uid!!) {
+            if (it.contains(postId)) {
+                binding.btnRecommendPost.isSelected = true
+                isAlreadyNotBookmarked = true
+            }
+        }
 
         postRepository.findPost("counsel_post", postId) {
             post = it.getValue(Post::class.java)!!
@@ -101,16 +119,18 @@ class CounselPostActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBackPressed() {
         super.onBackPressed()
-        if (binding.btnBookmarkPost.isSelected) {
-            postDetailViewModel.updateUserBookmark(postId)
+        post.isCounsel = true
+        if (binding.btnBookmarkPost.isSelected && isAlreadyNotBookmarked) {
+            postDetailViewModel.updateUserBookmark(post)
         } else {
-            postDetailViewModel.deleteBookmark(postId)
+            postDetailViewModel.deleteBookmark(post)
         }
-        if (binding.btnRecommendPost.isSelected) {
-            postDetailViewModel.updateUserRecommendPost(postId)
-            postRepository.updatePostRecommendCount("counsel_post", postId)
+
+        if (binding.btnRecommendPost.isSelected && isAlreadyNotRecommend) {
+            postDetailViewModel.updateUserRecommendPost(post)
+            postRepository.updatePostRecommendCount("free_post", post)
         } else {
-            postDetailViewModel.deleteRecommend(postId)
+            postDetailViewModel.deleteRecommend(post)
         }
         finish()
     }

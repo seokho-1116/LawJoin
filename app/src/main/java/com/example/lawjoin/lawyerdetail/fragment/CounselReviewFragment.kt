@@ -9,14 +9,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lawjoin.R
-import com.example.lawjoin.common.ViewModelFactory
 import com.example.lawjoin.data.model.CounselReview
-import com.example.lawjoin.data.model.Lawyer
-import com.example.lawjoin.lawyerdetail.LawyerDetailViewModel
 import com.example.lawjoin.lawyerdetail.adapter.CounselReviewAdapter
 
 @RequiresApi(Build.VERSION_CODES.O)
