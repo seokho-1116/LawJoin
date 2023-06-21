@@ -33,3 +33,5 @@ app/google-services.json
 *.hprof
 
 api_key.xml
+
+/keystore
